@@ -67,7 +67,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <BookingProvider>
+    <>
       <SiteNav />
       <main>
         <Hero />
@@ -87,7 +87,7 @@ function Index() {
       </main>
       <SiteFooter />
       <StickyMobileCta />
-      <BookingModal />
-    </BookingProvider>
+    </>
+
   );
 }

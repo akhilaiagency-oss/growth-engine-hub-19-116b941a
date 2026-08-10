@@ -283,7 +283,7 @@ function FieldError({ id, message }: { id: string; message: string }) {
 interface StepProps {
   question: Question;
   value: string;
-  error?: string;
+  error: string | undefined;
   onChange: (v: string) => void;
   onBlur: () => void;
   onTouch: () => void;
