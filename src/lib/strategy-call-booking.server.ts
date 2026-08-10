@@ -308,6 +308,13 @@ export async function reconcileCalendlyBookings(limit = 200): Promise<ReconcileS
 
     // Payment stays valid, so the lead drops back to `paid` and can rebook.
     await db.from("strategy_call_leads").update({ stage: "paid" }).eq("id", booking.lead_id);
+
+    // Community access is revoked until a new booking is confirmed.
+    await db
+      .from("strategy_call_entitlements")
+      .update({ whatsapp_status: "revoked", revoked_at: new Date().toISOString() })
+      .eq("lead_id", booking.lead_id)
+      .in("whatsapp_status", ["enabled", "invited", "joined"]);
     cancelled += 1;
   }
 
