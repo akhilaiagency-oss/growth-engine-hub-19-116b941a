@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as QualifyRouteImport } from './routes/qualify'
-import { Route as ApiPublicWebhooksCalendlyRouteImport } from './routes/api/public/webhooks/calendly'
 import { Route as ApiPublicWebhooksRazorpayRouteImport } from './routes/api/public/webhooks/razorpay'
 
 const IndexRoute = IndexRouteImport.update({
@@ -30,12 +29,6 @@ const QualifyRoute = QualifyRouteImport.update({
   path: '/qualify',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicWebhooksCalendlyRoute =
-  ApiPublicWebhooksCalendlyRouteImport.update({
-    id: '/api/public/webhooks/calendly',
-    path: '/api/public/webhooks/calendly',
-    getParentRoute: () => rootRouteImport,
-  } as any)
 const ApiPublicWebhooksRazorpayRoute =
   ApiPublicWebhooksRazorpayRouteImport.update({
     id: '/api/public/webhooks/razorpay',
@@ -47,14 +40,12 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
-  '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
-  '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRoutesById {
@@ -62,38 +53,20 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
-  '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/book'
-    | '/qualify'
-    | '/api/public/webhooks/calendly'
-    | '/api/public/webhooks/razorpay'
+  fullPaths: '/' | '/book' | '/qualify' | '/api/public/webhooks/razorpay'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/book'
-    | '/qualify'
-    | '/api/public/webhooks/calendly'
-    | '/api/public/webhooks/razorpay'
-  id:
-    | '__root__'
-    | '/'
-    | '/book'
-    | '/qualify'
-    | '/api/public/webhooks/calendly'
-    | '/api/public/webhooks/razorpay'
+  to: '/' | '/book' | '/qualify' | '/api/public/webhooks/razorpay'
+  id: '__root__' | '/' | '/book' | '/qualify' | '/api/public/webhooks/razorpay'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookRoute: typeof BookRoute
   QualifyRoute: typeof QualifyRoute
-  ApiPublicWebhooksCalendlyRoute: typeof ApiPublicWebhooksCalendlyRoute
   ApiPublicWebhooksRazorpayRoute: typeof ApiPublicWebhooksRazorpayRoute
 }
 
@@ -120,13 +93,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QualifyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/webhooks/calendly': {
-      id: '/api/public/webhooks/calendly'
-      path: '/api/public/webhooks/calendly'
-      fullPath: '/api/public/webhooks/calendly'
-      preLoaderRoute: typeof ApiPublicWebhooksCalendlyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/public/webhooks/razorpay': {
       id: '/api/public/webhooks/razorpay'
       path: '/api/public/webhooks/razorpay'
@@ -141,19 +107,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookRoute: BookRoute,
   QualifyRoute: QualifyRoute,
-  ApiPublicWebhooksCalendlyRoute: ApiPublicWebhooksCalendlyRoute,
   ApiPublicWebhooksRazorpayRoute: ApiPublicWebhooksRazorpayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
