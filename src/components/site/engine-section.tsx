@@ -89,7 +89,7 @@ export function EngineSection() {
             <svg
               viewBox="0 0 1040 300"
               width="100%"
-              height="auto"
+              className="h-auto w-full"
               role="group"
               aria-label="The Growth Multiplier Engine closed loop"
             >
