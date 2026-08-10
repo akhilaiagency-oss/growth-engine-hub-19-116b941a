@@ -539,6 +539,7 @@ function PaymentStep({
 }) {
   const [state, setState] = useState<PayState>("idle");
   const [message, setMessage] = useState<string | null>(null);
+  const [mode, setMode] = useState<"test" | "live" | null>(null);
 
   const pay = useCallback(async () => {
     if (!handle) return;
@@ -546,6 +547,7 @@ function PaymentStep({
     setState("starting");
     try {
       const order = await createStrategyCallOrder({ data: handle });
+      setMode(order.mode);
       await loadRazorpayCheckout();
       setState("open");
 
@@ -625,6 +627,40 @@ function PaymentStep({
         ₹9 isn't the price of the strategy. It's a small commitment to reserve your session.
       </p>
 
+      {mode === "test" && state !== "paid" && (
+        <div className="mt-4 rounded-[10px] border border-amber/30 bg-amber/10 p-3">
+          <p className="flex items-start gap-2 text-[13px] leading-relaxed text-amber-soft">
+            <AlertCircle size={16} className="mt-[2px] shrink-0" aria-hidden="true" />
+            <span>
+              <strong className="font-medium">Test mode</strong> — no real money will be
+              charged. Use Razorpay test card details below.
+            </span>
+          </p>
+        </div>
+      )}
+
+      {mode === "test" && state !== "paid" && (
+        <div className="mt-3 rounded-[10px] border border-border bg-surface-2 p-3">
+          <p className="text-[12px] font-medium uppercase tracking-wide text-muted-2">
+            Razorpay test card
+          </p>
+          <div className="mt-2 grid grid-cols-2 gap-2 text-[13px]">
+            <div>
+              <p className="text-muted-2">Card number</p>
+              <p className="font-mono text-fg">5267 3181 8797 5449</p>
+            </div>
+            <div>
+              <p className="text-muted-2">Expiry / CVV</p>
+              <p className="font-mono text-fg">Any future date / any 3 digits</p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-muted-2">OTP</p>
+              <p className="font-mono text-fg">1234</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {state === "paid" ? (
         <div className="mt-4 rounded-[12px] border border-lime bg-[rgba(131,226,78,0.08)] p-6 text-center">
           <Check size={22} className="mx-auto text-lime" aria-hidden="true" />
@@ -661,6 +697,26 @@ function PaymentStep({
           <AlertCircle size={15} className="mt-[1px] shrink-0" aria-hidden="true" />
           <span>{message ?? handleError}</span>
         </p>
+      )}
+
+      {mode === "test" && state !== "paid" && (
+        <div className="mt-5 rounded-[10px] border border-border bg-surface-2 p-4">
+          <p className="text-[13px] font-medium text-fg">Webhook setup (test mode)</p>
+          <p className="mt-1 text-[12px] leading-relaxed text-muted">
+            In your Razorpay test dashboard, point this webhook URL to this app:
+          </p>
+          <code className="mt-2 block break-all rounded-[6px] bg-bg px-3 py-2 text-[12px] font-mono text-amber-soft">
+            https://growth-engine-hub-19.lovable.app/api/public/webhooks/razorpay
+          </code>
+          <p className="mt-2 text-[12px] text-muted">
+            Subscribe to: <span className="text-fg">payment.captured</span>,{" "}
+            <span className="text-fg">order.paid</span>,{" "}
+            <span className="text-fg">payment.failed</span>.
+          </p>
+          <p className="mt-1 text-[12px] text-muted-2">
+            Secret name: <span className="font-mono text-muted">RAZORPAY_WEBHOOK_SECRET</span>
+          </p>
+        </div>
       )}
 
       <div className="mt-6 flex flex-col gap-2">

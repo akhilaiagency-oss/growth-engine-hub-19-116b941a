@@ -6,6 +6,12 @@
  * (never at module scope) and are never returned to the browser. Only the
  * public RAZORPAY_KEY_ID is ever sent to the client — that is by design, it is
  * the publishable half of the pair.
+ *
+ * Mode is inferred from the key id prefix:
+ *   - rzp_test_...  -> test mode (no real money moves)
+ *   - rzp_live_...  -> live mode
+ * To switch modes, change the three Razorpay secrets to the matching test or
+ * live set from your Razorpay dashboard.
  */
 import { createHmac, timingSafeEqual } from "crypto";
 
@@ -18,6 +24,12 @@ const RAZORPAY_API = "https://api.razorpay.com/v1";
 interface RazorpayCreds {
   keyId: string;
   keySecret: string;
+  mode: "test" | "live";
+}
+
+export function getRazorpayMode(keyId?: string): "test" | "live" {
+  const id = keyId ?? process.env["RAZORPAY_KEY_ID"] ?? "";
+  return id.startsWith("rzp_test_") ? "test" : "live";
 }
 
 export function getRazorpayCreds(): RazorpayCreds {
@@ -26,7 +38,7 @@ export function getRazorpayCreds(): RazorpayCreds {
   if (!keyId || !keySecret) {
     throw new Error("Razorpay is not configured yet.");
   }
-  return { keyId, keySecret };
+  return { keyId, keySecret, mode: getRazorpayMode(keyId) };
 }
 
 export function isRazorpayConfigured(): boolean {
@@ -46,7 +58,8 @@ export async function createRazorpayOrder(params: {
   receipt: string;
   notes: Record<string, string>;
 }): Promise<RazorpayOrder> {
-  const { keyId, keySecret } = getRazorpayCreds();
+  const { keyId, keySecret, mode } = getRazorpayCreds();
+  console.log(`[Razorpay] Creating ${mode} order for receipt ${params.receipt}`);
   const res = await fetch(`${RAZORPAY_API}/orders`, {
     method: "POST",
     headers: {

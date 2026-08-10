@@ -27,6 +27,7 @@ export interface OrderForCheckout {
   amountPaise: number;
   currency: string;
   keyId: string;
+  mode: "test" | "live";
   prefill: { name: string; email: string; contact: string };
 }
 
@@ -65,7 +66,7 @@ export async function startPayment(
 ): Promise<OrderForCheckout> {
   const lead = await requireLead(leadId, accessToken);
   const db = await admin();
-  const { keyId } = getRazorpayCreds();
+  const { keyId, mode } = getRazorpayCreds();
 
   const prefill = { name: lead.name, email: lead.email, contact: lead.phone };
 
@@ -82,6 +83,7 @@ export async function startPayment(
       amountPaise: paid.amount_paise,
       currency: paid.currency,
       keyId,
+      mode,
       prefill,
     };
   }
@@ -104,6 +106,7 @@ export async function startPayment(
       amountPaise: open.amount_paise,
       currency: open.currency,
       keyId,
+      mode,
       prefill,
     };
   }
@@ -143,6 +146,7 @@ export async function startPayment(
     amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
     currency: STRATEGY_CALL_CURRENCY,
     keyId,
+    mode,
     prefill,
   };
 }

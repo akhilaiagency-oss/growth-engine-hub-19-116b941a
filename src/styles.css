@@ -25,6 +25,8 @@
   --electric-soft: #7cb2ff;
   --cyan: #3fdce8;
   --urgent: #ff6b5e;
+  --amber: #f59e0b;
+  --amber-soft: #fbbf24;
 
   /* shadcn compatibility */
   --background: var(--bg);
@@ -69,6 +71,8 @@
   --color-electric-soft: var(--electric-soft);
   --color-cyan: var(--cyan);
   --color-urgent: var(--urgent);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
 
   --color-background: var(--bg);
   --color-foreground: var(--fg);
