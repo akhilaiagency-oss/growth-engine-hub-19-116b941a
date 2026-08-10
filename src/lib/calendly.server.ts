@@ -70,6 +70,9 @@ export interface CalendlyEvent {
   status?: string | null;
   start_time?: string | null;
   end_time?: string | null;
+  /** When the event was CREATED (not when it starts) — the authoritative gate. */
+  created_at?: string | null;
+  updated_at?: string | null;
   location?: { join_url?: string | null; type?: string | null; location?: string | null } | null;
 }
 
