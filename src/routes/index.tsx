@@ -9,6 +9,7 @@ import { ProblemSection } from "@/components/site/problem-section";
 import { LeakMap } from "@/components/site/leak-map";
 import { EngineSection } from "@/components/site/engine-section";
 import { Outcomes } from "@/components/site/outcomes";
+import { SessionSection } from "@/components/site/session-section";
 import { HowItWorks } from "@/components/site/how-it-works";
 import { ProofSection } from "@/components/site/proof-section";
 import { WhySection } from "@/components/site/why-section";
@@ -77,6 +78,7 @@ function Index() {
         <LeakMap />
         <EngineSection />
         <Outcomes />
+        <SessionSection />
         <HowItWorks />
         <ProofSection />
         <WhySection />
