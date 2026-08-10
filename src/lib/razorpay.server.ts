@@ -6,6 +6,12 @@
  * (never at module scope) and are never returned to the browser. Only the
  * public RAZORPAY_KEY_ID is ever sent to the client — that is by design, it is
  * the publishable half of the pair.
+ *
+ * Mode is inferred from the key id prefix:
+ *   - rzp_test_...  -> test mode (no real money moves)
+ *   - rzp_live_...  -> live mode
+ * To switch modes, change the three Razorpay secrets to the matching test or
+ * live set from your Razorpay dashboard.
  */
 import { createHmac, timingSafeEqual } from "crypto";
 
