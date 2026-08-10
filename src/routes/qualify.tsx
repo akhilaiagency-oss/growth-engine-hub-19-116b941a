@@ -53,6 +53,8 @@ function QualifyPage() {
   const [touched, setTouched] = useState<Partial<Record<QualificationField, boolean>>>({});
   const [returnToReview, setReturnToReview] = useState(false);
   const [restored, setRestored] = useState(false);
+  const [handle, setHandle] = useState<LeadHandle | null>(null);
+  const [handleError, setHandleError] = useState<string | null>(null);
 
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
