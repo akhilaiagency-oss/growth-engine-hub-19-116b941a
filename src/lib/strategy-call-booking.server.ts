@@ -39,6 +39,7 @@ export interface BookingAccess {
     rescheduleUrl: string | null;
     cancelUrl: string | null;
     timezone: string | null;
+    eventUuid: string | null;
   } | null;
   whatsappStatus: string;
 }
