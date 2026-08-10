@@ -17,9 +17,9 @@ export function SiteFooter() {
               <img
                 src={logo}
                 alt="Growth Multiplier AI logo"
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full"
+                width={56}
+                height={56}
+                className="h-14 w-14 rounded-full border border-border"
               />
               <span className="text-[15px] font-bold text-fg">Growth Multiplier AI</span>
             </div>

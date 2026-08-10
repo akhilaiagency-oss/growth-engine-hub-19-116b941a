@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/growth-multiplier-ai-logo.png";
+import mark from "@/assets/gm-mark.png";
 import { BookCta } from "./book-cta";
 
 const LINKS = [
@@ -30,11 +30,11 @@ export function SiteNav() {
       <nav className="container-page flex h-[72px] items-center justify-between gap-6">
         <a href="#top" className="flex items-center gap-3">
           <img
-            src={logo}
+            src={mark}
             alt="Growth Multiplier AI logo"
-            width={36}
-            height={36}
-            className="h-9 w-9 rounded-full"
+            width={42}
+            height={30}
+            className="h-[30px] w-auto"
           />
           <span className="leading-tight">
             <span className="block text-[15px] font-bold tracking-[-0.01em] text-fg">
