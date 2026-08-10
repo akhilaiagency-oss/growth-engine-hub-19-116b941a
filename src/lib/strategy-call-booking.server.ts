@@ -87,6 +87,7 @@ export async function getBookingAccess(
     prefill: null,
     booking: null,
     whatsappStatus: "not_granted",
+    whatsappUnlocked: false,
   };
 
   const lead = await loadLead(leadId, accessToken);
