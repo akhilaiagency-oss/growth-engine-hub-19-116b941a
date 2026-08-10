@@ -1,5 +1,7 @@
-import { Check, User } from "lucide-react";
+import { Check } from "lucide-react";
+import portrait from "@/assets/akhil-portrait-4x5.jpg.asset.json";
 import { Reveal } from "./reveal";
+
 
 const WORKS = [
   "AI-first growth systems strategist",
