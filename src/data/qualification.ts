@@ -1,3 +1,5 @@
+import { submitLead } from "@/lib/strategy-call.functions";
+
 export interface QualificationAnswers {
   name: string;
   email: string;
@@ -173,11 +175,21 @@ export function validateAnswer(question: Question, value: string): string | null
   }
 }
 
+export const LEAD_HANDLE_KEY = "gma-lead-handle";
+
 /**
- * THE ONE PLACE TO WIRE A BACKEND LATER.
- * Currently resolves locally — no network request is made and no data leaves the browser.
+ * THE ONE PLACE THE BACKEND IS WIRED.
+ * Stores the qualified lead server-side and keeps an opaque handle in the
+ * browser so payment and booking can be attached to it later.
  */
 export async function submitQualification(answers: QualificationAnswers): Promise<void> {
-  void answers;
-  return Promise.resolve();
+  const handle = await submitLead({
+    data: {
+      ...answers,
+      sourcePage: typeof window === "undefined" ? "/qualify" : window.location.pathname,
+    },
+  });
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem(LEAD_HANDLE_KEY, JSON.stringify(handle));
+  }
 }
