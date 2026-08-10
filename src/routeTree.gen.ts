@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BookRouteImport } from './routes/book'
 import { Route as QualifyRouteImport } from './routes/qualify'
 import { Route as ApiPublicWebhooksCalendlyRouteImport } from './routes/api/public/webhooks/calendly'
 import { Route as ApiPublicWebhooksRazorpayRouteImport } from './routes/api/public/webhooks/razorpay'
@@ -17,6 +18,11 @@ import { Route as ApiPublicWebhooksRazorpayRouteImport } from './routes/api/publ
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BookRoute = BookRouteImport.update({
+  id: '/book',
+  path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QualifyRoute = QualifyRouteImport.update({
@@ -39,12 +45,14 @@ const ApiPublicWebhooksRazorpayRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
   '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
   '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
@@ -52,6 +60,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
   '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
@@ -60,18 +69,21 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/book'
     | '/qualify'
     | '/api/public/webhooks/calendly'
     | '/api/public/webhooks/razorpay'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/book'
     | '/qualify'
     | '/api/public/webhooks/calendly'
     | '/api/public/webhooks/razorpay'
   id:
     | '__root__'
     | '/'
+    | '/book'
     | '/qualify'
     | '/api/public/webhooks/calendly'
     | '/api/public/webhooks/razorpay'
@@ -79,6 +91,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BookRoute: typeof BookRoute
   QualifyRoute: typeof QualifyRoute
   ApiPublicWebhooksCalendlyRoute: typeof ApiPublicWebhooksCalendlyRoute
   ApiPublicWebhooksRazorpayRoute: typeof ApiPublicWebhooksRazorpayRoute
@@ -91,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/book': {
+      id: '/book'
+      path: '/book'
+      fullPath: '/book'
+      preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/qualify': {
@@ -119,6 +139,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BookRoute: BookRoute,
   QualifyRoute: QualifyRoute,
   ApiPublicWebhooksCalendlyRoute: ApiPublicWebhooksCalendlyRoute,
   ApiPublicWebhooksRazorpayRoute: ApiPublicWebhooksRazorpayRoute,
