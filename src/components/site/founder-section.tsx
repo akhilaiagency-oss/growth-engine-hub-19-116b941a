@@ -1,5 +1,4 @@
-import { Check } from "lucide-react";
-import portrait from "@/assets/akhil-portrait-4x5.jpg";
+import { Check, User } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const WORKS = [
@@ -29,11 +28,24 @@ export function FounderSection() {
               style={{ boxShadow: "0 30px 70px -30px rgba(0,0,0,0.85)" }}
             >
               <div className="relative aspect-[4/5] w-full">
-                <img
-                  src={portrait}
-                  alt="Akhil Srivastava, Founder of Growth Multiplier AI"
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
+                {/* Replace this placeholder with: <img src={portrait} alt="Akhil Srivastava, Founder of Growth Multiplier AI" className="absolute inset-0 h-full w-full object-cover" /> and re-add the import once the real photograph is added to src/assets/ */}
+                <div
+                  className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center"
+                  style={{ background: "var(--surface-2)" }}
+                >
+                  <div
+                    aria-hidden="true"
+                    className="absolute inset-3 rounded-[12px] border border-dashed"
+                    style={{ borderColor: "var(--border-strong)" }}
+                  />
+                  <User size={48} strokeWidth={1.25} style={{ color: "var(--muted-2)" }} />
+                  <p className="text-[13px] font-semibold" style={{ color: "var(--muted)" }}>
+                    Founder photograph
+                  </p>
+                  <p className="text-[11.5px]" style={{ color: "var(--muted-2)" }}>
+                    Real photograph to be supplied — 4:5
+                  </p>
+                </div>
                 <div
                   aria-hidden="true"
                   className="absolute inset-x-0 bottom-0 h-[56%]"

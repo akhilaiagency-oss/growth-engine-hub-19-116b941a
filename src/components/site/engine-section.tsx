@@ -87,7 +87,7 @@ export function EngineSection() {
           {/* Desktop loop diagram */}
           <div className="hidden min-[820px]:block">
             <svg
-              viewBox="0 0 1040 300"
+              viewBox="0 0 1040 330"
               width="100%"
               className="h-auto w-full"
               role="group"
@@ -130,7 +130,7 @@ export function EngineSection() {
 
               <text
                 x="520"
-                y="74"
+                y="22"
                 textAnchor="middle"
                 fontSize="10"
                 letterSpacing="1.6"
@@ -140,7 +140,7 @@ export function EngineSection() {
               </text>
               <text
                 x="520"
-                y="256"
+                y="318"
                 textAnchor="middle"
                 fontSize="10"
                 letterSpacing="1.6"
