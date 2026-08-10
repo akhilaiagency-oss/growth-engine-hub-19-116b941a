@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import mark from "@/assets/gm-mark.png";
+import mark from "@/assets/growth-multiplier-ai-logo.png";
 import { BookCta } from "./book-cta";
 
 const LINKS = [
@@ -32,9 +32,9 @@ export function SiteNav() {
           <img
             src={mark}
             alt="Growth Multiplier AI logo"
-            width={42}
-            height={30}
-            className="h-[30px] w-auto"
+            width={36}
+            height={36}
+            className="h-9 w-9 rounded-full object-contain"
           />
           <span className="leading-tight">
             <span className="block text-[15px] font-bold tracking-[-0.01em] text-fg">
