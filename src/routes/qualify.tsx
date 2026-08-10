@@ -627,6 +627,40 @@ function PaymentStep({
         ₹9 isn't the price of the strategy. It's a small commitment to reserve your session.
       </p>
 
+      {mode === "test" && state !== "paid" && (
+        <div className="mt-4 rounded-[10px] border border-amber-500/30 bg-amber-500/10 p-3">
+          <p className="flex items-start gap-2 text-[13px] leading-relaxed text-amber-200">
+            <AlertCircle size={16} className="mt-[2px] shrink-0" aria-hidden="true" />
+            <span>
+              <strong className="font-medium">Test mode</strong> — no real money will be
+              charged. Use Razorpay test card details below.
+            </span>
+          </p>
+        </div>
+      )}
+
+      {mode === "test" && state !== "paid" && (
+        <div className="mt-3 rounded-[10px] border border-border bg-surface-2 p-3">
+          <p className="text-[12px] font-medium uppercase tracking-wide text-muted-2">
+            Razorpay test card
+          </p>
+          <div className="mt-2 grid grid-cols-2 gap-2 text-[13px]">
+            <div>
+              <p className="text-muted-2">Card number</p>
+              <p className="font-mono text-fg">5267 3181 8797 5449</p>
+            </div>
+            <div>
+              <p className="text-muted-2">Expiry / CVV</p>
+              <p className="font-mono text-fg">Any future date / any 3 digits</p>
+            </div>
+            <div className="col-span-2">
+              <p className="text-muted-2">OTP</p>
+              <p className="font-mono text-fg">1234</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {state === "paid" ? (
         <div className="mt-4 rounded-[12px] border border-lime bg-[rgba(131,226,78,0.08)] p-6 text-center">
           <Check size={22} className="mx-auto text-lime" aria-hidden="true" />
