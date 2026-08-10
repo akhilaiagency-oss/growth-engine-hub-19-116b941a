@@ -90,8 +90,13 @@ export const getStrategyCallBooking = createServerFn({ method: "POST" })
  * booking confirmed, and it requires a server-verified payment first.
  */
 export const verifyStrategyCallBooking = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => handleSchema.parse(input))
-  .handler(async ({ data }) => verifyCalendlyBooking(data.leadId, data.accessToken));
+  .inputValidator((input: unknown) => verifyBookingSchema.parse(input))
+  .handler(async ({ data }) =>
+    verifyCalendlyBooking(data.leadId, data.accessToken, {
+      eventUri: data.eventUri ?? null,
+      inviteeUri: data.inviteeUri ?? null,
+    }),
+  );
 
 /**
  * Returns the WhatsApp community URL only for a lead with a verified payment
