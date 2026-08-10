@@ -66,7 +66,7 @@ export async function startPayment(
 ): Promise<OrderForCheckout> {
   const lead = await requireLead(leadId, accessToken);
   const db = await admin();
-  const { keyId } = getRazorpayCreds();
+  const { keyId, mode } = getRazorpayCreds();
 
   const prefill = { name: lead.name, email: lead.email, contact: lead.phone };
 
