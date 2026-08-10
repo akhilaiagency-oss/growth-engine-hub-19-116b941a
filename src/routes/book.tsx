@@ -129,13 +129,19 @@ function BookPage() {
   }, [load]);
 
   // Calendly tells the browser a slot was picked — that is only a hint.
-  // Nothing is written from the client; the server asks the Calendly API.
+  // Nothing is written from the client; the server asks the Calendly API and
+  // re-validates the hinted event against every gate before confirming.
   const runVerification = useCallback(
-    async (h: LeadHandle) => {
+    async (h: LeadHandle, hints?: { eventUri?: string; inviteeUri?: string }) => {
       try {
-        const result = await verifyStrategyCallBooking({ data: h });
-        if (result.status === "confirmed") {
-          await load(h);
+        const result = await verifyStrategyCallBooking({ data: { ...h, ...hints } });
+        if (result.status === "confirmed" && result.booking) {
+          // The server already returned the confirmed booking — render it now
+          // instead of waiting on another round trip.
+          setAccess((prev) => (prev ? { ...prev, booking: result.booking } : prev));
+          setError(null);
+          // Revalidate in the background (WhatsApp gate etc.); UI doesn't wait.
+          void load(h);
           return true;
         }
       } catch {
@@ -146,19 +152,20 @@ function BookPage() {
     [load],
   );
 
-  // Bounded backoff: 2s, 5s, 10s, 20s, 40s. The Calendly API is rate limited.
+  // Front-loaded: fire immediately, then back off gently. With the direct
+  // event fetch, confirmation normally lands on the first or second attempt.
   const startPolling = useCallback(
-    (h: LeadHandle) => {
+    (h: LeadHandle, hints?: { eventUri?: string; inviteeUri?: string }) => {
       if (pollRef.current) return;
       setAwaitingConfirmation(true);
       setUnconfirmed(false);
-      const delays = [2000, 5000, 10000, 20000, 40000];
+      const delays = [0, 700, 1200, 2000, 3000, 5000, 8000, 12000];
       let attempt = 0;
       const schedule = () => {
         pollRef.current = window.setTimeout(() => {
           void (async () => {
             pollRef.current = null;
-            const ok = await runVerification(h);
+            const ok = await runVerification(h, hints);
             attempt += 1;
             if (ok) {
               setAwaitingConfirmation(false);
@@ -181,9 +188,16 @@ function BookPage() {
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       if (typeof event.origin !== "string" || !event.origin.includes("calendly.com")) return;
-      const data = event.data as { event?: string } | null;
+      const data = event.data as
+        | { event?: string; payload?: { event?: { uri?: string }; invitee?: { uri?: string } } }
+        | null;
       if (data?.event === "calendly.event_scheduled" && handleRef.current) {
-        startPolling(handleRef.current);
+        const eventUri = data.payload?.event?.uri;
+        const inviteeUri = data.payload?.invitee?.uri;
+        startPolling(handleRef.current, {
+          ...(typeof eventUri === "string" ? { eventUri } : {}),
+          ...(typeof inviteeUri === "string" ? { inviteeUri } : {}),
+        });
       }
     };
     window.addEventListener("message", onMessage);
