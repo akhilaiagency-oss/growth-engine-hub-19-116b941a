@@ -119,10 +119,6 @@ export async function getBookingAccess(
     url.searchParams.set("utm_source", "growth-multiplier-ai");
     url.searchParams.set("utm_campaign", "strategy-call-9");
     url.searchParams.set("hide_gdpr_banner", "1");
-    // Match the site's dark design system so the embed doesn't render as a white panel.
-    url.searchParams.set("background_color", "0E1526");
-    url.searchParams.set("text_color", "F4F6FA");
-    url.searchParams.set("primary_color", "83E24E");
     schedulingUrl = url.toString();
   }
 
