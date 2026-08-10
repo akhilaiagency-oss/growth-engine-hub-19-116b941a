@@ -16,7 +16,9 @@ import {
   isCalendlyApiConfigured,
   listEventInvitees,
   listScheduledEvents,
+  parseScheduledEventUuid,
   sameEmail,
+  type CalendlyEvent,
 } from "./calendly.server";
 import { getWhatsappCommunityUrl } from "./whatsapp-access.server";
 
@@ -158,14 +160,25 @@ export interface VerifyResult {
   booking: BookingAccess["booking"];
 }
 
+export interface BookingHints {
+  eventUri?: string | null;
+  inviteeUri?: string | null;
+}
+
 /**
  * The ONLY code path allowed to mark a booking confirmed.
  * Requires a server-verified, captured Razorpay payment first, then asks the
  * Calendly API whether an active event exists for this exact invitee email.
+ *
+ * The browser may pass an `eventUri` hint from the embed's `event_scheduled`
+ * message. It is UNTRUSTED: it only tells us which event to fetch first, and
+ * that event must still pass every check a searched event passes. A forged URI
+ * can never confirm a booking — it just fails and falls through to the search.
  */
 export async function verifyCalendlyBooking(
   leadId: string,
   accessToken: string,
+  hints?: BookingHints,
 ): Promise<VerifyResult> {
   const db = await admin();
   const lead = await loadLead(leadId, accessToken);
@@ -179,21 +192,17 @@ export async function verifyCalendlyBooking(
   const paidAtRaw = payment.verified_at ?? payment.paid_at ?? null;
   const paidAtMs = paidAtRaw ? new Date(paidAtRaw).getTime() : null;
 
-  // `min_start_time` filters on when an event STARTS, so it is only a coarse
-  // pre-filter that drops past events. `created_at` is the authoritative gate.
-  const events = await listScheduledEvents({
-    inviteeEmail: lead.email,
-    minStartTime: paidAtRaw ? new Date(paidAtRaw).toISOString() : null,
-    status: "active",
-  });
+  /** Every gate a candidate event must clear before it can be claimed. */
+  const tryClaim = async (event: CalendlyEvent): Promise<VerifyResult | null> => {
+    if (!event.uri) return null;
+    if (event.status === "canceled") return null;
 
-  for (const event of events) {
     // The booking step is gated behind payment, so a legitimate booking for
     // this payment can only have been created after the payment was verified.
     // An older event belongs to an earlier session and must never be claimed.
     if (paidAtMs !== null) {
-      if (!event.created_at) continue;
-      if (new Date(event.created_at).getTime() <= paidAtMs) continue;
+      if (!event.created_at) return null;
+      if (new Date(event.created_at).getTime() <= paidAtMs) return null;
     }
 
     const uuid = eventUuid(event.uri);
@@ -205,14 +214,14 @@ export async function verifyCalendlyBooking(
       .eq("calendly_event_uri", event.uri)
       .neq("lead_id", lead.id)
       .maybeSingle();
-    if (claimed) continue;
+    if (claimed) return null;
 
     const invitees = await listEventInvitees(uuid);
     // Exact email match only — never claim someone else's booking.
     const invitee = invitees.find(
       (i) => sameEmail(i.email, lead.email) && i.status !== "canceled",
     );
-    if (!invitee) continue;
+    if (!invitee) return null;
 
     const now = new Date().toISOString();
     const { error } = await db.from("strategy_call_bookings").upsert(
@@ -263,6 +272,34 @@ export async function verifyCalendlyBooking(
         eventUuid: uuid,
       },
     };
+  };
+
+  // FAST PATH — the embed told us exactly which event was created. Fetch that
+  // one event directly: no list-indexing lag, no /users/me round trip.
+  const hintedUuid =
+    parseScheduledEventUuid(hints?.eventUri) ?? parseScheduledEventUuid(hints?.inviteeUri);
+  if (hintedUuid) {
+    // The event must exist in Calendly — the client's claim alone proves nothing.
+    const event = await getScheduledEvent(hintedUuid);
+    if (event) {
+      const claimed = await tryClaim(event);
+      if (claimed) return claimed;
+    }
+  }
+
+  // FALLBACK — no usable hint, or the hinted event failed validation.
+  // `min_start_time` filters on when an event STARTS, so it is only a coarse
+  // pre-filter that drops past events. `created_at` is the authoritative gate.
+  const events = await listScheduledEvents({
+    inviteeEmail: lead.email,
+    minStartTime: paidAtRaw ? new Date(paidAtRaw).toISOString() : null,
+    status: "active",
+  });
+
+  for (const event of events) {
+    if (hintedUuid && eventUuid(event.uri) === hintedUuid) continue; // already tried
+    const claimed = await tryClaim(event);
+    if (claimed) return claimed;
   }
 
   return { status: "pending", booking: null };
