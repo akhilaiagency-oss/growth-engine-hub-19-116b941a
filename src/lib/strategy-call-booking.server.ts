@@ -253,7 +253,7 @@ export async function reconcileCalendlyBookings(limit = 200): Promise<ReconcileS
   const { data: bookings } = await db
     .from("strategy_call_bookings")
     .select("id, lead_id, calendly_event_uuid")
-    .in("status", CONFIRMED_STATUSES as unknown as string[])
+    .in("status", [...CONFIRMED_STATUSES])
     .not("calendly_event_uuid", "is", null)
     .limit(limit);
 
