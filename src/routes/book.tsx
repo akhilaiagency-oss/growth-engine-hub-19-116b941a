@@ -13,6 +13,7 @@ import {
 import logo from "@/assets/growth-multiplier-ai-logo.png";
 import { readLeadHandle, type LeadHandle } from "@/data/qualification";
 import {
+  claimWhatsappCommunityAccess,
   getStrategyCallBooking,
   verifyStrategyCallBooking,
 } from "@/lib/strategy-call.functions";
