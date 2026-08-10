@@ -283,7 +283,7 @@ function BookPage() {
             {access.configured && access.schedulingUrl ? (
               <div
                 id="calendly-inline"
-                className="mt-6 min-h-[720px] overflow-hidden rounded-[12px] border border-border bg-surface"
+                className="mt-6 h-[1150px] w-full overflow-hidden rounded-[12px] border border-border bg-surface sm:h-[820px] [&>div]:h-full [&_iframe]:h-full [&_iframe]:w-full"
               />
             ) : (
               <div className="mt-6 rounded-[12px] border border-dashed border-border-strong bg-surface p-8 text-center">
