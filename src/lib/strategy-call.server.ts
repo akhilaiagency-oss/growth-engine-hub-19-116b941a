@@ -19,7 +19,7 @@ export interface LeadInput {
   marketingSpend: string;
   desiredOutcome: string;
   timeline: string;
-  sourcePage?: string;
+  sourcePage?: string | undefined;
 }
 
 export interface LeadHandle {
