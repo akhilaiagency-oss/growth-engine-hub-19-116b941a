@@ -539,6 +539,7 @@ function PaymentStep({
 }) {
   const [state, setState] = useState<PayState>("idle");
   const [message, setMessage] = useState<string | null>(null);
+  const [mode, setMode] = useState<"test" | "live" | null>(null);
 
   const pay = useCallback(async () => {
     if (!handle) return;
