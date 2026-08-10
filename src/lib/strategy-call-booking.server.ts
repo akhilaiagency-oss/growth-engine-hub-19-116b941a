@@ -1,20 +1,30 @@
 /**
  * Booking (Calendly) state machine for the ₹9 Strategy Call — server only.
  *
- * The booking step is gated by `strategy_call_booking_unlocked(lead_id)`, which
- * only returns true for a payment that is BOTH `paid` and `verified`. The
- * browser can never unlock it: the scheduling URL is issued server-side and
- * only after that check passes.
+ * Calendly's FREE plan has no webhooks, so confirmation is PULL-based: the
+ * server asks the Calendly REST API whether a matching event exists. The
+ * browser is never trusted — the embed's `event_scheduled` message is only a
+ * hint that we should verify.
  *
- * A booking is only marked `scheduled` when Calendly itself confirms it via a
- * signature-verified webhook — never because the embed said so.
+ * The booking step itself is gated by `strategy_call_booking_unlocked(lead_id)`,
+ * which only returns true for a payment that is BOTH `paid` and `verified`.
  */
-import { getSchedulingUrl, type CalendlyInviteePayload } from "./calendly.server";
+import {
+  eventUuid,
+  getSchedulingUrl,
+  getScheduledEvent,
+  isCalendlyApiConfigured,
+  listEventInvitees,
+  listScheduledEvents,
+  sameEmail,
+} from "./calendly.server";
 
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   return supabaseAdmin;
 }
+
+const CONFIRMED_STATUSES = ["confirmed", "scheduled", "rescheduled"] as const;
 
 export interface BookingAccess {
   unlocked: boolean;
@@ -33,10 +43,34 @@ export interface BookingAccess {
   whatsappStatus: string;
 }
 
+async function loadLead(leadId: string, accessToken: string) {
+  const db = await admin();
+  const { data } = await db
+    .from("strategy_call_leads")
+    .select("id, name, email")
+    .eq("id", leadId)
+    .eq("access_token", accessToken)
+    .maybeSingle();
+  return data;
+}
+
+/** Server-verified payment gate + the timestamp bookings must start after. */
+async function paidPayment(leadId: string) {
+  const db = await admin();
+  const { data } = await db
+    .from("strategy_call_payments")
+    .select("id, verified_at, paid_at")
+    .eq("lead_id", leadId)
+    .eq("status", "paid")
+    .eq("verification_status", "verified")
+    .maybeSingle();
+  return data;
+}
+
 /**
  * Authoritative gate + scheduling URL issuer.
- * The lead id travels to Calendly as `utm_content`, which comes back on the
- * webhook payload and is how a Calendly event is tied to the paid lead.
+ * The lead id also travels to Calendly as `utm_content` for traceability, but
+ * matching is done on the invitee email via the API.
  */
 export async function getBookingAccess(
   leadId: string,
@@ -52,12 +86,7 @@ export async function getBookingAccess(
     whatsappStatus: "not_granted",
   };
 
-  const { data: lead } = await db
-    .from("strategy_call_leads")
-    .select("id, name, email")
-    .eq("id", leadId)
-    .eq("access_token", accessToken)
-    .maybeSingle();
+  const lead = await loadLead(leadId, accessToken);
   if (!lead) return locked;
 
   const { data: unlocked } = await db.rpc("strategy_call_booking_unlocked", {
@@ -113,142 +142,142 @@ export async function getBookingAccess(
   };
 }
 
-type Json = Record<string, unknown>;
+export type VerifyStatus = "unpaid" | "pending" | "confirmed" | "not_configured";
 
-function asJson(value: Record<string, unknown> | undefined) {
-  return (value ?? {}) as unknown as never;
-}
-
-/** Resolves the paid lead a Calendly invitee belongs to. */
-async function resolveLeadId(invitee: CalendlyInviteePayload): Promise<string | null> {
-  const db = await admin();
-  const tracked = invitee.tracking?.utm_content?.trim();
-  if (tracked) {
-    const { data } = await db
-      .from("strategy_call_leads")
-      .select("id")
-      .eq("id", tracked)
-      .maybeSingle();
-    if (data) return data.id;
-  }
-
-  // Fallback: match the most recent lead with a verified payment for this email.
-  const email = invitee.email?.trim().toLowerCase();
-  if (!email) return null;
-  const { data } = await db
-    .from("strategy_call_leads")
-    .select("id, created_at")
-    .eq("email", email)
-    .order("created_at", { ascending: false })
-    .limit(5);
-  for (const lead of data ?? []) {
-    const { data: unlocked } = await db.rpc("strategy_call_booking_unlocked", {
-      _lead_id: lead.id,
-    });
-    if (unlocked === true) return lead.id;
-  }
-  return null;
-}
-
-async function paymentIdFor(leadId: string): Promise<string | null> {
-  const db = await admin();
-  const { data } = await db
-    .from("strategy_call_payments")
-    .select("id")
-    .eq("lead_id", leadId)
-    .eq("status", "paid")
-    .maybeSingle();
-  return data?.id ?? null;
+export interface VerifyResult {
+  status: VerifyStatus;
+  booking: BookingAccess["booking"];
 }
 
 /**
- * Idempotent webhook application. Called only after signature verification.
- * Handles invitee.created (booked), a reschedule (invitee.created with
- * `rescheduled: true`) and invitee.canceled.
+ * The ONLY code path allowed to mark a booking confirmed.
+ * Requires a server-verified, captured Razorpay payment first, then asks the
+ * Calendly API whether an active event exists for this exact invitee email.
  */
-export async function applyCalendlyWebhook(input: {
-  eventId: string;
-  eventType: string;
-  payload: Json;
-}): Promise<string> {
+export async function verifyCalendlyBooking(
+  leadId: string,
+  accessToken: string,
+): Promise<VerifyResult> {
   const db = await admin();
+  const lead = await loadLead(leadId, accessToken);
+  if (!lead) return { status: "unpaid", booking: null };
 
-  // The unique (provider, event_id) index makes replays a no-op.
-  const { error: insertError } = await db.from("strategy_call_webhook_events").insert({
-    provider: "calendly",
-    event_id: input.eventId,
-    event_type: input.eventType,
-    signature_verified: true,
-    payload: asJson(input.payload),
+  const payment = await paidPayment(lead.id);
+  if (!payment) return { status: "unpaid", booking: null };
+
+  if (!isCalendlyApiConfigured()) return { status: "not_configured", booking: null };
+
+  const minStartTime = payment.verified_at ?? payment.paid_at ?? null;
+  const events = await listScheduledEvents({
+    inviteeEmail: lead.email,
+    minStartTime: minStartTime ? new Date(minStartTime).toISOString() : null,
+    status: "active",
   });
-  if (insertError) {
-    if (insertError.code === "23505") return "duplicate";
-    throw new Error(insertError.message);
-  }
 
-  const invitee = (input.payload["payload"] ?? {}) as CalendlyInviteePayload;
-  let result = "ignored";
+  for (const event of events) {
+    const uuid = eventUuid(event.uri);
+    const invitees = await listEventInvitees(uuid);
+    // Exact email match only — never claim someone else's booking.
+    const invitee = invitees.find(
+      (i) => sameEmail(i.email, lead.email) && i.status !== "canceled",
+    );
+    if (!invitee) continue;
 
-  const leadId = await resolveLeadId(invitee);
-  if (!leadId) {
-    result = "unknown_lead";
-  } else if (input.eventType === "invitee.created") {
-    const event = invitee.scheduled_event ?? {};
-    const paymentId = await paymentIdFor(leadId);
+    const now = new Date().toISOString();
     const { error } = await db.from("strategy_call_bookings").upsert(
       {
-        lead_id: leadId,
-        payment_id: paymentId,
-        calendly_event_uri: event.uri ?? null,
-        calendly_invitee_uri: invitee.uri ?? null,
+        lead_id: lead.id,
+        payment_id: payment.id,
+        calendly_event_uri: event.uri,
+        calendly_event_uuid: uuid,
+        calendly_invitee_uri: invitee.uri,
+        invitee_email: invitee.email ?? lead.email,
         calendly_event_name: event.name ?? null,
         calendly_reschedule_url: invitee.reschedule_url ?? null,
         calendly_cancel_url: invitee.cancel_url ?? null,
         join_url: event.location?.join_url ?? null,
         scheduled_at: event.start_time ?? null,
+        event_end_time: event.end_time ?? null,
         timezone: invitee.timezone ?? null,
-        status: invitee.rescheduled ? "rescheduled" : "scheduled",
-        booked_at: new Date().toISOString(),
+        status: "confirmed",
+        booked_at: now,
+        verified_at: now,
+        verification_method: "calendly_api",
         cancelled_at: null,
         cancellation_reason: null,
-        provider_payload: asJson(input.payload),
       },
       { onConflict: "lead_id" },
     );
     if (error) throw new Error(error.message);
 
-    // Only a Calendly-confirmed booking moves the lead to BOOKED.
-    await db.from("strategy_call_leads").update({ stage: "booked" }).eq("id", leadId);
+    await db.from("strategy_call_leads").update({ stage: "booked" }).eq("id", lead.id);
 
-    // WhatsApp access unlocks on a confirmed booking.
+    // WhatsApp access is unlocked here and nowhere else on the client path.
     await db
       .from("strategy_call_entitlements")
-      .update({ whatsapp_status: "invited", invited_at: new Date().toISOString() })
-      .eq("lead_id", leadId)
+      .update({ whatsapp_status: "invited", invited_at: now })
+      .eq("lead_id", lead.id)
       .in("whatsapp_status", ["not_granted", "revoked"]);
 
-    result = invitee.rescheduled ? "rescheduled" : "scheduled";
-  } else if (input.eventType === "invitee.canceled") {
+    return {
+      status: "confirmed",
+      booking: {
+        status: "confirmed",
+        scheduledAt: event.start_time ?? null,
+        eventName: event.name ?? null,
+        joinUrl: event.location?.join_url ?? null,
+        rescheduleUrl: invitee.reschedule_url ?? null,
+        cancelUrl: invitee.cancel_url ?? null,
+        timezone: invitee.timezone ?? null,
+      },
+    };
+  }
+
+  return { status: "pending", booking: null };
+}
+
+export interface ReconcileSummary {
+  checked: number;
+  cancelled: number;
+}
+
+/**
+ * Cancellation handling without webhooks: re-check confirmed bookings against
+ * the Calendly API. A cancelled or missing event rolls the lead back to `paid`
+ * so they can rebook — the ₹9 stays valid.
+ */
+export async function reconcileCalendlyBookings(limit = 200): Promise<ReconcileSummary> {
+  const db = await admin();
+  if (!isCalendlyApiConfigured()) return { checked: 0, cancelled: 0 };
+
+  const { data: bookings } = await db
+    .from("strategy_call_bookings")
+    .select("id, lead_id, calendly_event_uuid")
+    .in("status", CONFIRMED_STATUSES as unknown as string[])
+    .not("calendly_event_uuid", "is", null)
+    .limit(limit);
+
+  let cancelled = 0;
+  for (const booking of bookings ?? []) {
+    const uuid = booking.calendly_event_uuid;
+    if (!uuid) continue;
+    const event = await getScheduledEvent(uuid);
+    const isGone = event === null || event.status === "canceled";
+    if (!isGone) continue;
+
     await db
       .from("strategy_call_bookings")
       .update({
         status: "cancelled",
         cancelled_at: new Date().toISOString(),
-        cancellation_reason: invitee.cancellation?.reason ?? "Cancelled in Calendly",
-        provider_payload: asJson(input.payload),
+        cancellation_reason: "Cancelled in Calendly",
       })
-      .eq("lead_id", leadId);
+      .eq("id", booking.id);
 
     // Payment stays valid, so the lead drops back to `paid` and can rebook.
-    await db.from("strategy_call_leads").update({ stage: "paid" }).eq("id", leadId);
-    result = "cancelled";
+    await db.from("strategy_call_leads").update({ stage: "paid" }).eq("id", booking.lead_id);
+    cancelled += 1;
   }
 
-  await db
-    .from("strategy_call_webhook_events")
-    .update({ result, processed_at: new Date().toISOString() })
-    .eq("provider", "calendly")
-    .eq("event_id", input.eventId);
-
-  return result;
+  return { checked: bookings?.length ?? 0, cancelled };
 }
