@@ -68,7 +68,7 @@ function Node({
 }
 
 export function EngineSection() {
-  const [activeId, setActiveId] = useState(ENGINE_STAGES[0].id);
+  const [activeId, setActiveId] = useState(ENGINE_STAGES[0]!.id);
   const active = ENGINE_STAGES.find((s) => s.id === activeId)!;
 
   return (
@@ -257,10 +257,7 @@ export function EngineSection() {
           </div>
         </Reveal>
 
-        <Reveal
-          className="mt-6 rounded-[12px] bg-surface p-6"
-          // eslint-disable-next-line react/no-unknown-property
-        >
+        <Reveal className="mt-6 rounded-[12px] bg-surface p-6">
           <p
             className="text-[16px] leading-relaxed"
             style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}
