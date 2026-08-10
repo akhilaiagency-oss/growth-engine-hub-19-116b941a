@@ -7,7 +7,7 @@ import {
   startPayment,
   verifyCheckoutPayment,
 } from "./strategy-call-payments.server";
-import { getBookingAccess } from "./strategy-call-booking.server";
+import { getBookingAccess, verifyCalendlyBooking } from "./strategy-call-booking.server";
 
 
 const leadSchema = z.object({
