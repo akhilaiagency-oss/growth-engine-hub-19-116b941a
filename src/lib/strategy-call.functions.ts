@@ -8,6 +8,7 @@ import {
   verifyCheckoutPayment,
 } from "./strategy-call-payments.server";
 import { getBookingAccess, verifyCalendlyBooking } from "./strategy-call-booking.server";
+import { claimWhatsappAccess } from "./whatsapp-access.server";
 
 
 const leadSchema = z.object({
