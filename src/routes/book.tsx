@@ -235,7 +235,12 @@ function BookPage() {
         ) : !access?.unlocked ? (
           <LockedCard hasHandle={Boolean(handle)} />
         ) : confirmed ? (
-          <ConfirmedCard booking={booking} whatsappStatus={access.whatsappStatus} />
+          <ConfirmedCard
+            booking={booking}
+            whatsappStatus={access.whatsappStatus}
+            whatsappUnlocked={access.whatsappUnlocked}
+            handle={handle}
+          />
         ) : (
           <>
             <h1 className="text-[26px] leading-tight font-semibold text-fg sm:text-[32px]">
