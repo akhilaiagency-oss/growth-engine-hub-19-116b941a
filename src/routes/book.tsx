@@ -347,10 +347,18 @@ function LockedCard({ hasHandle }: { hasHandle: boolean }) {
 function ConfirmedCard({
   booking,
   whatsappStatus,
+  whatsappUnlocked,
+  handle,
 }: {
   booking: NonNullable<Access["booking"]>;
   whatsappStatus: string;
+  whatsappUnlocked: boolean;
+  handle: LeadHandle | null;
 }) {
+  const [opening, setOpening] = useState(false);
+  const [locked, setLocked] = useState(!whatsappUnlocked);
+  const [joined, setJoined] = useState(whatsappStatus === "joined");
+
   const when = booking.scheduledAt
     ? new Date(booking.scheduledAt).toLocaleString(undefined, {
         weekday: "long",
@@ -361,6 +369,24 @@ function ConfirmedCard({
       })
     : null;
 
+  const join = async () => {
+    if (!handle) return;
+    setOpening(true);
+    try {
+      const result = await claimWhatsappCommunityAccess({ data: handle });
+      if (result.status === "ok") {
+        setJoined(true);
+        window.open(result.url, "_blank", "noopener,noreferrer");
+      } else {
+        setLocked(true);
+      }
+    } catch {
+      setLocked(true);
+    } finally {
+      setOpening(false);
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[620px]">
       <div className="rounded-[16px] border border-lime/40 bg-[rgba(131,226,78,0.06)] p-8">
@@ -368,7 +394,7 @@ function ConfirmedCard({
           <Check size={20} className="text-lime" aria-hidden="true" />
         </span>
         <h1 className="mt-5 text-[24px] leading-tight font-semibold text-fg">
-          Your strategy session is booked
+          Your Strategy Session Is Locked In ✓
         </h1>
         {when && (
           <p className="mt-2 flex items-center gap-2 text-[15px] text-fg">
@@ -414,17 +440,37 @@ function ConfirmedCard({
         </div>
       </div>
 
-      <div className="mt-5 rounded-[12px] border border-border bg-surface p-5">
-        <p className="flex items-center gap-2 text-[14px] font-medium text-fg">
-          <MessageCircle size={16} className="text-lime" aria-hidden="true" /> WhatsApp access
-          unlocked
+      <div className="mt-5 rounded-[12px] border border-border bg-surface p-6">
+        <p className="flex items-center gap-2 text-[15px] font-semibold text-fg">
+          <MessageCircle size={16} className="text-lime" aria-hidden="true" /> Join The Growth
+          Multiplier AI Community
         </p>
-        <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
-          {whatsappStatus === "not_granted"
-            ? "Your access is being set up — we'll message you shortly."
-            : "We'll send your invite to the number you gave us before the session."}
+        <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+          You're officially booked. Join the Growth Multiplier AI community for strategy insights,
+          AI growth resources, funnel breakdowns and important updates before your session.
         </p>
+
+        {locked || !handle ? (
+          <p className="mt-4 text-[13.5px] text-muted-2">
+            Community access is being set up — we'll send your invite before your session.
+          </p>
+        ) : (
+          <>
+            <button
+              type="button"
+              onClick={() => void join()}
+              disabled={opening}
+              className="btn-primary mt-5 inline-flex disabled:opacity-60"
+            >
+              {opening ? "Opening…" : "Join The WhatsApp Community →"}
+            </button>
+            {joined && (
+              <p className="mt-2 text-[12.5px] text-muted-2">You've already been given access.</p>
+            )}
+          </>
+        )}
       </div>
     </div>
   );
 }
+
