@@ -71,6 +71,8 @@
   --color-electric-soft: var(--electric-soft);
   --color-cyan: var(--cyan);
   --color-urgent: var(--urgent);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
 
   --color-background: var(--bg);
   --color-foreground: var(--fg);
