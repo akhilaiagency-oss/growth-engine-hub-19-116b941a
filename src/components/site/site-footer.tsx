@@ -9,7 +9,7 @@ const PAGE_LINKS = [
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border pb-[104px] min-[900px]:pb-0">
+    <footer className="border-t border-border pb-[calc(104px+env(safe-area-inset-bottom))] min-[900px]:pb-0">
       <div className="container-page py-14">
         <div className="grid gap-10 min-[700px]:grid-cols-[1.6fr_1fr_1fr]">
           <div>
@@ -30,15 +30,15 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
+            <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
               On this page
             </p>
-            <ul className="mt-4 flex flex-col gap-3">
+            <ul className="mt-4 flex flex-col gap-1 md:gap-3">
               {PAGE_LINKS.map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="text-[13.5px] text-muted transition-colors hover:text-fg"
+                    className="flex min-h-[44px] items-center text-[13.5px] text-muted transition-colors hover:text-fg md:min-h-0"
                   >
                     {l.label}
                   </a>
@@ -48,26 +48,26 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="text-[11px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
+            <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
               Contact
             </p>
-            <ul className="mt-4 flex flex-col gap-3">
+            <ul className="mt-4 flex flex-col gap-1 md:gap-3">
               <li>
                 <a
                   href="mailto:akhil.ai.agency@gmail.com"
-                  className="text-[13.5px] text-muted transition-colors hover:text-fg"
+                  className="flex min-h-[44px] items-center text-[13.5px] text-muted transition-colors hover:text-fg md:min-h-0"
                 >
                   akhil.ai.agency@gmail.com
                 </a>
               </li>
-              <li className="text-[13.5px] text-muted-2">
+              <li className="flex min-h-[44px] items-center text-[13.5px] text-muted-2 md:min-h-0">
                 WhatsApp community — link added at launch
               </li>
             </ul>
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-[12px] text-muted-2 min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-[12.5px] text-muted-2 md:text-[12px] min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
           <p>© 2026 Growth Multiplier AI. All rights reserved.</p>
           <p>Growth Multiplier Engine™ is a trademark of Growth Multiplier AI.</p>
         </div>

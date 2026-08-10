@@ -194,7 +194,7 @@ export function EngineSection() {
                       className="relative z-10 flex items-center gap-4 text-left"
                     >
                       <span
-                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[11px] font-bold"
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[12px] font-bold md:text-[11px]"
                         style={{
                           background: isActive ? "var(--lime)" : "var(--surface-2)",
                           borderColor: isActive ? "var(--lime)" : "var(--border-strong)",
@@ -228,13 +228,13 @@ export function EngineSection() {
             className="mt-8 rounded-[12px] border border-border bg-surface-2 p-5 md:p-6"
           >
             <div className="flex flex-wrap items-center gap-3">
-              <span className="flex h-6 w-6 items-center justify-center rounded-[6px] bg-lime text-[11px] font-bold text-lime-ink">
+              <span className="flex h-6 w-6 items-center justify-center rounded-[6px] bg-lime text-[12px] font-bold text-lime-ink md:text-[11px]">
                 {active.number}
               </span>
               <span className="text-[12px] font-semibold tracking-[2px] text-fg">
                 {active.name}
               </span>
-              <span className="text-[11px] tracking-[1.6px] text-muted-2 uppercase">
+              <span className="text-[12px] tracking-[1.6px] md:text-[11px] text-muted-2 uppercase">
                 {active.phase}
               </span>
             </div>
@@ -248,7 +248,7 @@ export function EngineSection() {
               {active.chips.map((c) => (
                 <li
                   key={c}
-                  className="rounded-full border border-border bg-surface px-3 py-1.5 text-[11.5px] text-muted"
+                  className="rounded-full border border-border bg-surface px-3 py-1.5 text-[12.5px] text-muted md:text-[11.5px]"
                 >
                   {c}
                 </li>

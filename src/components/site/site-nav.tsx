@@ -40,7 +40,7 @@ export function SiteNav() {
             <span className="block text-[15px] font-bold tracking-[-0.01em] text-fg">
               Growth Multiplier AI
             </span>
-            <span className="block text-[11px] text-muted">Founder: Akhil Srivastava</span>
+            <span className="block text-[12px] text-muted md:text-[11px]">Founder: Akhil Srivastava</span>
           </span>
         </a>
 
@@ -80,7 +80,7 @@ export function SiteNav() {
                 key={l.href}
                 href={l.href}
                 onClick={() => setOpenMenu(false)}
-                className="text-[15px] text-muted transition-colors hover:text-fg"
+                className="flex min-h-[44px] items-center text-[15px] text-muted transition-colors hover:text-fg"
               >
                 {l.label}
               </a>

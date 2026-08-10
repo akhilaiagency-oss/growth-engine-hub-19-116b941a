@@ -153,7 +153,7 @@ function QualifyPage() {
         </div>
         <Link
           to="/"
-          className="mt-4 inline-block text-[13px] text-muted transition-colors hover:text-fg"
+          className="mt-2 inline-flex min-h-[44px] items-center justify-center px-3 text-[13.5px] text-muted transition-colors hover:text-fg"
         >
           ← Back to site
         </Link>
@@ -264,7 +264,7 @@ function QualifyPage() {
                     setReturnToReview(false);
                     setStep((s) => s - 1);
                   }}
-                  className="min-h-[44px] rounded-[8px] px-2 text-[14px] text-muted transition-colors hover:text-fg"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[14px] text-muted transition-colors hover:text-fg"
                 >
                   ← Back
                 </button>
@@ -279,7 +279,7 @@ function QualifyPage() {
                 onClick={() => {
                   setStep(REVIEW_STEP);
                 }}
-                className="min-h-[44px] rounded-[8px] px-2 text-[14px] text-muted transition-colors hover:text-fg"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[14px] text-muted transition-colors hover:text-fg"
               >
                 ← Back
               </button>
@@ -515,7 +515,7 @@ function ReviewStep({
             <button
               type="button"
               onClick={() => onEdit(i)}
-              className="shrink-0 rounded-[8px] px-2 py-1 text-[13px] text-muted transition-colors hover:text-fg"
+              className="flex min-h-[44px] min-w-[44px] shrink-0 items-center justify-center rounded-[8px] px-3 text-[13px] text-muted transition-colors hover:text-fg"
             >
               Edit
             </button>
@@ -689,7 +689,7 @@ function PaymentStep({
                 ? "Opening secure checkout…"
                 : "Pay ₹9 and choose my slot →"}
           </button>
-          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[11.5px] text-muted-2">
+          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
             <Lock size={12} aria-hidden="true" /> Secure payment. Your card details never touch
             this site.
           </p>

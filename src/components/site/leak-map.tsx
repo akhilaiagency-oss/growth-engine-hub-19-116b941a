@@ -61,7 +61,7 @@ export function LeakMap() {
 
         <Reveal className="mt-10 rounded-[16px] border border-border bg-bg p-5 md:p-8">
           <div className="flex flex-wrap items-center gap-6 border-b border-border pb-5">
-            <span className="flex items-center gap-2 text-[12px] text-muted">
+            <span className="flex items-center gap-2 text-[12.5px] text-muted md:text-[12px]">
               <span
                 className="h-2.5 w-2.5 rounded-[3px]"
                 style={{ background: "var(--cyan)" }}
@@ -69,7 +69,7 @@ export function LeakMap() {
               />
               Volume still in the funnel
             </span>
-            <span className="flex items-center gap-2 text-[12px] text-muted">
+            <span className="flex items-center gap-2 text-[12.5px] text-muted md:text-[12px]">
               <span
                 className="h-2.5 w-2.5 rounded-[3px]"
                 style={{ background: "var(--urgent)" }}
@@ -153,7 +153,7 @@ export function LeakMap() {
           </ul>
 
 
-          <div className="mt-7 rounded-[8px] border border-border bg-surface p-4 text-[12.5px] leading-relaxed text-muted">
+          <div className="mt-7 rounded-[8px] border border-border bg-surface p-4 text-[13px] leading-relaxed text-muted md:text-[12.5px]">
             This is a <strong className="font-semibold text-fg">shape, not a statistic</strong> — an
             illustration of how acquisition typically narrows, not measured results from any
             business. On your call we put your real numbers against each stage and find which one is
