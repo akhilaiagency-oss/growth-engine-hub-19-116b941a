@@ -239,9 +239,9 @@ export async function verifyCalendlyBooking(
     // WhatsApp access is unlocked here and nowhere else on the client path.
     await db
       .from("strategy_call_entitlements")
-      .update({ whatsapp_status: "invited", invited_at: now })
+      .update({ whatsapp_status: "enabled", whatsapp_access_enabled_at: now, revoked_at: null })
       .eq("lead_id", lead.id)
-      .in("whatsapp_status", ["not_granted", "revoked"]);
+      .in("whatsapp_status", ["not_granted", "invited", "revoked"]);
 
     return {
       status: "confirmed",
