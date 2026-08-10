@@ -668,9 +668,13 @@ function PaymentStep({
             Your ₹9 payment is verified and your session is reserved.
           </p>
           <p className="mt-1 text-[12.5px] text-muted">
-            Slot selection opens next — you'll also get an email confirmation.
+            Choose your slot next — you'll also get an email confirmation.
           </p>
+          <Link to="/book" className="btn-primary mt-4 inline-flex">
+            Choose my slot →
+          </Link>
         </div>
+
       ) : (
         <>
           <button
