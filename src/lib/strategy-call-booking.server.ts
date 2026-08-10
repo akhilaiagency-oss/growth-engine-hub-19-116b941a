@@ -69,6 +69,7 @@ async function paidPayment(leadId: string) {
     .eq("lead_id", leadId)
     .eq("status", "paid")
     .eq("verification_status", "verified")
+    .not("verified_at", "is", null)
     .maybeSingle();
   return data;
 }
@@ -200,10 +201,11 @@ export async function verifyCalendlyBooking(
     // The booking step is gated behind payment, so a legitimate booking for
     // this payment can only have been created after the payment was verified.
     // An older event belongs to an earlier session and must never be claimed.
-    if (paidAtMs !== null) {
-      if (!event.created_at) return null;
-      if (new Date(event.created_at).getTime() <= paidAtMs) return null;
-    }
+    // No trustworthy payment timestamp means we cannot prove this event belongs
+    // to this payment. Refuse rather than guess.
+    if (paidAtMs === null) return null;
+    if (!event.created_at) return null;
+    if (new Date(event.created_at).getTime() <= paidAtMs) return null;
 
     const uuid = eventUuid(event.uri);
 
