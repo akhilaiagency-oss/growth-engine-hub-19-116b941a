@@ -628,8 +628,8 @@ function PaymentStep({
       </p>
 
       {mode === "test" && state !== "paid" && (
-        <div className="mt-4 rounded-[10px] border border-amber-500/30 bg-amber-500/10 p-3">
-          <p className="flex items-start gap-2 text-[13px] leading-relaxed text-amber-200">
+        <div className="mt-4 rounded-[10px] border border-amber/30 bg-amber/10 p-3">
+          <p className="flex items-start gap-2 text-[13px] leading-relaxed text-amber-soft">
             <AlertCircle size={16} className="mt-[2px] shrink-0" aria-hidden="true" />
             <span>
               <strong className="font-medium">Test mode</strong> — no real money will be
