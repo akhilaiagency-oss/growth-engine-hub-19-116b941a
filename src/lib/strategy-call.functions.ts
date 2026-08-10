@@ -82,3 +82,12 @@ export const getStrategyCallBooking = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
   .handler(async ({ data }) => getBookingAccess(data.leadId, data.accessToken));
 
+
+/**
+ * Pull-based booking confirmation. Calendly's free plan has no webhooks, so
+ * this asks the Calendly API server-side. It is the only path that can mark a
+ * booking confirmed, and it requires a server-verified payment first.
+ */
+export const verifyStrategyCallBooking = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => verifyCalendlyBooking(data.leadId, data.accessToken));
