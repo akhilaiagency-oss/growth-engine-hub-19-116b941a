@@ -79,7 +79,7 @@ export function LeakMap() {
             </span>
           </div>
 
-          <ul className="mt-6 flex flex-col gap-4">
+          <ul className="mt-6 flex flex-col gap-6 min-[700px]:gap-4">
             {ROWS.map((r) => (
               <li
                 key={r.n}
@@ -87,7 +87,7 @@ export function LeakMap() {
               >
                 <div className="flex shrink-0 items-center gap-3 min-[700px]:w-[180px]">
                   <span
-                    className="flex h-[26px] w-[26px] items-center justify-center rounded-[6px] border text-[11px] font-bold"
+                    className="flex h-[26px] w-[26px] items-center justify-center rounded-[6px] border text-[12px] font-bold min-[700px]:text-[11px]"
                     style={{
                       borderColor: "rgba(63,220,232,0.35)",
                       color: "var(--cyan)",
@@ -96,10 +96,38 @@ export function LeakMap() {
                   >
                     {r.n}
                   </span>
-                  <span className="text-[14px] font-semibold text-fg">{r.stage}</span>
+                  <span className="text-[15px] font-semibold text-fg min-[700px]:text-[14px]">
+                    {r.stage}
+                  </span>
                 </div>
 
-                <div className="relative h-[34px] w-full overflow-hidden rounded-[6px] bg-surface-2">
+                {/* Mobile: slim visual bar + readable copy beneath */}
+                <div className="w-full min-[700px]:hidden">
+                  <div className="relative h-[10px] w-full overflow-hidden rounded-[5px] bg-surface-2">
+                    <div
+                      className="absolute inset-y-0 left-0"
+                      style={{
+                        width: `${r.pct}%`,
+                        background:
+                          "linear-gradient(90deg, rgba(63,220,232,0.30), rgba(63,220,232,0.14))",
+                        borderRight: "2px solid var(--cyan)",
+                      }}
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <p className="mt-2 text-[13px] leading-relaxed text-muted">
+                    <span className="font-bold text-fg">{r.pct}%</span>{" "}
+                    {r.lead && (
+                      <span className="italic" style={{ color: "var(--urgent)" }}>
+                        {r.lead}{" "}
+                      </span>
+                    )}
+                    <span>{r.note}</span>
+                  </p>
+                </div>
+
+                {/* 700px and up: original inline-in-bar treatment */}
+                <div className="relative hidden h-[34px] w-full overflow-hidden rounded-[6px] bg-surface-2 min-[700px]:block">
                   <div
                     className="absolute inset-y-0 left-0"
                     style={{
@@ -123,6 +151,7 @@ export function LeakMap() {
               </li>
             ))}
           </ul>
+
 
           <div className="mt-7 rounded-[8px] border border-border bg-surface p-4 text-[12.5px] leading-relaxed text-muted">
             This is a <strong className="font-semibold text-fg">shape, not a statistic</strong> — an
