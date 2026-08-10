@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "@/assets/growth-multiplier-ai-logo.png";
+import mark from "@/assets/gm-mark.png";
 import { BookCta } from "./book-cta";
 
 const LINKS = [
