@@ -24,6 +24,12 @@ const RAZORPAY_API = "https://api.razorpay.com/v1";
 interface RazorpayCreds {
   keyId: string;
   keySecret: string;
+  mode: "test" | "live";
+}
+
+export function getRazorpayMode(keyId?: string): "test" | "live" {
+  const id = keyId ?? process.env["RAZORPAY_KEY_ID"] ?? "";
+  return id.startsWith("rzp_test_") ? "test" : "live";
 }
 
 export function getRazorpayCreds(): RazorpayCreds {
@@ -32,7 +38,7 @@ export function getRazorpayCreds(): RazorpayCreds {
   if (!keyId || !keySecret) {
     throw new Error("Razorpay is not configured yet.");
   }
-  return { keyId, keySecret };
+  return { keyId, keySecret, mode: getRazorpayMode(keyId) };
 }
 
 export function isRazorpayConfigured(): boolean {
