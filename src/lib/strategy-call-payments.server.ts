@@ -27,6 +27,7 @@ export interface OrderForCheckout {
   amountPaise: number;
   currency: string;
   keyId: string;
+  mode: "test" | "live";
   prefill: { name: string; email: string; contact: string };
 }
 
