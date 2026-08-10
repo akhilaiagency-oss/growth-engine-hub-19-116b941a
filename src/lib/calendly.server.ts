@@ -1,39 +1,53 @@
 /**
- * Calendly server-only adapter — REST API v2 (works on the FREE plan with a
- * Personal Access Token). Webhooks are a paid feature and are NOT used.
+ * Calendly server-only adapter — REST API v2 via the Lovable connector gateway.
+ *
+ * The Calendly App connector supplies `CALENDLY_API_KEY` (a gateway connection
+ * key, NOT a raw Calendly token). The gateway transparently refreshes OAuth
+ * tokens, so this file never manages refresh logic. Direct calls to
+ * `api.calendly.com` will fail.
  *
  * The `.server.ts` extension keeps this out of every client bundle.
- * CALENDLY_PERSONAL_ACCESS_TOKEN is read inside functions, is never returned
- * to the browser and is never logged. Only the public scheduling URL is ever
- * sent to the client.
+ * `CALENDLY_API_KEY` and `LOVABLE_API_KEY` are read inside functions, are never
+ * returned to the browser and are never logged. Only the public scheduling URL
+ * is ever sent to the client.
  */
 
-const API = "https://api.calendly.com";
+const GATEWAY_URL = "https://connector-gateway.lovable.dev/calendly";
+
+function getLovableApiKey(): string | null {
+  const key = process.env["LOVABLE_API_KEY"];
+  return key && key.trim().length > 20 ? key.trim() : null;
+}
+
+function getCalendlyApiKey(): string | null {
+  const key = process.env["CALENDLY_API_KEY"];
+  return key && key.trim().length > 10 ? key.trim() : null;
+}
 
 export function getSchedulingUrl(): string | null {
   const url = process.env["CALENDLY_SCHEDULING_URL"];
   return url && url.startsWith("https://") ? url : null;
 }
 
-function getToken(): string | null {
-  const token = process.env["CALENDLY_PERSONAL_ACCESS_TOKEN"];
-  return token && token.trim().length > 20 ? token.trim() : null;
-}
-
 export function isCalendlyApiConfigured(): boolean {
-  return getToken() !== null;
+  return getLovableApiKey() !== null && getCalendlyApiKey() !== null;
 }
 
-async function calendlyGet<T>(path: string): Promise<T | null> {
-  const token = getToken();
-  if (!token) return null;
+async function calendlyGateway<T>(path: string): Promise<T | null> {
+  const lovableKey = getLovableApiKey();
+  const calendlyKey = getCalendlyApiKey();
+  if (!lovableKey || !calendlyKey) return null;
 
-  const response = await fetch(`${API}${path}`, {
-    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  const response = await fetch(`${GATEWAY_URL}${path}`, {
+    headers: {
+      Authorization: `Bearer ${lovableKey}`,
+      "X-Connection-Api-Key": calendlyKey,
+      "Content-Type": "application/json",
+    },
   });
 
   if (!response.ok) {
-    // Never include the token or the Authorization header in a log line.
+    // Never include the keys or Authorization header in a log line.
     console.error(`[Calendly] GET ${path} failed with ${response.status}`);
     return null;
   }
@@ -45,7 +59,7 @@ let cachedUserUri: string | null = null;
 
 export async function getCalendlyUserUri(): Promise<string | null> {
   if (cachedUserUri) return cachedUserUri;
-  const data = await calendlyGet<{ resource?: { uri?: string } }>("/users/me");
+  const data = await calendlyGateway<{ resource?: { uri?: string } }>("/users/me");
   cachedUserUri = data?.resource?.uri ?? null;
   return cachedUserUri;
 }
@@ -90,19 +104,19 @@ export async function listScheduledEvents(input: {
   });
   if (input.minStartTime) params.set("min_start_time", input.minStartTime);
 
-  const data = await calendlyGet<{ collection?: CalendlyEvent[] }>(
+  const data = await calendlyGateway<{ collection?: CalendlyEvent[] }>(
     `/scheduled_events?${params.toString()}`,
   );
   return data?.collection ?? [];
 }
 
 export async function getScheduledEvent(uuid: string): Promise<CalendlyEvent | null> {
-  const data = await calendlyGet<{ resource?: CalendlyEvent }>(`/scheduled_events/${uuid}`);
+  const data = await calendlyGateway<{ resource?: CalendlyEvent }>(`/scheduled_events/${uuid}`);
   return data?.resource ?? null;
 }
 
 export async function listEventInvitees(uuid: string): Promise<CalendlyInvitee[]> {
-  const data = await calendlyGet<{ collection?: CalendlyInvitee[] }>(
+  const data = await calendlyGateway<{ collection?: CalendlyInvitee[] }>(
     `/scheduled_events/${uuid}/invitees?count=10`,
   );
   return data?.collection ?? [];
