@@ -208,11 +208,14 @@ export type Database = {
       strategy_call_payments: {
         Row: {
           amount_paise: number
+          attempts: number
+          cancelled_at: string | null
           created_at: string
           currency: string
           failure_reason: string | null
           id: string
           lead_id: string
+          method: string | null
           paid_at: string | null
           provider_payload: Json
           razorpay_order_id: string | null
@@ -226,11 +229,14 @@ export type Database = {
         }
         Insert: {
           amount_paise?: number
+          attempts?: number
+          cancelled_at?: string | null
           created_at?: string
           currency?: string
           failure_reason?: string | null
           id?: string
           lead_id: string
+          method?: string | null
           paid_at?: string | null
           provider_payload?: Json
           razorpay_order_id?: string | null
@@ -244,11 +250,14 @@ export type Database = {
         }
         Update: {
           amount_paise?: number
+          attempts?: number
+          cancelled_at?: string | null
           created_at?: string
           currency?: string
           failure_reason?: string | null
           id?: string
           lead_id?: string
+          method?: string | null
           paid_at?: string | null
           provider_payload?: Json
           razorpay_order_id?: string | null
@@ -270,12 +279,54 @@ export type Database = {
           },
         ]
       }
+      strategy_call_webhook_events: {
+        Row: {
+          created_at: string
+          event_id: string
+          event_type: string
+          id: string
+          payload: Json
+          processed_at: string | null
+          provider: string
+          result: string | null
+          signature_verified: boolean
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          event_id: string
+          event_type: string
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          provider?: string
+          result?: string | null
+          signature_verified?: boolean
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          event_id?: string
+          event_type?: string
+          id?: string
+          payload?: Json
+          processed_at?: string | null
+          provider?: string
+          result?: string | null
+          signature_verified?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      strategy_call_booking_unlocked: {
+        Args: { _lead_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       strategy_call_booking_status:
@@ -299,6 +350,10 @@ export type Database = {
         | "captured"
         | "failed"
         | "refunded"
+        | "payment_pending"
+        | "paid"
+        | "payment_failed"
+        | "payment_cancelled"
       strategy_call_verification_status: "unverified" | "verified" | "mismatch"
       strategy_call_whatsapp_status:
         | "not_granted"
@@ -455,6 +510,10 @@ export const Constants = {
         "captured",
         "failed",
         "refunded",
+        "payment_pending",
+        "paid",
+        "payment_failed",
+        "payment_cancelled",
       ],
       strategy_call_verification_status: ["unverified", "verified", "mismatch"],
       strategy_call_whatsapp_status: [

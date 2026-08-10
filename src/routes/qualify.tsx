@@ -6,12 +6,20 @@ import {
   EMPTY_ANSWERS,
   QUESTIONS,
   STORAGE_KEY,
+  readLeadHandle,
   submitQualification,
   validateAnswer,
+  type LeadHandle,
   type QualificationAnswers,
   type QualificationField,
   type Question,
 } from "@/data/qualification";
+import {
+  createStrategyCallOrder,
+  recordStrategyCallOutcome,
+  verifyStrategyCallPayment,
+} from "@/lib/strategy-call.functions";
+import { loadRazorpayCheckout, openRazorpayCheckout } from "@/lib/razorpay-checkout";
 
 const TITLE = "Strategy Session Qualification — Growth Multiplier AI";
 const DESCRIPTION =
@@ -45,6 +53,8 @@ function QualifyPage() {
   const [touched, setTouched] = useState<Partial<Record<QualificationField, boolean>>>({});
   const [returnToReview, setReturnToReview] = useState(false);
   const [restored, setRestored] = useState(false);
+  const [handle, setHandle] = useState<LeadHandle | null>(null);
+  const [handleError, setHandleError] = useState<string | null>(null);
 
   const headingRef = useRef<HTMLHeadingElement | null>(null);
   const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement | null>(null);
@@ -214,7 +224,9 @@ function QualifyPage() {
               />
             )}
 
-            {step === PAY_STEP && <PaymentStep headingRef={headingRef} />}
+            {step === PAY_STEP && (
+              <PaymentStep headingRef={headingRef} handle={handle} handleError={handleError} />
+            )}
           </div>
 
           {step <= REVIEW_STEP && (
@@ -224,7 +236,15 @@ function QualifyPage() {
                 className="btn-primary w-full sm:w-auto"
                 onClick={() => {
                   if (step === REVIEW_STEP) {
-                    void submitQualification(answers);
+                    setHandleError(null);
+                    setHandle(readLeadHandle());
+                    submitQualification(answers)
+                      .then(setHandle)
+                      .catch(() => {
+                        setHandleError(
+                          "We couldn't save your answers. Please check your connection and try again.",
+                        );
+                      });
                     setStep(PAY_STEP);
                   } else {
                     goNext();
@@ -506,11 +526,86 @@ function ReviewStep({
   );
 }
 
+type PayState = "idle" | "starting" | "open" | "verifying" | "paid" | "error";
+
 function PaymentStep({
   headingRef,
+  handle,
+  handleError,
 }: {
   headingRef: React.MutableRefObject<HTMLHeadingElement | null>;
+  handle: LeadHandle | null;
+  handleError: string | null;
 }) {
+  const [state, setState] = useState<PayState>("idle");
+  const [message, setMessage] = useState<string | null>(null);
+
+  const pay = useCallback(async () => {
+    if (!handle) return;
+    setMessage(null);
+    setState("starting");
+    try {
+      const order = await createStrategyCallOrder({ data: handle });
+      await loadRazorpayCheckout();
+      setState("open");
+
+      openRazorpayCheckout({
+        key: order.keyId,
+        order_id: order.orderId,
+        amount: order.amountPaise,
+        currency: order.currency,
+        name: "Growth Multiplier AI",
+        description: "₹9 Strategy Call reservation",
+        prefill: order.prefill,
+        theme: { color: "#83E24E" },
+        handler: (response) => {
+          setState("verifying");
+          void (async () => {
+            // The browser saying "success" proves nothing. The server checks
+            // the signature before anything is unlocked.
+            const result = await verifyStrategyCallPayment({
+              data: {
+                ...handle,
+                orderId: response.razorpay_order_id,
+                paymentId: response.razorpay_payment_id,
+                signature: response.razorpay_signature,
+              },
+            });
+            if (result.bookingUnlocked) {
+              setState("paid");
+            } else {
+              setState("error");
+              setMessage(
+                "We couldn't confirm this payment yet. If money left your account, it will confirm automatically within a few minutes.",
+              );
+            }
+          })().catch(() => {
+            setState("error");
+            setMessage("We couldn't confirm this payment. Please contact us before retrying.");
+          });
+        },
+        modal: {
+          ondismiss: () => {
+            setState("idle");
+            void recordStrategyCallOutcome({
+              data: {
+                ...handle,
+                orderId: order.orderId,
+                outcome: "payment_cancelled",
+                reason: "Checkout dismissed",
+              },
+            });
+          },
+        },
+      });
+    } catch (error) {
+      setState("error");
+      setMessage(error instanceof Error ? error.message : "Something went wrong. Try again.");
+    }
+  }, [handle]);
+
+  const busy = state === "starting" || state === "open" || state === "verifying";
+
   return (
     <div>
       <h2
@@ -518,7 +613,7 @@ function PaymentStep({
         tabIndex={-1}
         className="text-[19px] leading-snug font-semibold text-fg outline-none"
       >
-        Reserve your strategy session
+        {state === "paid" ? "Payment confirmed" : "Reserve your strategy session"}
       </h2>
 
       <div className="mt-4 flex items-center justify-between gap-4 rounded-[10px] border border-border bg-surface-2 p-[14px]">
@@ -530,28 +625,48 @@ function PaymentStep({
         ₹9 isn't the price of the strategy. It's a small commitment to reserve your session.
       </p>
 
-      <div className="mt-4 rounded-[12px] border border-dashed border-border-strong bg-surface-2 p-8 text-center">
-        <Lock size={22} className="mx-auto text-muted-2" aria-hidden="true" />
-        <p className="mt-3 text-[14px] text-muted">Razorpay checkout will render here</p>
-        <p className="mt-1 text-[12px] text-muted-2">
-          Payments are not connected yet — nothing will be charged.
-        </p>
-      </div>
+      {state === "paid" ? (
+        <div className="mt-4 rounded-[12px] border border-lime bg-[rgba(131,226,78,0.08)] p-6 text-center">
+          <Check size={22} className="mx-auto text-lime" aria-hidden="true" />
+          <p className="mt-3 text-[14.5px] text-fg">
+            Your ₹9 payment is verified and your session is reserved.
+          </p>
+          <p className="mt-1 text-[12.5px] text-muted">
+            Slot selection opens next — you'll also get an email confirmation.
+          </p>
+        </div>
+      ) : (
+        <>
+          <button
+            type="button"
+            onClick={() => void pay()}
+            disabled={busy || !handle}
+            className={`btn-primary mt-5 w-full ${busy || !handle ? "cursor-not-allowed opacity-60" : ""}`}
+          >
+            {state === "verifying"
+              ? "Confirming your payment…"
+              : busy
+                ? "Opening secure checkout…"
+                : "Pay ₹9 and choose my slot →"}
+          </button>
+          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[11.5px] text-muted-2">
+            <Lock size={12} aria-hidden="true" /> Secure payment. Your card details never touch
+            this site.
+          </p>
+        </>
+      )}
 
-      <button
-        type="button"
-        disabled
-        className="btn-primary mt-5 w-full cursor-not-allowed opacity-60"
-      >
-        Pay ₹9 and choose my slot →
-      </button>
-      <p className="mt-2 text-center text-[11.5px] text-muted-2">
-        Placeholder — no payment is processed on this page.
-      </p>
+      {(message ?? handleError) && (
+        <p className="mt-3 flex items-start gap-1.5 text-[13px] text-urgent" role="alert">
+          <AlertCircle size={15} className="mt-[1px] shrink-0" aria-hidden="true" />
+          <span>{message ?? handleError}</span>
+        </p>
+      )}
 
       <div className="mt-6 flex flex-col gap-2">
         <p className="flex items-center gap-2 text-[13px] text-muted-2">
-          <Calendar size={15} aria-hidden="true" /> Next: choose your slot (Calendly)
+          <Calendar size={15} aria-hidden="true" />{" "}
+          {state === "paid" ? "Next: choose your slot" : "After payment: choose your slot"}
         </p>
         <p className="flex items-center gap-2 text-[13px] text-muted-2">
           <MessageCircle size={15} aria-hidden="true" /> Then: join the WhatsApp community

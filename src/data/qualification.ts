@@ -177,12 +177,17 @@ export function validateAnswer(question: Question, value: string): string | null
 
 export const LEAD_HANDLE_KEY = "gma-lead-handle";
 
+export interface LeadHandle {
+  leadId: string;
+  accessToken: string;
+}
+
 /**
  * THE ONE PLACE THE BACKEND IS WIRED.
- * Stores the qualified lead server-side and keeps an opaque handle in the
- * browser so payment and booking can be attached to it later.
+ * Stores the qualified lead server-side and returns an opaque handle that
+ * payment and booking are attached to. The handle carries no payment state.
  */
-export async function submitQualification(answers: QualificationAnswers): Promise<void> {
+export async function submitQualification(answers: QualificationAnswers): Promise<LeadHandle> {
   const handle = await submitLead({
     data: {
       ...answers,
@@ -191,5 +196,16 @@ export async function submitQualification(answers: QualificationAnswers): Promis
   });
   if (typeof window !== "undefined") {
     sessionStorage.setItem(LEAD_HANDLE_KEY, JSON.stringify(handle));
+  }
+  return handle;
+}
+
+export function readLeadHandle(): LeadHandle | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = sessionStorage.getItem(LEAD_HANDLE_KEY);
+    return raw ? (JSON.parse(raw) as LeadHandle) : null;
+  } catch {
+    return null;
   }
 }
