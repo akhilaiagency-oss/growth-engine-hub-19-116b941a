@@ -117,6 +117,7 @@ export type Database = {
           notes: string | null
           revoked_at: string | null
           updated_at: string
+          whatsapp_access_enabled_at: string | null
           whatsapp_invite_url: string | null
           whatsapp_phone: string | null
           whatsapp_status: Database["public"]["Enums"]["strategy_call_whatsapp_status"]
@@ -130,6 +131,7 @@ export type Database = {
           notes?: string | null
           revoked_at?: string | null
           updated_at?: string
+          whatsapp_access_enabled_at?: string | null
           whatsapp_invite_url?: string | null
           whatsapp_phone?: string | null
           whatsapp_status?: Database["public"]["Enums"]["strategy_call_whatsapp_status"]
@@ -143,6 +145,7 @@ export type Database = {
           notes?: string | null
           revoked_at?: string | null
           updated_at?: string
+          whatsapp_access_enabled_at?: string | null
           whatsapp_invite_url?: string | null
           whatsapp_phone?: string | null
           whatsapp_status?: Database["public"]["Enums"]["strategy_call_whatsapp_status"]
@@ -376,6 +379,7 @@ export type Database = {
         | "invited"
         | "joined"
         | "revoked"
+        | "enabled"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -538,6 +542,7 @@ export const Constants = {
         "invited",
         "joined",
         "revoked",
+        "enabled",
       ],
     },
   },

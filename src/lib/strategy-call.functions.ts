@@ -8,6 +8,7 @@ import {
   verifyCheckoutPayment,
 } from "./strategy-call-payments.server";
 import { getBookingAccess, verifyCalendlyBooking } from "./strategy-call-booking.server";
+import { claimWhatsappAccess } from "./whatsapp-access.server";
 
 
 const leadSchema = z.object({
@@ -91,3 +92,11 @@ export const getStrategyCallBooking = createServerFn({ method: "POST" })
 export const verifyStrategyCallBooking = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
   .handler(async ({ data }) => verifyCalendlyBooking(data.leadId, data.accessToken));
+
+/**
+ * Returns the WhatsApp community URL only for a lead with a verified payment
+ * AND a confirmed booking. The URL never appears in any page payload.
+ */
+export const claimWhatsappCommunityAccess = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => claimWhatsappAccess(data.leadId, data.accessToken));

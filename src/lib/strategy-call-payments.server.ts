@@ -186,18 +186,14 @@ async function markPaid(input: {
 
   await db.from("strategy_call_leads").update({ stage: "paid" }).eq("id", payment.lead_id);
 
-  // Booking becomes reachable, and community access is granted.
+  // Booking becomes reachable. Community access stays locked until a booking
+  // is confirmed against the Calendly API — payment alone never grants it.
   await db
     .from("strategy_call_bookings")
     .upsert(
       { lead_id: payment.lead_id, payment_id: payment.id, status: "pending" },
       { onConflict: "lead_id", ignoreDuplicates: true },
     );
-  await db
-    .from("strategy_call_entitlements")
-    .update({ whatsapp_status: "invited", invited_at: new Date().toISOString() })
-    .eq("lead_id", payment.lead_id)
-    .eq("whatsapp_status", "not_granted");
 
   return payment.lead_id;
 }

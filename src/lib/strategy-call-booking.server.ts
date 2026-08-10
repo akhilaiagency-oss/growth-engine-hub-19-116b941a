@@ -18,6 +18,7 @@ import {
   listScheduledEvents,
   sameEmail,
 } from "./calendly.server";
+import { getWhatsappCommunityUrl } from "./whatsapp-access.server";
 
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -42,6 +43,8 @@ export interface BookingAccess {
     eventUuid: string | null;
   } | null;
   whatsappStatus: string;
+  /** Boolean gate only — the community URL never travels in this payload. */
+  whatsappUnlocked: boolean;
 }
 
 async function loadLead(leadId: string, accessToken: string) {
@@ -85,6 +88,7 @@ export async function getBookingAccess(
     prefill: null,
     booking: null,
     whatsappStatus: "not_granted",
+    whatsappUnlocked: false,
   };
 
   const lead = await loadLead(leadId, accessToken);
@@ -141,6 +145,9 @@ export async function getBookingAccess(
         }
       : null,
     whatsappStatus: entitlement?.whatsapp_status ?? "not_granted",
+    whatsappUnlocked:
+      Boolean(booking && CONFIRMED_STATUSES.includes(booking.status as (typeof CONFIRMED_STATUSES)[number])) &&
+      Boolean(getWhatsappCommunityUrl()),
   };
 }
 
@@ -239,9 +246,9 @@ export async function verifyCalendlyBooking(
     // WhatsApp access is unlocked here and nowhere else on the client path.
     await db
       .from("strategy_call_entitlements")
-      .update({ whatsapp_status: "invited", invited_at: now })
+      .update({ whatsapp_status: "enabled", whatsapp_access_enabled_at: now, revoked_at: null })
       .eq("lead_id", lead.id)
-      .in("whatsapp_status", ["not_granted", "revoked"]);
+      .in("whatsapp_status", ["not_granted", "invited", "revoked"]);
 
     return {
       status: "confirmed",
@@ -301,6 +308,13 @@ export async function reconcileCalendlyBookings(limit = 200): Promise<ReconcileS
 
     // Payment stays valid, so the lead drops back to `paid` and can rebook.
     await db.from("strategy_call_leads").update({ stage: "paid" }).eq("id", booking.lead_id);
+
+    // Community access is revoked until a new booking is confirmed.
+    await db
+      .from("strategy_call_entitlements")
+      .update({ whatsapp_status: "revoked", revoked_at: new Date().toISOString() })
+      .eq("lead_id", booking.lead_id)
+      .in("whatsapp_status", ["enabled", "invited", "joined"]);
     cancelled += 1;
   }
 
