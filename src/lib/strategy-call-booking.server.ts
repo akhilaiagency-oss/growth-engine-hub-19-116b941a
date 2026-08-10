@@ -39,6 +39,7 @@ export interface BookingAccess {
     rescheduleUrl: string | null;
     cancelUrl: string | null;
     timezone: string | null;
+    eventUuid: string | null;
   } | null;
   whatsappStatus: string;
 }
@@ -98,7 +99,7 @@ export async function getBookingAccess(
     db
       .from("strategy_call_bookings")
       .select(
-        "status, scheduled_at, calendly_event_name, join_url, calendly_reschedule_url, calendly_cancel_url, timezone",
+        "status, scheduled_at, calendly_event_name, calendly_event_uuid, join_url, calendly_reschedule_url, calendly_cancel_url, timezone",
       )
       .eq("lead_id", lead.id)
       .maybeSingle(),
@@ -136,6 +137,7 @@ export async function getBookingAccess(
           rescheduleUrl: booking.calendly_reschedule_url,
           cancelUrl: booking.calendly_cancel_url,
           timezone: booking.timezone,
+          eventUuid: booking.calendly_event_uuid,
         }
       : null,
     whatsappStatus: entitlement?.whatsapp_status ?? "not_granted",
@@ -167,15 +169,37 @@ export async function verifyCalendlyBooking(
 
   if (!isCalendlyApiConfigured()) return { status: "not_configured", booking: null };
 
-  const minStartTime = payment.verified_at ?? payment.paid_at ?? null;
+  const paidAtRaw = payment.verified_at ?? payment.paid_at ?? null;
+  const paidAtMs = paidAtRaw ? new Date(paidAtRaw).getTime() : null;
+
+  // `min_start_time` filters on when an event STARTS, so it is only a coarse
+  // pre-filter that drops past events. `created_at` is the authoritative gate.
   const events = await listScheduledEvents({
     inviteeEmail: lead.email,
-    minStartTime: minStartTime ? new Date(minStartTime).toISOString() : null,
+    minStartTime: paidAtRaw ? new Date(paidAtRaw).toISOString() : null,
     status: "active",
   });
 
   for (const event of events) {
+    // The booking step is gated behind payment, so a legitimate booking for
+    // this payment can only have been created after the payment was verified.
+    // An older event belongs to an earlier session and must never be claimed.
+    if (paidAtMs !== null) {
+      if (!event.created_at) continue;
+      if (new Date(event.created_at).getTime() <= paidAtMs) continue;
+    }
+
     const uuid = eventUuid(event.uri);
+
+    // Never let two leads claim the same Calendly event.
+    const { data: claimed } = await db
+      .from("strategy_call_bookings")
+      .select("lead_id")
+      .eq("calendly_event_uri", event.uri)
+      .neq("lead_id", lead.id)
+      .maybeSingle();
+    if (claimed) continue;
+
     const invitees = await listEventInvitees(uuid);
     // Exact email match only — never claim someone else's booking.
     const invitee = invitees.find(
@@ -229,6 +253,7 @@ export async function verifyCalendlyBooking(
         rescheduleUrl: invitee.reschedule_url ?? null,
         cancelUrl: invitee.cancel_url ?? null,
         timezone: invitee.timezone ?? null,
+        eventUuid: uuid,
       },
     };
   }
