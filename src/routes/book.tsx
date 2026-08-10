@@ -12,7 +12,10 @@ import {
 } from "lucide-react";
 import logo from "@/assets/growth-multiplier-ai-logo.png";
 import { readLeadHandle, type LeadHandle } from "@/data/qualification";
-import { getStrategyCallBooking } from "@/lib/strategy-call.functions";
+import {
+  getStrategyCallBooking,
+  verifyStrategyCallBooking,
+} from "@/lib/strategy-call.functions";
 
 const TITLE = "Book Your Strategy Session — Growth Multiplier AI";
 const DESCRIPTION =
@@ -77,7 +80,10 @@ function BookPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
+  const [unconfirmed, setUnconfirmed] = useState(false);
+  const [checking, setChecking] = useState(false);
   const pollRef = useRef<number | null>(null);
+  const handleRef = useRef<LeadHandle | null>(null);
 
   const load = useCallback(async (h: LeadHandle) => {
     try {
@@ -96,47 +102,100 @@ function BookPage() {
   useEffect(() => {
     const h = readLeadHandle();
     setHandle(h);
+    handleRef.current = h;
     if (!h) {
       setLoading(false);
       return;
     }
-    void load(h);
+    void (async () => {
+      const result = await load(h);
+      const status = result?.booking?.status;
+      const settled = status === "confirmed" || status === "scheduled" || status === "rescheduled";
+      // Returning visitors get resolved without touching the embed again.
+      if (result?.unlocked && !settled) {
+        const ok = await verifyStrategyCallBooking({ data: h })
+          .then((r) => r.status === "confirmed")
+          .catch(() => false);
+        if (ok) await load(h);
+      }
+    })();
   }, [load]);
 
   // Calendly tells the browser a slot was picked — that is only a hint.
-  // The booking is not BOOKED until our webhook confirms it server-side.
+  // Nothing is written from the client; the server asks the Calendly API.
+  const runVerification = useCallback(
+    async (h: LeadHandle) => {
+      try {
+        const result = await verifyStrategyCallBooking({ data: h });
+        if (result.status === "confirmed") {
+          await load(h);
+          return true;
+        }
+      } catch {
+        /* verification is best-effort; the next attempt or refresh resolves it */
+      }
+      return false;
+    },
+    [load],
+  );
+
+  // Bounded backoff: 2s, 5s, 10s, 20s, 40s. The Calendly API is rate limited.
+  const startPolling = useCallback(
+    (h: LeadHandle) => {
+      if (pollRef.current) return;
+      setAwaitingConfirmation(true);
+      setUnconfirmed(false);
+      const delays = [2000, 5000, 10000, 20000, 40000];
+      let attempt = 0;
+      const schedule = () => {
+        pollRef.current = window.setTimeout(() => {
+          void (async () => {
+            pollRef.current = null;
+            const ok = await runVerification(h);
+            attempt += 1;
+            if (ok) {
+              setAwaitingConfirmation(false);
+              return;
+            }
+            if (attempt < delays.length) {
+              schedule();
+            } else {
+              setAwaitingConfirmation(false);
+              setUnconfirmed(true);
+            }
+          })();
+        }, delays[attempt]);
+      };
+      schedule();
+    },
+    [runVerification],
+  );
+
   useEffect(() => {
     const onMessage = (event: MessageEvent) => {
       if (typeof event.origin !== "string" || !event.origin.includes("calendly.com")) return;
       const data = event.data as { event?: string } | null;
-      if (data?.event === "calendly.event_scheduled") setAwaitingConfirmation(true);
+      if (data?.event === "calendly.event_scheduled" && handleRef.current) {
+        startPolling(handleRef.current);
+      }
     };
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
-  }, []);
+  }, [startPolling]);
 
-  useEffect(() => {
-    if (!awaitingConfirmation || !handle) return;
-    let attempts = 0;
-    const tick = async () => {
-      attempts += 1;
-      const result = await load(handle);
-      if (result?.booking && result.booking.status !== "pending") {
-        setAwaitingConfirmation(false);
-        if (pollRef.current) window.clearInterval(pollRef.current);
-      } else if (attempts >= 20 && pollRef.current) {
-        window.clearInterval(pollRef.current);
-      }
-    };
-    pollRef.current = window.setInterval(() => void tick(), 4000);
-    return () => {
-      if (pollRef.current) window.clearInterval(pollRef.current);
-    };
-  }, [awaitingConfirmation, handle, load]);
+  useEffect(
+    () => () => {
+      if (pollRef.current) window.clearTimeout(pollRef.current);
+    },
+    [],
+  );
 
   const booking = access?.booking ?? null;
   const confirmed =
-    booking !== null && (booking.status === "scheduled" || booking.status === "rescheduled");
+    booking !== null &&
+    (booking.status === "confirmed" ||
+      booking.status === "scheduled" ||
+      booking.status === "rescheduled");
   const cancelled = booking?.status === "cancelled";
 
   useCalendlyWidget(
@@ -191,8 +250,34 @@ function BookPage() {
             {awaitingConfirmation && (
               <p className="mt-4 flex items-center gap-2 rounded-[10px] border border-lime/40 bg-[rgba(131,226,78,0.08)] p-3 text-[13.5px] text-fg">
                 <Loader2 size={15} className="animate-spin text-lime" aria-hidden="true" />
-                Waiting for the calendar to confirm your slot…
+                Confirming your booking…
               </p>
+            )}
+
+            {unconfirmed && (
+              <div className="mt-4 rounded-[10px] border border-border bg-surface-2 p-3">
+                <p className="text-[13.5px] leading-relaxed text-fg">
+                  Your slot looks booked — we're just confirming it with Calendly. This page will
+                  update, or refresh in a minute.
+                </p>
+                <button
+                  type="button"
+                  disabled={checking}
+                  onClick={() => {
+                    if (!handle) return;
+                    setChecking(true);
+                    void (async () => {
+                      const ok = await runVerification(handle);
+                      if (ok) setUnconfirmed(false);
+                      setChecking(false);
+                    })();
+                  }}
+                  className="mt-2 flex items-center gap-1.5 text-[13px] text-lime transition-opacity hover:opacity-80 disabled:opacity-50"
+                >
+                  <RefreshCw size={13} aria-hidden="true" />
+                  {checking ? "Checking…" : "Check again"}
+                </button>
+              </div>
             )}
 
             {access.configured && access.schedulingUrl ? (
