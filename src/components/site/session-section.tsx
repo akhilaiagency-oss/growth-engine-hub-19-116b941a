@@ -71,7 +71,7 @@ export function SessionSection() {
                     i < AGENDA.length - 1 ? "border-b border-border" : ""
                   }`}
                 >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] border border-border bg-surface-2 text-[11px] font-bold text-lime">
+                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] border border-border bg-surface-2 text-[12px] font-bold text-lime md:text-[11px]">
                     {a.n}
                   </span>
                   <div>
@@ -89,7 +89,7 @@ export function SessionSection() {
             <div className="p-7">
               <div className="flex items-baseline gap-3">
                 <span className="text-[30px] font-bold text-fg">₹9</span>
-                <span className="text-[12.5px] text-muted">reserves your session</span>
+                <span className="text-[13px] text-muted md:text-[12.5px]">reserves your session</span>
               </div>
 
               <div className="my-6 h-px w-full bg-border" />
@@ -104,7 +104,7 @@ export function SessionSection() {
                 having looked at your business rather than running a generic call.
               </p>
 
-              <p className="mt-7 text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-2">
+              <p className="mt-7 text-[12px] font-semibold uppercase md:text-[11px] tracking-[0.14em] text-muted-2">
                 Session details
               </p>
               <ul className="mt-3 space-y-2.5">
@@ -119,7 +119,7 @@ export function SessionSection() {
               <div className="mt-7">
                 <BookCta fullWidth />
               </div>
-              <p className="mt-3 text-center text-[11.5px] text-muted-2">
+              <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
             </div>

@@ -100,6 +100,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 96px;
+    overflow-x: hidden;
   }
 
   body {
@@ -107,6 +108,7 @@
     color: var(--fg);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
   :focus-visible {
@@ -140,11 +142,14 @@
 
 @utility eyebrow {
   display: inline-block;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--lime);
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 }
 
 @utility eyebrow-pill {
@@ -155,11 +160,14 @@
   border: 1px solid var(--border-strong);
   background: rgba(131, 226, 78, 0.06);
   padding: 7px 14px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--lime);
+  @media (min-width: 768px) {
+    font-size: 11px;
+  }
 }
 
 @utility h2-section {
@@ -223,11 +231,16 @@
 }
 
 @utility reveal {
+  /* Mobile: opacity-only fade — no translate (cheaper on low-end devices). */
   opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 400ms ease-out,
-    transform 400ms ease-out;
+  transform: none;
+  transition: opacity 250ms ease-out;
+  @media (min-width: 768px) {
+    transform: translateY(12px);
+    transition:
+      opacity 400ms ease-out,
+      transform 400ms ease-out;
+  }
 }
 
 @utility reveal-in {

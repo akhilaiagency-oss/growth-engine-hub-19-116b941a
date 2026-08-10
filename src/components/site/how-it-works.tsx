@@ -40,7 +40,7 @@ export function HowItWorks() {
               <span className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-lime text-[13px] font-bold text-lime-ink">
                 {s.n}
               </span>
-              <p className="mt-4 text-[11px] font-semibold tracking-[0.16em] text-lime uppercase">
+              <p className="mt-4 text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-lime uppercase">
                 {s.tag}
               </p>
               <h3 className="mt-2 text-[17px] font-bold tracking-[-0.01em] text-fg">{s.title}</h3>

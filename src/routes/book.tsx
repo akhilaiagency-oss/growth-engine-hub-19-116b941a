@@ -234,7 +234,7 @@ function BookPage() {
           </Link>
           <Link
             to="/"
-            className="flex items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-fg"
+            className="-mr-2 flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13.5px] text-muted transition-colors hover:text-fg"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to site
           </Link>
@@ -274,7 +274,7 @@ function BookPage() {
             )}
 
             {awaitingConfirmation && (
-              <p className="mt-4 flex items-center gap-2 rounded-[10px] border border-lime/40 bg-[rgba(131,226,78,0.08)] p-3 text-[13.5px] text-fg">
+              <p className="sticky top-2 z-20 mt-4 flex items-center gap-2 rounded-[10px] border border-lime/40 backdrop-blur-md sm:static bg-[rgba(131,226,78,0.08)] p-3 text-[13.5px] text-fg">
                 <Loader2 size={15} className="animate-spin text-lime" aria-hidden="true" />
                 Confirming your booking…
               </p>
@@ -298,7 +298,7 @@ function BookPage() {
                       setChecking(false);
                     })();
                   }}
-                  className="mt-2 flex items-center gap-1.5 text-[13px] text-lime transition-opacity hover:opacity-80 disabled:opacity-50"
+                  className="mt-1 -ml-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13.5px] text-lime transition-opacity hover:opacity-80 disabled:opacity-50"
                 >
                   <RefreshCw size={13} aria-hidden="true" />
                   {checking ? "Checking…" : "Check again"}
@@ -309,7 +309,7 @@ function BookPage() {
             {access.configured && access.schedulingUrl ? (
               <div
                 id="calendly-inline"
-                className="mt-6 h-[1100px] w-full overflow-hidden rounded-[12px] border border-border bg-surface sm:h-[780px]"
+                className="mt-6 h-[1100px] w-full max-w-full overflow-x-hidden overflow-y-hidden rounded-[12px] border border-border bg-surface sm:h-[780px]"
               />
             ) : (
               <div className="mt-6 rounded-[12px] border border-dashed border-border-strong bg-surface p-8 text-center">
@@ -324,7 +324,7 @@ function BookPage() {
             <button
               type="button"
               onClick={() => handle && void load(handle)}
-              className="mt-4 flex items-center gap-1.5 text-[13px] text-muted transition-colors hover:text-fg"
+              className="mt-4 -ml-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13.5px] text-muted transition-colors hover:text-fg"
             >
               <RefreshCw size={13} aria-hidden="true" /> Refresh booking status
             </button>
