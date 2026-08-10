@@ -705,7 +705,7 @@ function PaymentStep({
           <p className="mt-1 text-[12px] leading-relaxed text-muted">
             In your Razorpay test dashboard, point this webhook URL to this app:
           </p>
-          <code className="mt-2 block break-all rounded-[6px] bg-[#070B14] px-3 py-2 text-[12px] font-mono text-amber-200">
+          <code className="mt-2 block break-all rounded-[6px] bg-bg px-3 py-2 text-[12px] font-mono text-amber-soft">
             https://growth-engine-hub-19.lovable.app/api/public/webhooks/razorpay
           </code>
           <p className="mt-2 text-[12px] text-muted">
