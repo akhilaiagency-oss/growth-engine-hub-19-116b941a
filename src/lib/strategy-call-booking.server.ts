@@ -169,15 +169,37 @@ export async function verifyCalendlyBooking(
 
   if (!isCalendlyApiConfigured()) return { status: "not_configured", booking: null };
 
-  const minStartTime = payment.verified_at ?? payment.paid_at ?? null;
+  const paidAtRaw = payment.verified_at ?? payment.paid_at ?? null;
+  const paidAtMs = paidAtRaw ? new Date(paidAtRaw).getTime() : null;
+
+  // `min_start_time` filters on when an event STARTS, so it is only a coarse
+  // pre-filter that drops past events. `created_at` is the authoritative gate.
   const events = await listScheduledEvents({
     inviteeEmail: lead.email,
-    minStartTime: minStartTime ? new Date(minStartTime).toISOString() : null,
+    minStartTime: paidAtRaw ? new Date(paidAtRaw).toISOString() : null,
     status: "active",
   });
 
   for (const event of events) {
+    // The booking step is gated behind payment, so a legitimate booking for
+    // this payment can only have been created after the payment was verified.
+    // An older event belongs to an earlier session and must never be claimed.
+    if (paidAtMs !== null) {
+      if (!event.created_at) continue;
+      if (new Date(event.created_at).getTime() <= paidAtMs) continue;
+    }
+
     const uuid = eventUuid(event.uri);
+
+    // Never let two leads claim the same Calendly event.
+    const { data: claimed } = await db
+      .from("strategy_call_bookings")
+      .select("lead_id")
+      .eq("calendly_event_uri", event.uri)
+      .neq("lead_id", lead.id)
+      .maybeSingle();
+    if (claimed) continue;
+
     const invitees = await listEventInvitees(uuid);
     // Exact email match only — never claim someone else's booking.
     const invitee = invitees.find(
@@ -231,6 +253,7 @@ export async function verifyCalendlyBooking(
         rescheduleUrl: invitee.reschedule_url ?? null,
         cancelUrl: invitee.cancel_url ?? null,
         timezone: invitee.timezone ?? null,
+        eventUuid: uuid,
       },
     };
   }
