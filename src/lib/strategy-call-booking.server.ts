@@ -99,7 +99,7 @@ export async function getBookingAccess(
     db
       .from("strategy_call_bookings")
       .select(
-        "status, scheduled_at, calendly_event_name, join_url, calendly_reschedule_url, calendly_cancel_url, timezone",
+        "status, scheduled_at, calendly_event_name, calendly_event_uuid, join_url, calendly_reschedule_url, calendly_cancel_url, timezone",
       )
       .eq("lead_id", lead.id)
       .maybeSingle(),
