@@ -144,6 +144,9 @@ export async function getBookingAccess(
         }
       : null,
     whatsappStatus: entitlement?.whatsapp_status ?? "not_granted",
+    whatsappUnlocked:
+      Boolean(booking && CONFIRMED_STATUSES.includes(booking.status as (typeof CONFIRMED_STATUSES)[number])) &&
+      Boolean(getWhatsappCommunityUrl()),
   };
 }
 
