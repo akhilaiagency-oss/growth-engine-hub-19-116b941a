@@ -40,6 +40,12 @@ const outcomeSchema = handleSchema.extend({
   reason: z.string().trim().max(300).optional(),
 });
 
+/** Optional, UNTRUSTED hints from the Calendly embed. Validated server-side. */
+const verifyBookingSchema = handleSchema.extend({
+  eventUri: z.string().trim().max(300).optional(),
+  inviteeUri: z.string().trim().max(300).optional(),
+});
+
 /** Public: stores a qualified lead. No secrets ever reach the browser. */
 export const submitLead = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => leadSchema.parse(input))
