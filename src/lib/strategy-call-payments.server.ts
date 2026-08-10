@@ -83,6 +83,7 @@ export async function startPayment(
       amountPaise: paid.amount_paise,
       currency: paid.currency,
       keyId,
+      mode,
       prefill,
     };
   }
