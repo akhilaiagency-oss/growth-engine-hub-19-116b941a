@@ -42,6 +42,8 @@ export interface BookingAccess {
     eventUuid: string | null;
   } | null;
   whatsappStatus: string;
+  /** Boolean gate only — the community URL never travels in this payload. */
+  whatsappUnlocked: boolean;
 }
 
 async function loadLead(leadId: string, accessToken: string) {
