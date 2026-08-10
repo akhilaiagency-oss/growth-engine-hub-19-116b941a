@@ -90,6 +90,32 @@ export function eventUuid(eventUri: string): string {
   return eventUri.split("/").filter(Boolean).pop() ?? eventUri;
 }
 
+const UUID_RE = /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
+/**
+ * Safely extract the UUID from an UNTRUSTED `scheduled_events/<uuid>` URI.
+ * Anything that isn't a well-formed Calendly HTTPS URL with a UUID last
+ * segment returns null — the value is never concatenated into a request path
+ * without passing this gate.
+ */
+export function parseScheduledEventUuid(raw: string | null | undefined): string | null {
+  if (!raw || typeof raw !== "string" || raw.length > 300) return null;
+  let url: URL;
+  try {
+    url = new URL(raw.trim());
+  } catch {
+    return null;
+  }
+  if (url.protocol !== "https:" || url.hostname !== "api.calendly.com") return null;
+  const parts = url.pathname.split("/").filter(Boolean);
+  // Accept /scheduled_events/<uuid> and /scheduled_events/<uuid>/invitees/<uuid>
+  if (parts[0] !== "scheduled_events") return null;
+  const uuid = parts[1];
+  if (!uuid || !UUID_RE.test(uuid)) return null;
+  return uuid.toLowerCase();
+}
+
+
 /** Active scheduled events for this invitee email, starting after `minStartTime`. */
 export async function listScheduledEvents(input: {
   inviteeEmail: string;

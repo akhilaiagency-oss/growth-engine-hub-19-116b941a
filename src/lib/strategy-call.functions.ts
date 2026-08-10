@@ -40,6 +40,12 @@ const outcomeSchema = handleSchema.extend({
   reason: z.string().trim().max(300).optional(),
 });
 
+/** Optional, UNTRUSTED hints from the Calendly embed. Validated server-side. */
+const verifyBookingSchema = handleSchema.extend({
+  eventUri: z.string().trim().max(300).optional(),
+  inviteeUri: z.string().trim().max(300).optional(),
+});
+
 /** Public: stores a qualified lead. No secrets ever reach the browser. */
 export const submitLead = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => leadSchema.parse(input))
@@ -90,8 +96,13 @@ export const getStrategyCallBooking = createServerFn({ method: "POST" })
  * booking confirmed, and it requires a server-verified payment first.
  */
 export const verifyStrategyCallBooking = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => handleSchema.parse(input))
-  .handler(async ({ data }) => verifyCalendlyBooking(data.leadId, data.accessToken));
+  .inputValidator((input: unknown) => verifyBookingSchema.parse(input))
+  .handler(async ({ data }) =>
+    verifyCalendlyBooking(data.leadId, data.accessToken, {
+      eventUri: data.eventUri ?? null,
+      inviteeUri: data.inviteeUri ?? null,
+    }),
+  );
 
 /**
  * Returns the WhatsApp community URL only for a lead with a verified payment
