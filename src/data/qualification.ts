@@ -1,3 +1,5 @@
+import { submitLead } from "@/lib/strategy-call.functions";
+
 export interface QualificationAnswers {
   name: string;
   email: string;
