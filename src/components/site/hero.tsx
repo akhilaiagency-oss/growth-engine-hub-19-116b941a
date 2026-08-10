@@ -37,7 +37,8 @@ export function Hero() {
         </div>
 
         <p className="mt-4 text-[12.5px] text-muted-2">
-          30–45 minutes, 1-on-1 with the founder · You keep the plan either way
+          30–45 minutes, 1-on-1 with Akhil · You keep the funnel plan whether or not we work
+          together
         </p>
       </div>
     </section>

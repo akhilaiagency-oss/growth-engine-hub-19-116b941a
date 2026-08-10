@@ -4,18 +4,18 @@ import { Reveal } from "./reveal";
 const CARDS = [
   {
     Icon: Timer,
-    title: "Interest has a shelf life",
-    body: "Your budget buys the click. What happens in the next few minutes decides whether it turns into anything — and in most businesses, nobody owns those minutes.",
+    title: "The reply arrives after the interest has gone",
+    body: "A buyer is never more interested than in the first few minutes. When follow-up depends on someone noticing a notification, that window closes before anybody acts on it.",
   },
   {
     Icon: Unplug,
-    title: "Every part works. The joins don't.",
-    body: "Ads in one platform, a form in another, a CRM nobody updates, WhatsApp on somebody's personal phone. No single piece is broken — the handoffs between them are.",
+    title: "Your tools work. The handoffs don't.",
+    body: "Ads in one platform, the form in another, a CRM nobody updates, WhatsApp on a personal phone. Every piece works on its own. Opportunities fall through the gaps between them.",
   },
   {
     Icon: CalendarX,
-    title: "The dashboard says yes, the calendar says no",
-    body: "Lead volume looks healthy right up until you check who's actually booked. Without a filter early on, the cost of unqualified leads lands on your sales time instead of your ad spend.",
+    title: "You're counting leads, not opportunities",
+    body: "Lead volume looks healthy right until you check the calendar. With no qualification early on, an unqualified enquiry gets paid for twice — once in ad spend, again in your team's time.",
   },
 ];
 
@@ -26,11 +26,13 @@ export function ProblemSection() {
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">The acquisition problem</span>
           <h2 className="h2-section mt-4">
-            Buying attention is the easy half. Keeping hold of it is where the money goes.
+            Your ads are generating attention. The opportunities are disappearing between the click
+            and the sale.
           </h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
-            Most businesses can get a stranger to click. What breaks is everything between that
-            click and a confirmed appointment — and it usually breaks in three places at once.
+            Attention is the part you can buy. Everything after it — the page, the filter, the
+            reply, the booking — decides whether that spend becomes revenue. In most businesses it
+            breaks in three places at once.
           </p>
         </Reveal>
 
