@@ -395,7 +395,7 @@ function ConfirmedCard({
 
   return (
     <div className="mx-auto max-w-[620px]">
-      <div className="rounded-[16px] border border-lime/40 bg-[rgba(131,226,78,0.06)] p-8">
+      <div className="rounded-[16px] border border-lime/40 bg-[rgba(131,226,78,0.06)] p-8 pb-10">
         <span className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-lime/50 bg-[rgba(131,226,78,0.12)]">
           <Check size={20} className="text-lime" aria-hidden="true" />
         </span>
@@ -411,39 +411,6 @@ function ConfirmedCard({
         {booking.eventName && (
           <p className="mt-1 text-[13.5px] text-muted">{booking.eventName}</p>
         )}
-
-        <div className="mt-6 flex flex-wrap gap-3">
-          {booking.joinUrl && (
-            <a
-              href={booking.joinUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="btn-primary inline-flex"
-            >
-              Join link →
-            </a>
-          )}
-          {booking.rescheduleUrl && (
-            <a
-              href={booking.rescheduleUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-[10px] border border-border px-4 py-2.5 text-[13.5px] text-fg transition-colors hover:border-border-strong"
-            >
-              Reschedule
-            </a>
-          )}
-          {booking.cancelUrl && (
-            <a
-              href={booking.cancelUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="rounded-[10px] border border-border px-4 py-2.5 text-[13.5px] text-muted transition-colors hover:text-fg"
-            >
-              Cancel
-            </a>
-          )}
-        </div>
       </div>
 
       <div className="mt-5 rounded-[12px] border border-border bg-surface p-6">
