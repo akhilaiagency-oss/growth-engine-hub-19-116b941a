@@ -21,11 +21,12 @@ export function FinalCta() {
           >
             <span className="eyebrow">Get started</span>
             <h2 className="mt-4 text-[26px] leading-[1.15] font-extrabold tracking-[-0.025em] text-fg md:text-[34px]">
-              Find out which stage is costing you the most.
+              Find out where your opportunities are disappearing.
             </h2>
             <p className="mt-4 text-[16px] leading-relaxed text-muted">
-              Book the ₹9 strategy call, pick a time that works, and walk away with your acquisition
-              funnel mapped — leak by leak.
+              Book the ₹9 strategy call. We'll map your funnel stage by stage, find where the
+              drop-off is costing you the most, and you'll leave with the plan — whether or not we
+              work together.
             </p>
             <div className="mt-8">
               <BookCta />

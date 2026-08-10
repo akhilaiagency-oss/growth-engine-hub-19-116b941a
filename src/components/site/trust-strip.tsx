@@ -4,14 +4,14 @@ const ITEMS = [
   {
     Icon: UserCheck,
     title: "Direct founder access",
-    sub: "Akhil hosts every strategy call personally",
+    sub: "Akhil runs every strategy call himself",
   },
-  { Icon: ShieldCheck, title: "Secure ₹9 checkout", sub: "Payments processed via Razorpay" },
-  { Icon: HandCoins, title: "No obligation to buy", sub: "A working session, not a pitch call" },
+  { Icon: ShieldCheck, title: "Secure ₹9 checkout", sub: "Processed through Razorpay" },
+  { Icon: HandCoins, title: "A working session", sub: "You leave with a plan, not a proposal" },
   {
     Icon: Workflow,
-    title: "Systems, not one-off tactics",
-    sub: "Built to be measured end to end",
+    title: "Measurable end to end",
+    sub: "Every stage tracked, from click to closed",
   },
 ];
 

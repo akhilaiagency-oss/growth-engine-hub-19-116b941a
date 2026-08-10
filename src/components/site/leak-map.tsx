@@ -14,34 +14,34 @@ const ROWS: Row[] = [
     n: "01",
     stage: "Attract",
     pct: 100,
-    note: "Paid traffic arrives — the money is already spent by this point",
+    note: "Your budget has already been spent by this point",
   },
   {
     n: "02",
     stage: "Convert",
     pct: 72,
-    lead: "Leaks when",
-    note: "the page asks for attention it hasn't earned",
+    lead: "Lost when",
+    note: "the page doesn't make the next step obvious",
   },
   {
     n: "03",
     stage: "Qualify",
     pct: 52,
-    lead: "Leaks when",
-    note: "nothing sorts a serious buyer from a curious one",
+    lead: "Lost when",
+    note: "nothing separates a serious buyer from a browser",
   },
   {
     n: "04",
     stage: "Nurture",
     pct: 30,
-    lead: "Leaks most —",
-    note: "the reply comes hours late, or never comes",
+    lead: "The biggest loss —",
+    note: "the reply lands after interest has cooled",
   },
   {
     n: "05",
     stage: "Book",
     pct: 16,
-    note: "Whatever survives all four is what your calendar actually gets",
+    note: "What survives all four is what your sales calendar actually receives",
   },
 ];
 
@@ -53,9 +53,9 @@ export function LeakMap() {
           <span className="eyebrow">The diagnostic</span>
           <h2 className="h2-section mt-4">The Acquisition Leak Map</h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
-            Before we build anything, we find out where you're losing people. The first five stages
-            of the Engine are also the five places acquisition quietly narrows — and almost every
-            business is losing far more at one of them than at the other four combined.
+            Before we build anything, we find where you're losing people. The first five stages of
+            the Engine are also the five places acquisition quietly narrows — and almost every
+            business is losing more at one of them than at the other four combined.
           </p>
         </Reveal>
 
@@ -133,6 +133,9 @@ export function LeakMap() {
         </Reveal>
 
         <div className="mt-8 text-center">
+          <p className="mb-[14px] text-[14.5px] leading-relaxed text-muted">
+            Most owners can guess their weakest stage. Almost none can prove it.
+          </p>
           <BookCta label="Map My Funnel — Book My ₹9 Strategy Call →" />
         </div>
       </div>

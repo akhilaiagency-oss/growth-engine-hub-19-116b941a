@@ -6,19 +6,19 @@ const STEPS = [
     n: "1",
     tag: "Secure your slot",
     title: "Pay ₹9 to reserve the call",
-    body: "A small, transparent commitment fee keeps the calendar for people who are serious about fixing their acquisition. Processed securely through Razorpay.",
+    body: "A small, transparent commitment keeps the calendar for people actually working on this. Processed securely through Razorpay.",
   },
   {
     n: "2",
     tag: "Pick your time",
     title: "Choose a slot that suits you",
-    body: "Once payment is verified, you'll pick an available time on the calendar. You'll get a confirmation with the meeting link straight away.",
+    body: "Once payment clears you'll pick an available time and get the confirmation and meeting link straight away.",
   },
   {
     n: "3",
     tag: "Get connected",
     title: "Join the WhatsApp community",
-    body: "After your appointment is confirmed, you're invited into our WhatsApp community for reminders, resources and direct access before the call.",
+    body: "Once your appointment is confirmed you're invited in, for reminders, resources and direct access before we speak.",
   },
 ];
 
@@ -53,9 +53,9 @@ export function HowItWorks() {
           <h3 className="text-[17px] font-bold tracking-[-0.01em] text-fg">On the call itself</h3>
           <p className="mt-3 max-w-[860px] text-[14.5px] leading-relaxed text-muted">
             We put your real numbers against the Acquisition Leak Map, find the stage costing you
-            most, and walk through what the Growth Multiplier Engine™ looks like built around your
-            business — which stages you already have, which are missing, and the order to fix them
-            in. You keep that plan whether or not we work together afterwards.
+            the most, and work through what the Growth Multiplier Engine™ looks like built around
+            your business — which stages you already have, which are missing, and the order to fix
+            them in. You keep that plan whether or not we work together.
           </p>
         </Reveal>
 

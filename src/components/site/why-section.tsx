@@ -3,23 +3,23 @@ import { Reveal } from "./reveal";
 const ROWS = [
   {
     title: "System-first, not service-first",
-    body: "Most agencies sell you a deliverable — a page, a campaign, an automation. We build the connected system those pieces are supposed to be part of, because a great landing page attached to slow follow-up still loses.",
+    body: "Most agencies sell a deliverable: a page, a campaign, an automation. We build the connected system those pieces are supposed to belong to, because a great landing page attached to slow follow-up still loses.",
   },
   {
     title: "AI where it earns its place",
-    body: "We use it for two jobs: scoring a lead the moment it arrives, and replying before interest cools. Those are the points where software genuinely outperforms a person. Everywhere else the work is strategy and engineering — and we don't dress that up as something cleverer.",
+    body: "Two jobs: scoring an enquiry the moment it arrives, and replying before interest cools. Those are the points where software genuinely beats a person. Everywhere else the work is strategy and engineering, and we don't dress that up as something cleverer.",
   },
   {
     title: "You talk to the person doing the work",
-    body: "Akhil hosts the strategy call and stays involved in delivery. There's no handoff to a junior account manager after you sign.",
+    body: "Akhil runs the strategy call and stays involved in delivery. No handoff to a junior account manager after you sign.",
   },
   {
     title: "Measurable, or we say so",
-    body: "Every stage is tracked, and where something can't be attributed cleanly, we tell you rather than dressing it up in a report.",
+    body: "Every stage is tracked, and where something can't be attributed cleanly we tell you rather than dressing it up in a report.",
   },
   {
     title: "Honest about being early",
-    body: "We're building this in the open, which means you get direct founder attention now — and a partner with something to prove.",
+    body: "We're building this in the open. You get direct founder attention now, and a partner with something to prove.",
   },
 ];
 
