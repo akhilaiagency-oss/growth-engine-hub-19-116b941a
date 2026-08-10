@@ -92,10 +92,10 @@ export const QUESTIONS: Question[] = [
     field: "businessType",
     label: "What kind of business is this?",
     options: [
+      "Real estate",
       "Coaching or consulting",
       "Clinic or healthcare practice",
       "Professional services",
-      "B2B services or SaaS",
       "E-commerce or D2C",
       "Education or training",
       "Something else",
