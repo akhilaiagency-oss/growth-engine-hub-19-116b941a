@@ -1,24 +1,93 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { FAQS } from "@/data/faq";
+import { BookingProvider } from "@/components/site/booking-context";
+import { BookingModal } from "@/components/site/booking-modal";
+import { SiteNav } from "@/components/site/site-nav";
+import { Hero } from "@/components/site/hero";
+import { TrustStrip } from "@/components/site/trust-strip";
+import { ProblemSection } from "@/components/site/problem-section";
+import { LeakMap } from "@/components/site/leak-map";
+import { EngineSection } from "@/components/site/engine-section";
+import { Outcomes } from "@/components/site/outcomes";
+import { HowItWorks } from "@/components/site/how-it-works";
+import { ProofSection } from "@/components/site/proof-section";
+import { WhySection } from "@/components/site/why-section";
+import { FounderSection } from "@/components/site/founder-section";
+import { WhoFor } from "@/components/site/who-for";
+import { FaqSection } from "@/components/site/faq-section";
+import { FinalCta } from "@/components/site/final-cta";
+import { SiteFooter } from "@/components/site/site-footer";
+import { StickyMobileCta } from "@/components/site/sticky-mobile-cta";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "Growth Multiplier AI — Turn Ad Traffic Into Qualified Opportunities";
+const DESCRIPTION =
+  "Growth Multiplier AI connects high-converting landing pages, AI qualification, CRM, automation and follow-up into one acquisition system designed to turn traffic into qualified leads, booked appointments and measurable revenue.";
+
 export const Route = createFileRoute("/")({
   component: Index,
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: TITLE },
+      { name: "twitter:description", content: DESCRIPTION },
+    ],
+    links: [{ rel: "canonical", href: "/" }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "Growth Multiplier AI",
+          description: DESCRIPTION,
+          email: "akhil.ai.agency@gmail.com",
+          founder: { "@type": "Person", name: "Akhil Srivastava" },
+        }),
+      },
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: FAQS.map((f) => ({
+            "@type": "Question",
+            name: f.q,
+            acceptedAnswer: { "@type": "Answer", text: f.a },
+          })),
+        }),
+      },
+    ],
+  }),
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <BookingProvider>
+      <SiteNav />
+      <main>
+        <Hero />
+        <TrustStrip />
+        <ProblemSection />
+        <LeakMap />
+        <EngineSection />
+        <Outcomes />
+        <HowItWorks />
+        <ProofSection />
+        <WhySection />
+        <FounderSection />
+        <WhoFor />
+        <FaqSection />
+        <FinalCta />
+      </main>
+      <SiteFooter />
+      <StickyMobileCta />
+      <BookingModal />
+    </BookingProvider>
   );
 }
