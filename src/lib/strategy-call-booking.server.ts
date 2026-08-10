@@ -137,6 +137,7 @@ export async function getBookingAccess(
           rescheduleUrl: booking.calendly_reschedule_url,
           cancelUrl: booking.calendly_cancel_url,
           timezone: booking.timezone,
+          eventUuid: booking.calendly_event_uuid,
         }
       : null,
     whatsappStatus: entitlement?.whatsapp_status ?? "not_granted",
