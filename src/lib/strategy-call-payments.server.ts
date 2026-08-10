@@ -30,6 +30,13 @@ export interface OrderForCheckout {
   prefill: { name: string; email: string; contact: string };
 }
 
+type Json = Parameters<typeof JSON.parse>[0] extends never ? never : unknown;
+
+/** Narrows an arbitrary provider payload to the generated Json column type. */
+function asJson(value: Record<string, unknown> | undefined) {
+  return (value ?? {}) as unknown as Exclude<Json, undefined> & Record<string, never>;
+}
+
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   return supabaseAdmin;
@@ -169,7 +176,7 @@ async function markPaid(input: {
       paid_at: new Date().toISOString(),
       method: input.method ?? null,
       failure_reason: null,
-      provider_payload: input.payload ?? {},
+      provider_payload: asJson(input.payload),
     })
     .eq("id", payment.id);
 
@@ -292,7 +299,7 @@ export async function applyVerifiedWebhook(input: {
     event_id: input.eventId,
     event_type: input.eventType,
     signature_verified: true,
-    payload: input.payload,
+    payload: asJson(input.payload),
   });
   if (insertError) {
     if (insertError.code === "23505") return "duplicate";
@@ -322,7 +329,7 @@ export async function applyVerifiedWebhook(input: {
           status: "payment_failed",
           razorpay_payment_id: entity.id ?? null,
           failure_reason: entity.error_description ?? "Payment failed",
-          provider_payload: input.payload,
+          provider_payload: asJson(input.payload),
         })
         .eq("razorpay_order_id", orderId)
         .in("status", ["created", "payment_pending"]);
