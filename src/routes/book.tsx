@@ -111,8 +111,14 @@ function BookPage() {
       const result = await load(h);
       const status = result?.booking?.status;
       const settled = status === "confirmed" || status === "scheduled" || status === "rescheduled";
-      // Returning visitors get resolved without touching the embed again.
-      if (result?.unlocked && !settled) {
+      // Only re-check a booking we already know about, or one Calendly just
+      // redirected back from. Otherwise a pre-existing event for this email
+      // could be claimed before the visitor has picked anything.
+      const params = new URLSearchParams(window.location.search);
+      const returnedFromCalendly =
+        params.has("invitee_uuid") || params.has("event_type_uuid") || params.has("assigned_to");
+      const knownEvent = Boolean(result?.booking?.eventUuid);
+      if (result?.unlocked && !settled && (knownEvent || returnedFromCalendly)) {
         const ok = await verifyStrategyCallBooking({ data: h })
           .then((r) => r.status === "confirmed")
           .catch(() => false);
