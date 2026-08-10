@@ -71,3 +71,12 @@ export const checkBookingUnlocked = createServerFn({ method: "POST" })
   .handler(async ({ data }) => ({
     unlocked: await isBookingUnlocked(data.leadId, data.accessToken),
   }));
+
+/**
+ * Issues the Calendly scheduling URL — but only for a verified paid lead.
+ * A locked lead gets no URL at all, so the embed cannot be reached.
+ */
+export const getStrategyCallBooking = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => getBookingAccess(data.leadId, data.accessToken));
+
