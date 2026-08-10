@@ -1,6 +1,12 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { createLead, readFunnelStatus } from "./strategy-call.server";
+import {
+  isBookingUnlocked,
+  recordCheckoutOutcome,
+  startPayment,
+  verifyCheckoutPayment,
+} from "./strategy-call-payments.server";
 
 const leadSchema = z.object({
   name: z.string().trim().min(2).max(120),
@@ -19,6 +25,18 @@ const handleSchema = z.object({
   accessToken: z.string().uuid(),
 });
 
+const verifySchema = handleSchema.extend({
+  orderId: z.string().trim().min(4).max(120),
+  paymentId: z.string().trim().min(4).max(120),
+  signature: z.string().trim().min(16).max(256),
+});
+
+const outcomeSchema = handleSchema.extend({
+  orderId: z.string().trim().min(4).max(120),
+  outcome: z.enum(["payment_failed", "payment_cancelled"]),
+  reason: z.string().trim().max(300).optional(),
+});
+
 /** Public: stores a qualified lead. No secrets ever reach the browser. */
 export const submitLead = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => leadSchema.parse(input))
@@ -28,3 +46,28 @@ export const submitLead = createServerFn({ method: "POST" })
 export const getFunnelStatus = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
   .handler(async ({ data }) => readFunnelStatus(data.leadId, data.accessToken));
+
+/** Creates the ₹9 Razorpay order server-side and returns only public fields. */
+export const createStrategyCallOrder = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => startPayment(data.leadId, data.accessToken));
+
+/** Verifies the Checkout signature server-side. The browser is never trusted. */
+export const verifyStrategyCallPayment = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => verifySchema.parse(input))
+  .handler(async ({ data }) => verifyCheckoutPayment(data));
+
+/** Records a browser-side failure or dismissal. Cannot downgrade a paid row. */
+export const recordStrategyCallOutcome = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => outcomeSchema.parse(input))
+  .handler(async ({ data }) => {
+    await recordCheckoutOutcome(data);
+    return { ok: true };
+  });
+
+/** Authoritative answer to "can this lead reach Calendly?" */
+export const checkBookingUnlocked = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => ({
+    unlocked: await isBookingUnlocked(data.leadId, data.accessToken),
+  }));
