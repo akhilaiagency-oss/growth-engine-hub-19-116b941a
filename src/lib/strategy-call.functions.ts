@@ -7,6 +7,8 @@ import {
   startPayment,
   verifyCheckoutPayment,
 } from "./strategy-call-payments.server";
+import { getBookingAccess } from "./strategy-call-booking.server";
+
 
 const leadSchema = z.object({
   name: z.string().trim().min(2).max(120),
@@ -71,3 +73,12 @@ export const checkBookingUnlocked = createServerFn({ method: "POST" })
   .handler(async ({ data }) => ({
     unlocked: await isBookingUnlocked(data.leadId, data.accessToken),
   }));
+
+/**
+ * Issues the Calendly scheduling URL — but only for a verified paid lead.
+ * A locked lead gets no URL at all, so the embed cannot be reached.
+ */
+export const getStrategyCallBooking = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => getBookingAccess(data.leadId, data.accessToken));
+
