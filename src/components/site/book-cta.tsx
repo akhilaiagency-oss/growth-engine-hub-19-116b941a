@@ -1,4 +1,4 @@
-import { useBooking } from "./booking-context";
+import { Link } from "@tanstack/react-router";
 
 interface BookCtaProps {
   label?: string;
@@ -9,7 +9,7 @@ interface BookCtaProps {
 
 /**
  * Single place every CTA on the page routes through.
- * Swap the onClick here for a real payment handler later.
+ * All CTAs send the visitor to the /qualify pre-payment qualification page.
  */
 export function BookCta({
   label = "Book My ₹9 Strategy Call →",
@@ -17,15 +17,10 @@ export function BookCta({
   className = "",
   fullWidth = false,
 }: BookCtaProps) {
-  const { openBooking } = useBooking();
   const base = variant === "primary" ? "btn-primary" : "btn-secondary";
   return (
-    <button
-      type="button"
-      onClick={openBooking}
-      className={`${base} ${fullWidth ? "w-full" : ""} ${className}`}
-    >
+    <Link to="/qualify" className={`${base} ${fullWidth ? "w-full" : ""} ${className}`}>
       {label}
-    </button>
+    </Link>
   );
 }
