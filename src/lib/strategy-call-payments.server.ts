@@ -106,6 +106,7 @@ export async function startPayment(
       amountPaise: open.amount_paise,
       currency: open.currency,
       keyId,
+      mode,
       prefill,
     };
   }
