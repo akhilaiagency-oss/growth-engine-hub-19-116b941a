@@ -146,6 +146,7 @@ export async function startPayment(
     amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
     currency: STRATEGY_CALL_CURRENCY,
     keyId,
+    mode,
     prefill,
   };
 }
