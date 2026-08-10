@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { FAQS } from "@/data/faq";
-import { BookingProvider } from "@/components/site/booking-context";
-import { BookingModal } from "@/components/site/booking-modal";
 import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
 import { TrustStrip } from "@/components/site/trust-strip";
