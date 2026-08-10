@@ -231,11 +231,16 @@
 }
 
 @utility reveal {
+  /* Mobile: opacity-only fade — no translate (cheaper on low-end devices). */
   opacity: 0;
-  transform: translateY(12px);
-  transition:
-    opacity 400ms ease-out,
-    transform 400ms ease-out;
+  transform: none;
+  transition: opacity 250ms ease-out;
+  @media (min-width: 768px) {
+    transform: translateY(12px);
+    transition:
+      opacity 400ms ease-out,
+      transform 400ms ease-out;
+  }
 }
 
 @utility reveal-in {
