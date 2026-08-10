@@ -12,7 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
 import { Route as QualifyRouteImport } from './routes/qualify'
-import { Route as ApiPublicWebhooksCalendlyRouteImport } from './routes/api/public/webhooks/calendly'
+import { Route as ApiPublicHooksReconcileCalendlyRouteImport } from './routes/api/public/hooks/reconcile-calendly'
 import { Route as ApiPublicWebhooksRazorpayRouteImport } from './routes/api/public/webhooks/razorpay'
 
 const IndexRoute = IndexRouteImport.update({
@@ -30,10 +30,10 @@ const QualifyRoute = QualifyRouteImport.update({
   path: '/qualify',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiPublicWebhooksCalendlyRoute =
-  ApiPublicWebhooksCalendlyRouteImport.update({
-    id: '/api/public/webhooks/calendly',
-    path: '/api/public/webhooks/calendly',
+const ApiPublicHooksReconcileCalendlyRoute =
+  ApiPublicHooksReconcileCalendlyRouteImport.update({
+    id: '/api/public/hooks/reconcile-calendly',
+    path: '/api/public/hooks/reconcile-calendly',
     getParentRoute: () => rootRouteImport,
   } as any)
 const ApiPublicWebhooksRazorpayRoute =
@@ -47,14 +47,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
-  '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
+  '/api/public/hooks/reconcile-calendly': typeof ApiPublicHooksReconcileCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
-  '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
+  '/api/public/hooks/reconcile-calendly': typeof ApiPublicHooksReconcileCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRoutesById {
@@ -62,7 +62,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
   '/qualify': typeof QualifyRoute
-  '/api/public/webhooks/calendly': typeof ApiPublicWebhooksCalendlyRoute
+  '/api/public/hooks/reconcile-calendly': typeof ApiPublicHooksReconcileCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRouteTypes {
@@ -71,21 +71,21 @@ export interface FileRouteTypes {
     | '/'
     | '/book'
     | '/qualify'
-    | '/api/public/webhooks/calendly'
+    | '/api/public/hooks/reconcile-calendly'
     | '/api/public/webhooks/razorpay'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/book'
     | '/qualify'
-    | '/api/public/webhooks/calendly'
+    | '/api/public/hooks/reconcile-calendly'
     | '/api/public/webhooks/razorpay'
   id:
     | '__root__'
     | '/'
     | '/book'
     | '/qualify'
-    | '/api/public/webhooks/calendly'
+    | '/api/public/hooks/reconcile-calendly'
     | '/api/public/webhooks/razorpay'
   fileRoutesById: FileRoutesById
 }
@@ -93,7 +93,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookRoute: typeof BookRoute
   QualifyRoute: typeof QualifyRoute
-  ApiPublicWebhooksCalendlyRoute: typeof ApiPublicWebhooksCalendlyRoute
+  ApiPublicHooksReconcileCalendlyRoute: typeof ApiPublicHooksReconcileCalendlyRoute
   ApiPublicWebhooksRazorpayRoute: typeof ApiPublicWebhooksRazorpayRoute
 }
 
@@ -120,11 +120,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QualifyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/public/webhooks/calendly': {
-      id: '/api/public/webhooks/calendly'
-      path: '/api/public/webhooks/calendly'
-      fullPath: '/api/public/webhooks/calendly'
-      preLoaderRoute: typeof ApiPublicWebhooksCalendlyRouteImport
+    '/api/public/hooks/reconcile-calendly': {
+      id: '/api/public/hooks/reconcile-calendly'
+      path: '/api/public/hooks/reconcile-calendly'
+      fullPath: '/api/public/hooks/reconcile-calendly'
+      preLoaderRoute: typeof ApiPublicHooksReconcileCalendlyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/webhooks/razorpay': {
@@ -141,19 +141,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookRoute: BookRoute,
   QualifyRoute: QualifyRoute,
-  ApiPublicWebhooksCalendlyRoute: ApiPublicWebhooksCalendlyRoute,
+  ApiPublicHooksReconcileCalendlyRoute: ApiPublicHooksReconcileCalendlyRoute,
   ApiPublicWebhooksRazorpayRoute: ApiPublicWebhooksRazorpayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

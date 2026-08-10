@@ -20,12 +20,15 @@ export type Database = {
           calendly_cancel_url: string | null
           calendly_event_name: string | null
           calendly_event_uri: string | null
+          calendly_event_uuid: string | null
           calendly_invitee_uri: string | null
           calendly_reschedule_url: string | null
           cancellation_reason: string | null
           cancelled_at: string | null
           created_at: string
+          event_end_time: string | null
           id: string
+          invitee_email: string | null
           join_url: string | null
           lead_id: string
           payment_id: string | null
@@ -34,18 +37,23 @@ export type Database = {
           status: Database["public"]["Enums"]["strategy_call_booking_status"]
           timezone: string | null
           updated_at: string
+          verification_method: string | null
+          verified_at: string | null
         }
         Insert: {
           booked_at?: string | null
           calendly_cancel_url?: string | null
           calendly_event_name?: string | null
           calendly_event_uri?: string | null
+          calendly_event_uuid?: string | null
           calendly_invitee_uri?: string | null
           calendly_reschedule_url?: string | null
           cancellation_reason?: string | null
           cancelled_at?: string | null
           created_at?: string
+          event_end_time?: string | null
           id?: string
+          invitee_email?: string | null
           join_url?: string | null
           lead_id: string
           payment_id?: string | null
@@ -54,18 +62,23 @@ export type Database = {
           status?: Database["public"]["Enums"]["strategy_call_booking_status"]
           timezone?: string | null
           updated_at?: string
+          verification_method?: string | null
+          verified_at?: string | null
         }
         Update: {
           booked_at?: string | null
           calendly_cancel_url?: string | null
           calendly_event_name?: string | null
           calendly_event_uri?: string | null
+          calendly_event_uuid?: string | null
           calendly_invitee_uri?: string | null
           calendly_reschedule_url?: string | null
           cancellation_reason?: string | null
           cancelled_at?: string | null
           created_at?: string
+          event_end_time?: string | null
           id?: string
+          invitee_email?: string | null
           join_url?: string | null
           lead_id?: string
           payment_id?: string | null
@@ -74,6 +87,8 @@ export type Database = {
           status?: Database["public"]["Enums"]["strategy_call_booking_status"]
           timezone?: string | null
           updated_at?: string
+          verification_method?: string | null
+          verified_at?: string | null
         }
         Relationships: [
           {
@@ -336,6 +351,7 @@ export type Database = {
         | "cancelled"
         | "completed"
         | "no_show"
+        | "confirmed"
       strategy_call_lead_stage:
         | "qualified"
         | "payment_pending"
@@ -494,6 +510,7 @@ export const Constants = {
         "cancelled",
         "completed",
         "no_show",
+        "confirmed",
       ],
       strategy_call_lead_stage: [
         "qualified",
