@@ -58,7 +58,8 @@ export async function createRazorpayOrder(params: {
   receipt: string;
   notes: Record<string, string>;
 }): Promise<RazorpayOrder> {
-  const { keyId, keySecret } = getRazorpayCreds();
+  const { keyId, keySecret, mode } = getRazorpayCreds();
+  console.log(`[Razorpay] Creating ${mode} order for receipt ${params.receipt}`);
   const res = await fetch(`${RAZORPAY_API}/orders`, {
     method: "POST",
     headers: {
