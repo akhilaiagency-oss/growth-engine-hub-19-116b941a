@@ -6,12 +6,20 @@ import {
   EMPTY_ANSWERS,
   QUESTIONS,
   STORAGE_KEY,
+  readLeadHandle,
   submitQualification,
   validateAnswer,
+  type LeadHandle,
   type QualificationAnswers,
   type QualificationField,
   type Question,
 } from "@/data/qualification";
+import {
+  createStrategyCallOrder,
+  recordStrategyCallOutcome,
+  verifyStrategyCallPayment,
+} from "@/lib/strategy-call.functions";
+import { loadRazorpayCheckout, openRazorpayCheckout } from "@/lib/razorpay-checkout";
 
 const TITLE = "Strategy Session Qualification — Growth Multiplier AI";
 const DESCRIPTION =
