@@ -3,28 +3,28 @@ import { Reveal } from "./reveal";
 
 const OUTCOMES = [
   {
-    title: "Leads arrive pre-qualified",
-    body: "Your team stops sorting through everyone and starts talking to people who match your criteria.",
+    title: "Your calendar fills with qualified opportunities",
+    body: "Fewer conversations, better ones. Your team spends its hours on buyers who actually match your criteria.",
   },
   {
-    title: "Follow-up stops depending on someone remembering",
-    body: "Response happens automatically, at speed, every time — including evenings and weekends.",
+    title: "Every enquiry gets a reply in seconds",
+    body: "Follow-up runs on a Tuesday morning and a Sunday night alike, without depending on anyone remembering.",
   },
   {
-    title: "The calendar fills with real opportunities",
-    body: "Booked appointments become the metric that matters, rather than raw lead volume.",
+    title: "You can see the whole pipeline in one place",
+    body: "Every lead, stage and next action sits in the CRM instead of across inboxes, phones and someone's memory.",
   },
   {
     title: "Ad spend becomes accountable",
-    body: "You can see which stage every rupee dies at, so budget decisions stop being guesswork.",
+    body: "You can point at the stage where the money stops working, and decide what to change on evidence.",
   },
   {
-    title: "Nothing lives in someone's head anymore",
-    body: "Every lead, stage and next action sits in one CRM the whole team can see.",
+    title: "Booked appointments become the metric",
+    body: "Lead count stops being the number you report and starts being the number you diagnose.",
   },
   {
-    title: "Improvement becomes systematic",
-    body: "Because every stage is measured, optimisation is a decision — not a hunch.",
+    title: "Improvement stops being guesswork",
+    body: "When every stage is measured, the next change is a decision rather than an opinion.",
   },
 ];
 
@@ -36,8 +36,8 @@ export function Outcomes() {
           <span className="eyebrow">Outcomes</span>
           <h2 className="h2-section mt-4">What changes once the system is running</h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
-            Not promises with numbers attached — structural changes to how acquisition works in your
-            business.
+            No numbers attached — we haven't earned the right to quote any yet. These are the
+            structural changes to how acquisition works in your business.
           </p>
         </Reveal>
 

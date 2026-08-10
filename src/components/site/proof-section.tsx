@@ -5,17 +5,17 @@ const CARDS = [
   {
     Icon: FileText,
     title: "Client case studies",
-    body: "Not published yet. Verified results will appear here as engagements complete — with real numbers and named permission, or not at all.",
+    body: "Not published yet. Verified results appear here as engagements complete, with real numbers and named permission — or not at all.",
   },
   {
     Icon: LineChart,
     title: "Live tracking dashboard",
-    body: "In build. Client-facing funnel reporting is part of the system itself — a preview of the real interface will live here.",
+    body: "In build. Client-facing funnel reporting is part of the system itself; a preview of the real interface will live here.",
   },
   {
     Icon: BookOpen,
     title: "The method, in the open",
-    body: "What we can show you is the thinking. The Leak Map and the seven stages of the Engine above aren't a teaser for a framework — they are the framework, published in full.",
+    body: "What we can show you is the thinking. The Leak Map and the seven stages above aren't a teaser for a framework — they are the framework, published in full.",
   },
 ];
 
@@ -27,8 +27,8 @@ export function ProofSection() {
           <span className="eyebrow">Proof &amp; evidence</span>
           <h2 className="h2-section mt-4">What we can show you today — and what we can't yet</h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
-            Growth Multiplier AI is early. We'd rather tell you that plainly than borrow credibility
-            we haven't earned.
+            Growth Multiplier AI is early. We'd rather say that plainly than borrow credibility we
+            haven't earned.
           </p>
         </Reveal>
 

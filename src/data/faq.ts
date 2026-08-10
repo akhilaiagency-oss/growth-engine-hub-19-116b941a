@@ -5,35 +5,39 @@ export interface FaqItem {
 
 export const FAQS: FaqItem[] = [
   {
-    q: "Why does the strategy call cost ₹9?",
-    a: "It's a commitment filter, not a revenue stream. A tiny paid step means the calendar goes to people actually working on this problem — which keeps the call focused and useful for both sides.",
+    q: "Why does the call cost ₹9?",
+    a: "It's a commitment filter, not a revenue stream. A small paid step means the calendar goes to people genuinely working on this, which keeps the session useful for both of us.",
   },
   {
     q: "What actually happens on the call?",
-    a: "We map your current funnel onto the Acquisition Leak Map, work out which stage is losing you the most, and outline what the Growth Multiplier Engine would look like applied to your business. It's a working session, not a presentation.",
+    a: "We map your funnel against the Leak Map, identify the stage losing you the most, and outline what the Engine looks like applied to your business. It's a working session, not a presentation.",
   },
   {
-    q: "Is this just a sales pitch?",
-    a: "No. You'll get the funnel breakdown regardless of whether we work together — and if your acquisition system doesn't need rebuilding, you'll be told that directly.",
+    q: "Is this a sales pitch in disguise?",
+    a: "No. You get the funnel breakdown either way — and if your acquisition doesn't need rebuilding, you'll be told exactly that.",
+  },
+  {
+    q: "What if I don't want to work with you afterwards?",
+    a: "Then you keep the plan and we part on good terms. There's no follow-up sequence chasing you, which would be a poor advertisement for a company that sells follow-up.",
   },
   {
     q: "How do I pick a time after paying?",
-    a: "Once your ₹9 payment is verified you're taken straight to the scheduler to choose an available slot, and you'll get a confirmation with the meeting link.",
+    a: "Once your ₹9 payment clears you go straight to the scheduler, and the confirmation and meeting link follow immediately.",
   },
   {
     q: "What's the WhatsApp community for?",
-    a: "After your appointment is confirmed you're invited in — it's used for call reminders, resources, and direct access to us before your session.",
+    a: "Reminders, resources and direct access before your session, once your appointment is confirmed.",
   },
   {
     q: "Do I need to already be running ads?",
-    a: "It helps, because we can look at real numbers. If you're about to start, the call is about designing the system before you spend rather than diagnosing it afterwards.",
+    a: "It helps, because we can look at real numbers. If you're about to start, the call is about designing the system before you spend rather than diagnosing it after.",
   },
   {
-    q: "Which businesses does this work for?",
-    a: "Anything where the sale involves a call, consultation or appointment — coaching, clinics, professional services, B2B, high-consideration services. If you sell purely self-serve at low ticket, it's probably not a fit.",
+    q: "Which businesses is this for?",
+    a: "Anything where the sale involves a call, consultation or appointment: coaching, clinics, professional services, B2B, high-consideration services. If you sell purely self-serve at low ticket, it probably isn't a fit.",
   },
   {
-    q: "Do you work with businesses outside India?",
-    a: "Yes. The call runs over Zoom or Google Meet and can be held in English or Hindi.",
+    q: "Do you work outside India?",
+    a: "Yes. Calls run on Zoom or Google Meet, in English or Hindi.",
   },
 ];
