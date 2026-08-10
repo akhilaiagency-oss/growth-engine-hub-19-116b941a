@@ -224,7 +224,9 @@ function QualifyPage() {
               />
             )}
 
-            {step === PAY_STEP && <PaymentStep headingRef={headingRef} />}
+            {step === PAY_STEP && (
+              <PaymentStep headingRef={headingRef} handle={handle} handleError={handleError} />
+            )}
           </div>
 
           {step <= REVIEW_STEP && (
@@ -234,7 +236,15 @@ function QualifyPage() {
                 className="btn-primary w-full sm:w-auto"
                 onClick={() => {
                   if (step === REVIEW_STEP) {
-                    void submitQualification(answers);
+                    setHandleError(null);
+                    setHandle(readLeadHandle());
+                    submitQualification(answers)
+                      .then(setHandle)
+                      .catch(() => {
+                        setHandleError(
+                          "We couldn't save your answers. Please check your connection and try again.",
+                        );
+                      });
                     setStep(PAY_STEP);
                   } else {
                     goNext();
