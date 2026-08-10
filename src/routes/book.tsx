@@ -409,55 +409,60 @@ function ConfirmedCard({
 
   return (
     <div className="mx-auto max-w-[620px]">
-      <div className="rounded-[16px] border border-lime/40 bg-[rgba(131,226,78,0.06)] p-8 pb-10">
-        <span className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-lime/50 bg-[rgba(131,226,78,0.12)]">
-          <Check size={20} className="text-lime" aria-hidden="true" />
-        </span>
-        <h1 className="mt-5 text-[24px] leading-tight font-semibold text-fg">
-          Your Strategy Session Is Locked In ✓
-        </h1>
-        {when && (
-          <p className="mt-2 flex items-center gap-2 text-[15px] text-fg">
-            <Calendar size={16} className="text-lime" aria-hidden="true" /> {when}
-            {booking.timezone ? ` (${booking.timezone})` : ""}
-          </p>
-        )}
-        {booking.eventName && (
-          <p className="mt-1 text-[13.5px] text-muted">{booking.eventName}</p>
-        )}
-      </div>
+      <div className="overflow-hidden rounded-[16px] border border-lime/40">
+        <div className="bg-[rgba(131,226,78,0.06)] p-5 sm:p-7">
+          <span className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-lime/50 bg-[rgba(131,226,78,0.12)]">
+            <Check size={20} className="text-lime" aria-hidden="true" />
+          </span>
+          <h1 className="mt-5 text-[24px] leading-tight font-semibold text-fg">
+            Your Strategy Session Is Locked In ✓
+          </h1>
+          {when && (
+            <p className="mt-2 flex items-center gap-2 text-[15px] text-fg">
+              <Calendar size={16} className="text-lime" aria-hidden="true" /> {when}
+              {booking.timezone ? ` (${booking.timezone})` : ""}
+            </p>
+          )}
+          {booking.eventName && (
+            <p className="mt-1 text-[13.5px] text-muted">{booking.eventName}</p>
+          )}
+        </div>
 
-      <div className="mt-5 rounded-[12px] border border-border bg-surface p-6">
-        <p className="flex items-center gap-2 text-[15px] font-semibold text-fg">
-          <MessageCircle size={16} className="text-lime" aria-hidden="true" /> Join The Growth
-          Multiplier AI Community
-        </p>
-        <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
-          You're officially booked. Join the Growth Multiplier AI community for strategy insights,
-          AI growth resources, funnel breakdowns and important updates before your session.
-        </p>
+        <div className="h-px w-full bg-border" aria-hidden="true" />
 
-        {locked || !handle ? (
-          <p className="mt-4 text-[13.5px] text-muted-2">
-            Community access is being set up — we'll send your invite before your session.
+        <div className="bg-surface p-5 sm:p-7">
+          <p className="flex items-center gap-2 text-[15px] font-semibold text-fg">
+            <MessageCircle size={16} className="text-lime" aria-hidden="true" /> Join The Growth
+            Multiplier AI Community
           </p>
-        ) : (
-          <>
-            <button
-              type="button"
-              onClick={() => void join()}
-              disabled={opening}
-              className="btn-primary mt-5 inline-flex disabled:opacity-60"
-            >
-              {opening ? "Opening…" : "Join The WhatsApp Community →"}
-            </button>
-            {joined && (
-              <p className="mt-2 text-[12.5px] text-muted-2">You've already been given access.</p>
-            )}
-          </>
-        )}
+          <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+            You're officially booked. Join the Growth Multiplier AI community for strategy insights,
+            AI growth resources, funnel breakdowns and important updates before your session.
+          </p>
+
+          {locked || !handle ? (
+            <p className="mt-4 text-[13.5px] text-muted-2">
+              Community access is being set up — we'll send your invite before your session.
+            </p>
+          ) : (
+            <>
+              <button
+                type="button"
+                onClick={() => void join()}
+                disabled={opening}
+                className="btn-primary mt-5 inline-flex disabled:opacity-60"
+              >
+                {opening ? "Opening…" : "Join The WhatsApp Community →"}
+              </button>
+              {joined && (
+                <p className="mt-2 text-[12.5px] text-muted-2">You've already been given access.</p>
+              )}
+            </>
+          )}
+        </div>
       </div>
     </div>
+
   );
 }
 
