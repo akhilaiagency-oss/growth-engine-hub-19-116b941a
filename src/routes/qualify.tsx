@@ -547,6 +547,7 @@ function PaymentStep({
     setState("starting");
     try {
       const order = await createStrategyCallOrder({ data: handle });
+      setMode(order.mode);
       await loadRazorpayCheckout();
       setState("open");
 
