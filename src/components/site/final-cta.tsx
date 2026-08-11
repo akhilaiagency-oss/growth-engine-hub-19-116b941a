@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
+import { CtaNote } from "./cta-note";
 
 const ITEMS = ["30–45 minutes, 1-on-1", "Secure Razorpay checkout", "You keep the plan either way"];
 
@@ -29,8 +30,10 @@ export function FinalCta() {
               work together.
             </p>
             <div className="mt-8">
-              <BookCta />
+              <BookCta label="Reserve My Strategy Session — ₹9 →" />
             </div>
+            <CtaNote className="mt-3" />
+
             <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3">
               {ITEMS.map((t) => (
                 <li key={t} className="flex items-center gap-2 text-[12.5px] text-muted">

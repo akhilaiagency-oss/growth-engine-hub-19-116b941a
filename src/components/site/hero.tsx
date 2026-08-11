@@ -1,4 +1,5 @@
 import { BookCta } from "./book-cta";
+import { CtaNote } from "./cta-note";
 import { VslSlot } from "./vsl-slot";
 
 export function Hero() {
@@ -35,6 +36,9 @@ export function Hero() {
             See How The System Works
           </a>
         </div>
+
+        <CtaNote className="mt-3" />
+
 
         <p className="mt-4 text-[12.5px] text-muted-2">
           30–45 minutes, 1-on-1 with Akhil · You keep the funnel plan whether or not we work
