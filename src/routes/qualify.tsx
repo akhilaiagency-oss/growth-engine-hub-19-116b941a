@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { AlertCircle, Calendar, Check, Lock, MessageCircle } from "lucide-react";
-import logo from "@/assets/growth-multiplier-ai-logo.png";
+import { BrandLockup } from "@/components/site/brand-lockup";
 import {
   EMPTY_ANSWERS,
   QUESTIONS,
@@ -139,18 +139,7 @@ function QualifyPage() {
   return (
     <div className="min-h-dvh px-5 pt-10 pb-16">
       <header className="mx-auto max-w-[560px] text-center">
-        <div className="flex flex-col items-center gap-3">
-          <img
-            src={logo}
-            alt="Growth Multiplier AI logo"
-            width={36}
-            height={36}
-            className="h-9 w-9 rounded-full object-contain"
-          />
-          <span className="text-[15px] font-bold tracking-[-0.01em] text-fg">
-            Growth Multiplier AI
-          </span>
-        </div>
+        <BrandLockup stacked />
         <Link
           to="/"
           className="mt-2 inline-flex min-h-[44px] items-center justify-center px-3 text-[13.5px] text-muted transition-colors hover:text-fg"

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import mark from "@/assets/growth-multiplier-ai-logo.png";
 import { BookCta } from "./book-cta";
+import { BrandLockup } from "./brand-lockup";
 
 const LINKS = [
   { href: "#leak-map", label: "Leak Map" },
@@ -27,22 +27,11 @@ export function SiteNav() {
         scrolled ? "border-b border-border bg-[rgba(7,11,20,0.88)] backdrop-blur-md" : ""
       }`}
     >
-      <nav className="container-page flex h-[72px] items-center justify-between gap-6">
-        <a href="#top" className="flex items-center gap-3">
-          <img
-            src={mark}
-            alt="Growth Multiplier AI logo"
-            width={36}
-            height={36}
-            className="h-9 w-9 rounded-full object-contain"
-          />
-          <span className="leading-tight">
-            <span className="block text-[15px] font-bold tracking-[-0.01em] text-fg">
-              Growth Multiplier AI
-            </span>
-            <span className="block text-[12px] text-muted md:text-[11px]">Founder: Akhil Srivastava</span>
-          </span>
+      <nav className="container-page flex items-center justify-between gap-6 py-[14px]">
+        <a href="#top" className="flex min-w-0 items-center">
+          <BrandLockup size="nav" withTagline />
         </a>
+
 
         <ul className="hidden items-center gap-7 min-[900px]:flex">
           {LINKS.map((l) => (

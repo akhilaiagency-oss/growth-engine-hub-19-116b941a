@@ -10,7 +10,7 @@ import {
   MessageCircle,
   RefreshCw,
 } from "lucide-react";
-import logo from "@/assets/growth-multiplier-ai-logo.png";
+import { BrandLockup } from "@/components/site/brand-lockup";
 import { readLeadHandle, type LeadHandle } from "@/data/qualification";
 import {
   claimWhatsappCommunityAccess,
@@ -237,9 +237,8 @@ function BookPage() {
     <div className="min-h-screen bg-bg">
       <header className="border-b border-border">
         <div className="mx-auto flex max-w-[1120px] items-center justify-between px-5 py-4">
-          <Link to="/" className="flex items-center gap-2.5">
-            <img src={logo} alt="Growth Multiplier AI" className="h-9 w-9 rounded-full" />
-            <span className="text-[15px] font-semibold text-fg">Growth Multiplier AI</span>
+          <Link to="/" className="flex min-w-0 items-center">
+            <BrandLockup />
           </Link>
           <Link
             to="/"
