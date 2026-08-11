@@ -14,7 +14,7 @@ export function SiteFooter() {
         <div className="grid gap-10 min-[700px]:grid-cols-[1.6fr_1fr_1fr]">
           <div>
             <BrandLockup size="footer" />
-            </div>
+
             <p className="mt-4 max-w-[380px] text-[13.5px] leading-relaxed text-muted">
               AI-powered client acquisition systems that turn ad traffic into qualified
               opportunities, booked appointments and measurable revenue.
