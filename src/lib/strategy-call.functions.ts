@@ -1,6 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { createLead, readFunnelStatus } from "./strategy-call.server";
+import {
+  createLead,
+  readFunnelStatus,
+  saveQualificationDetails as persistQualificationDetails,
+} from "./strategy-call.server";
 import {
   isBookingUnlocked,
   recordCheckoutOutcome,
@@ -15,11 +19,6 @@ const leadSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(200),
   phone: z.string().trim().min(8).max(20),
-  businessType: z.string().trim().min(1).max(120),
-  whatYouSell: z.string().trim().min(10).max(300),
-  marketingSpend: z.string().trim().min(1).max(120),
-  desiredOutcome: z.string().trim().min(1).max(120),
-  timeline: z.string().trim().min(1).max(120),
   sourcePage: z.string().trim().max(200).optional(),
 });
 
@@ -111,3 +110,27 @@ export const verifyStrategyCallBooking = createServerFn({ method: "POST" })
 export const claimWhatsappCommunityAccess = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
   .handler(async ({ data }) => claimWhatsappAccess(data.leadId, data.accessToken));
+
+const detailsSchema = handleSchema.extend({
+  businessType: z.string().trim().min(1).max(120),
+  whatYouSell: z.string().trim().min(10).max(300),
+  marketingSpend: z.string().trim().min(1).max(120),
+  desiredOutcome: z.string().trim().min(1).max(120),
+  timeline: z.string().trim().min(1).max(120),
+});
+
+/**
+ * Stores the five post-payment answers. Gated on the lead handle AND a
+ * server-verified payment, so it can never be used to enrich an unpaid lead.
+ */
+export const saveQualificationDetails = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => detailsSchema.parse(input))
+  .handler(async ({ data }) =>
+    persistQualificationDetails(data.leadId, data.accessToken, {
+      businessType: data.businessType,
+      whatYouSell: data.whatYouSell,
+      marketingSpend: data.marketingSpend,
+      desiredOutcome: data.desiredOutcome,
+      timeline: data.timeline,
+    }),
+  );

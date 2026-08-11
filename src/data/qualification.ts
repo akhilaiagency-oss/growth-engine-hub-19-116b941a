@@ -1,4 +1,4 @@
-import { submitLead } from "@/lib/strategy-call.functions";
+import { saveQualificationDetails, submitLead } from "@/lib/strategy-call.functions";
 
 export interface QualificationAnswers {
   name: string;
@@ -13,6 +13,13 @@ export interface QualificationAnswers {
 
 export type QualificationField = keyof QualificationAnswers;
 
+/** The three fields collected before payment. */
+export type ContactField = "name" | "email" | "phone";
+/** The five fields collected after payment, before the calendar. */
+export type DetailField = Exclude<QualificationField, ContactField>;
+
+export type DetailAnswers = Record<DetailField, string>;
+
 export const EMPTY_ANSWERS: QualificationAnswers = {
   name: "",
   email: "",
@@ -24,7 +31,17 @@ export const EMPTY_ANSWERS: QualificationAnswers = {
   timeline: "",
 };
 
+export const EMPTY_DETAILS: DetailAnswers = {
+  businessType: "",
+  whatYouSell: "",
+  marketingSpend: "",
+  desiredOutcome: "",
+  timeline: "",
+};
+
 export const STORAGE_KEY = "gma-qualification";
+export const DETAILS_STORAGE_KEY = "gma-qualification-details";
+
 
 interface BaseQuestion {
   field: QualificationField;
@@ -55,7 +72,8 @@ export interface ChoiceQuestion extends BaseQuestion {
 
 export type Question = TextQuestion | TextareaQuestion | ChoiceQuestion;
 
-export const QUESTIONS: Question[] = [
+/** Asked before payment. Three fields, nothing more. */
+export const CONTACT_QUESTIONS: Question[] = [
   {
     kind: "text",
     field: "name",
@@ -87,6 +105,10 @@ export const QUESTIONS: Question[] = [
     error: "Please enter a valid phone number.",
     reviewLabel: "Phone / WhatsApp",
   },
+];
+
+/** Asked after payment, before the calendar. */
+export const DETAIL_QUESTIONS: Question[] = [
   {
     kind: "choice",
     field: "businessType",
@@ -155,6 +177,8 @@ export const QUESTIONS: Question[] = [
   },
 ];
 
+export const QUESTIONS: Question[] = [...CONTACT_QUESTIONS, ...DETAIL_QUESTIONS];
+
 export function validateAnswer(question: Question, value: string): string | null {
   const v = value.trim();
   if (question.kind === "choice") return v ? null : question.error;
@@ -184,13 +208,18 @@ export interface LeadHandle {
 
 /**
  * THE ONE PLACE THE BACKEND IS WIRED.
- * Stores the qualified lead server-side and returns an opaque handle that
- * payment and booking are attached to. The handle carries no payment state.
+ * Stores the qualified lead (contact details only) server-side and returns an
+ * opaque handle that payment and booking are attached to. The handle carries
+ * no payment state.
  */
-export async function submitQualification(answers: QualificationAnswers): Promise<LeadHandle> {
+export async function submitQualification(
+  answers: Pick<QualificationAnswers, ContactField>,
+): Promise<LeadHandle> {
   const handle = await submitLead({
     data: {
-      ...answers,
+      name: answers.name,
+      email: answers.email,
+      phone: answers.phone,
       sourcePage: typeof window === "undefined" ? "/qualify" : window.location.pathname,
     },
   });
@@ -198,6 +227,17 @@ export async function submitQualification(answers: QualificationAnswers): Promis
     sessionStorage.setItem(LEAD_HANDLE_KEY, JSON.stringify(handle));
   }
   return handle;
+}
+
+/**
+ * The remaining five answers, collected after payment. The server re-checks the
+ * lead handle AND the payment gate before writing anything.
+ */
+export async function submitQualificationDetails(
+  handle: LeadHandle,
+  answers: DetailAnswers,
+): Promise<{ saved: boolean }> {
+  return saveQualificationDetails({ data: { ...handle, ...answers } });
 }
 
 export function readLeadHandle(): LeadHandle | null {
