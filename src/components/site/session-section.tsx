@@ -1,6 +1,30 @@
-import { Check, Info } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
+import { CtaNote } from "./cta-note";
+import { SessionAvailability } from "./session-availability";
+
+const VALUE_POINTS = [
+  "Acquisition funnel diagnosis",
+  "Conversion bottleneck review",
+  "Priority action plan",
+];
+
+const THIS_IS = [
+  "A focused strategy conversation",
+  "An acquisition funnel diagnosis",
+  "Identification of conversion bottlenecks",
+  "Practical prioritisation of what to fix first",
+];
+
+const THIS_ISNT = [
+  "A guaranteed-results pitch",
+  "A generic marketing consultation",
+  "A pressure-filled sales presentation",
+  "A full consulting engagement in 45 minutes",
+];
+
+
 
 const AGENDA = [
   {
