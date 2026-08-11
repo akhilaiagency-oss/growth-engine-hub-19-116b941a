@@ -77,11 +77,24 @@ export function SessionSection() {
       <div className="container-page">
         <Reveal className="mx-auto max-w-[760px] text-center">
           <span className="eyebrow">The session</span>
-          <h2 className="h2-section mt-4">What's Inside Your ₹9 Strategy Call?</h2>
+          <h2 className="h2-section mt-4">What's Inside Your ₹9 AI Growth Strategy Session?</h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
             A working session on your acquisition system — run by Akhil, structured around the Leak
             Map, and specific to your business. Here's what we cover.
           </p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted">
+            Reserve a focused 1:1 session to identify the biggest bottleneck in your client
+            acquisition journey.
+          </p>
+          <ul className="mt-5 flex flex-col items-center gap-2.5 min-[620px]:flex-row min-[620px]:justify-center min-[620px]:gap-6">
+            {VALUE_POINTS.map((v) => (
+              <li key={v} className="flex items-center gap-2 text-[13.5px] text-muted">
+                <Check size={15} className="shrink-0 text-lime" aria-hidden="true" />
+                {v}
+              </li>
+            ))}
+          </ul>
+
         </Reveal>
 
         <div className="mt-10 grid items-start gap-10 min-[900px]:grid-cols-[1.35fr_1fr]">
@@ -150,14 +163,39 @@ export function SessionSection() {
           </Reveal>
         </div>
 
-        <Reveal className="mt-6 flex items-start gap-3 rounded-[12px] border border-border bg-surface-2 p-5">
-          <Info size={16} className="mt-0.5 shrink-0 text-muted-2" />
-          <p className="text-[14px] leading-relaxed text-muted">
-            What this call is not: a pitch, a generic audit template, or a promise of guaranteed
-            leads, revenue or return on ad spend. It is a working session and a prioritised plan —
-            nothing more, and nothing less.
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-surface-2 p-6">
+          <h3 className="text-[17px] font-semibold text-fg">
+            Here's what this is — and what it isn't
+          </h3>
+          <div className="mt-5 grid gap-6 sm:grid-cols-2 sm:gap-8">
+            <div>
+              <p className="text-[14px] font-semibold text-lime">This is</p>
+              <ul className="mt-3 space-y-2.5">
+                {THIS_IS.map((t) => (
+                  <li key={t} className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted">
+                    <Check size={15} className="mt-[3px] shrink-0 text-lime" aria-hidden="true" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <p className="text-[14px] font-semibold text-muted">This isn't</p>
+              <ul className="mt-3 space-y-2.5">
+                {THIS_ISNT.map((t) => (
+                  <li key={t} className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted">
+                    <X size={15} className="mt-[3px] shrink-0 text-muted-2" aria-hidden="true" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <p className="mt-6 text-[14px] leading-relaxed text-muted">
+            No obligation to work with Growth Multiplier AI after the session.
           </p>
         </Reveal>
+
       </div>
     </section>
   );
