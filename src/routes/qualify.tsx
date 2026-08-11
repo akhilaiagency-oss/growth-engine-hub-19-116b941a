@@ -20,6 +20,7 @@ import {
   verifyStrategyCallPayment,
 } from "@/lib/strategy-call.functions";
 import { loadRazorpayCheckout, openRazorpayCheckout } from "@/lib/razorpay-checkout";
+import { SessionAvailability } from "@/components/site/session-availability";
 
 const TITLE = "Strategy Session Qualification — Growth Multiplier AI";
 const DESCRIPTION =
