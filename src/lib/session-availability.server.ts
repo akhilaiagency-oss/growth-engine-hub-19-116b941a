@@ -13,6 +13,7 @@ import { calendlyGet, getCalendlyUserUri, getSchedulingUrl } from "./calendly.se
 
 const CACHE_MS = 10 * 60 * 1000;
 const WINDOW_DAYS = 7;
+const MAX_SHOWN = 20;
 
 let cache: { at: number; value: number | null } | null = null;
 let cachedEventTypeUri: string | null = null;
@@ -62,7 +63,10 @@ export async function getSessionAvailabilityCount(): Promise<number | null> {
       const slots = data?.collection;
       if (Array.isArray(slots)) {
         const open = slots.filter((s) => (s.status ?? "available") === "available").length;
-        value = open > 0 ? open : null;
+        // Only surface a number when it is genuinely limited. A large count
+        // (or a paging cap) is real but says nothing — degrade to the
+        // qualitative line rather than printing a meaningless figure.
+        value = open > 0 && open <= MAX_SHOWN ? open : null;
       }
     }
   } catch {
