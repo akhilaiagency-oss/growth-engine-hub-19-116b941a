@@ -376,8 +376,14 @@ function ConfirmedCard({
   handle: LeadHandle | null;
 }) {
   const [opening, setOpening] = useState(false);
-  const [locked, setLocked] = useState(!whatsappUnlocked);
-  const [joined, setJoined] = useState(whatsappStatus === "joined");
+  // Derived from props so a fresh gate arriving with the verify response (or a
+  // background revalidate) unlocks the button without a reload.
+  const [claimFailed, setClaimFailed] = useState(false);
+  const [joinedLocally, setJoinedLocally] = useState(false);
+  const locked = claimFailed || !whatsappUnlocked;
+  const joined = joinedLocally || whatsappStatus === "joined";
+  const setLocked = setClaimFailed;
+  const setJoined = setJoinedLocally;
 
   const when = booking.scheduledAt
     ? new Date(booking.scheduledAt).toLocaleString(undefined, {
