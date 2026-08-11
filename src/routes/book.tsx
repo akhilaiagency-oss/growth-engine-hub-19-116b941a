@@ -228,8 +228,15 @@ function BookPage() {
       booking.status === "rescheduled");
   const cancelled = booking?.status === "cancelled";
 
+  // The five post-payment questions sit between a verified payment and the
+  // calendar. Leads who already answered them (including every pre-split lead)
+  // skip straight through.
+  const showDetails = Boolean(access?.unlocked) && !confirmed && !access?.qualificationComplete;
+
   useCalendlyWidget(
-    access?.unlocked && access.schedulingUrl && !confirmed ? access.schedulingUrl : null,
+    access?.unlocked && access.schedulingUrl && !confirmed && !showDetails
+      ? access.schedulingUrl
+      : null,
     "calendly-inline",
   );
 
