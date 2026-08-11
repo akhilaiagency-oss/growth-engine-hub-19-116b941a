@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import mark from "@/assets/growth-multiplier-ai-logo.png";
 import { BookCta } from "./book-cta";
+import { BrandLockup } from "./brand-lockup";
 
 const LINKS = [
   { href: "#leak-map", label: "Leak Map" },

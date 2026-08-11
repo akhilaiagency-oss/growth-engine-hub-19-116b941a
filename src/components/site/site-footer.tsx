@@ -1,4 +1,4 @@
-import logo from "@/assets/growth-multiplier-ai-logo.png";
+import { BrandLockup } from "./brand-lockup";
 
 const PAGE_LINKS = [
   { href: "#leak-map", label: "Acquisition Leak Map" },
@@ -13,15 +13,7 @@ export function SiteFooter() {
       <div className="container-page py-14">
         <div className="grid gap-10 min-[700px]:grid-cols-[1.6fr_1fr_1fr]">
           <div>
-            <div className="flex items-center gap-3">
-              <img
-                src={logo}
-                alt="Growth Multiplier AI logo"
-                width={32}
-                height={32}
-                className="h-8 w-8 rounded-full border border-border object-contain"
-              />
-              <span className="text-[15px] font-bold text-fg">Growth Multiplier AI</span>
+            <BrandLockup size="footer" />
             </div>
             <p className="mt-4 max-w-[380px] text-[13.5px] leading-relaxed text-muted">
               AI-powered client acquisition systems that turn ad traffic into qualified
