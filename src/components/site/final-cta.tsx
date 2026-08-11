@@ -2,6 +2,8 @@ import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
+import { PriceAnchor } from "./price-anchor";
+import { OfferCountdown } from "./offer-countdown";
 
 const ITEMS = ["30–45 minutes, 1-on-1", "Secure Razorpay checkout", "You keep the plan either way"];
 
@@ -29,7 +31,12 @@ export function FinalCta() {
               drop-off is costing you the most, and you'll leave with the plan — whether or not we
               work together.
             </p>
-            <div className="mt-8">
+            <div className="mt-7 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+              <PriceAnchor suffix="today" />
+              <OfferCountdown />
+            </div>
+
+            <div className="mt-6">
               <BookCta label="Reserve My Strategy Session — ₹9 →" />
             </div>
             <CtaNote className="mt-3" />

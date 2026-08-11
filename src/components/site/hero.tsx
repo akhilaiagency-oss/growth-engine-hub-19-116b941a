@@ -1,6 +1,9 @@
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { VslSlot } from "./vsl-slot";
+import { PriceAnchor } from "./price-anchor";
+import { SlotsLeft } from "./slots-left";
+import { OfferCountdown } from "./offer-countdown";
 
 export function Hero() {
   return (
@@ -25,6 +28,12 @@ export function Hero() {
           acquisition system — so the traffic you're already paying for turns into booked
           appointments.
         </p>
+
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+          <PriceAnchor suffix="today" />
+          <SlotsLeft />
+          <OfferCountdown />
+        </div>
 
         <div className="mt-10">
           <VslSlot />
