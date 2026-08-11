@@ -138,3 +138,95 @@ export async function readFunnelStatus(
     whatsappStatus: entitlement?.whatsapp_status ?? "not_granted",
   };
 }
+
+const DETAIL_COLUMNS =
+  "business_type, what_you_sell, marketing_spend, desired_outcome, timeline" as const;
+
+export interface DetailRow {
+  business_type: string | null;
+  what_you_sell: string | null;
+  marketing_spend: string | null;
+  desired_outcome: string | null;
+  timeline: string | null;
+}
+
+/** Qualification is complete when all five post-payment answers are present. */
+export function isQualificationComplete(row: DetailRow | null | undefined): boolean {
+  if (!row) return false;
+  return [
+    row.business_type,
+    row.what_you_sell,
+    row.marketing_spend,
+    row.desired_outcome,
+    row.timeline,
+  ].every((v) => typeof v === "string" && v.trim().length > 0);
+}
+
+/** Existing answers, so a returning lead resumes on the first unanswered one. */
+export async function readQualificationDetails(
+  leadId: string,
+  accessToken: string,
+): Promise<QualificationDetails | null> {
+  const db = await admin();
+  const { data } = await db
+    .from("strategy_call_leads")
+    .select(DETAIL_COLUMNS)
+    .eq("id", leadId)
+    .eq("access_token", accessToken)
+    .maybeSingle();
+  if (!data) return null;
+  return {
+    businessType: data.business_type ?? "",
+    whatYouSell: data.what_you_sell ?? "",
+    marketingSpend: data.marketing_spend ?? "",
+    desiredOutcome: data.desired_outcome ?? "",
+    timeline: data.timeline ?? "",
+  };
+}
+
+/**
+ * Writes the five post-payment answers. Requires BOTH the lead handle and a
+ * server-verified payment — the same gate that unlocks booking. Never widens
+ * access: it cannot create a lead, and it cannot touch payment or booking rows.
+ */
+export async function saveQualificationDetails(
+  leadId: string,
+  accessToken: string,
+  details: QualificationDetails,
+): Promise<{ saved: boolean }> {
+  const db = await admin();
+  const { data: lead } = await db
+    .from("strategy_call_leads")
+    .select("id")
+    .eq("id", leadId)
+    .eq("access_token", accessToken)
+    .maybeSingle();
+  if (!lead) return { saved: false };
+
+  const { data: unlocked } = await db.rpc("strategy_call_booking_unlocked", {
+    _lead_id: lead.id,
+  });
+  if (unlocked !== true) return { saved: false };
+
+  const { data: existing } = await db
+    .from("strategy_call_leads")
+    .select("answers")
+    .eq("id", lead.id)
+    .maybeSingle();
+  const previous = (existing?.answers ?? {}) as Record<string, unknown>;
+
+  const { error } = await db
+    .from("strategy_call_leads")
+    .update({
+      business_type: details.businessType,
+      what_you_sell: details.whatYouSell.trim(),
+      marketing_spend: details.marketingSpend,
+      desired_outcome: details.desiredOutcome,
+      timeline: details.timeline,
+      answers: { ...previous, ...details },
+    })
+    .eq("id", lead.id);
+  if (error) throw new Error(error.message);
+
+  return { saved: true };
+}
