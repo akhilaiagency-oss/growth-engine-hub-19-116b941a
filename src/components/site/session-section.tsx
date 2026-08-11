@@ -4,7 +4,7 @@ import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
 import { SlotsLeft } from "./slots-left";
-import { OfferCountdown } from "./offer-countdown";
+import { CountdownBlocks } from "./countdown-blocks";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
@@ -135,9 +135,9 @@ export function SessionSection() {
               <p className="mt-1.5 text-[12.5px] text-muted-2">
                 Today's rate. Standard price ₹99.
               </p>
-              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+              <div className="mt-4 flex flex-col gap-4">
                 <SlotsLeft />
-                <OfferCountdown />
+                <CountdownBlocks align="start" size="sm" />
               </div>
 
               <div className="my-6 h-px w-full bg-border" />
