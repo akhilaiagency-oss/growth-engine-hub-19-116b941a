@@ -134,9 +134,9 @@
 }
 
 @utility section-y {
-  padding-block: 60px;
+  padding-block: 44px;
   @media (min-width: 768px) {
-    padding-block: 96px;
+    padding-block: 68px;
   }
 }
 

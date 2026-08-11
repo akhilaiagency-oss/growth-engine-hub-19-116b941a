@@ -43,7 +43,7 @@ export function ProofSection() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
           {CARDS.map(({ Icon, title, body }) => (
             <Reveal key={title} className="rounded-[12px] border border-border bg-surface p-6">
               <span className="flex h-10 w-10 items-center justify-center rounded-[8px] border border-dashed border-border-strong text-muted-2">

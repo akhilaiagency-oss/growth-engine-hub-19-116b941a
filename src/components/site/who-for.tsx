@@ -30,7 +30,7 @@ export function WhoFor() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
           <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
             <h3 className="text-[17px] font-bold tracking-[-0.01em] text-lime">
               This is for you if

@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-5 pt-[132px] pb-[72px]"
+      className="relative overflow-hidden px-5 pt-[112px] pb-[52px]"
       style={{
         backgroundImage:
           "radial-gradient(800px 440px at 20% -10%, rgba(62,134,255,0.18), transparent 62%), radial-gradient(700px 420px at 84% 2%, rgba(131,226,78,0.10), transparent 58%)",

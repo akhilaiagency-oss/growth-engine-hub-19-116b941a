@@ -36,7 +36,7 @@ export function FuturePacing() {
           </ul>
         </Reveal>
 
-        <Reveal className="mt-12">
+        <Reveal className="mt-9">
           <p className="mx-auto max-w-[640px] text-center text-[17px] leading-relaxed font-medium text-fg">
             That's the kind of acquisition visibility the Growth Multiplier Engine™ is designed to
             build.
