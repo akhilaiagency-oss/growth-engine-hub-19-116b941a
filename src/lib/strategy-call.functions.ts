@@ -1,6 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { createLead, readFunnelStatus } from "./strategy-call.server";
+import {
+  createLead,
+  readFunnelStatus,
+  saveQualificationDetails as persistQualificationDetails,
+} from "./strategy-call.server";
 import {
   isBookingUnlocked,
   recordCheckoutOutcome,
@@ -15,11 +19,6 @@ const leadSchema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.string().trim().email().max(200),
   phone: z.string().trim().min(8).max(20),
-  businessType: z.string().trim().min(1).max(120),
-  whatYouSell: z.string().trim().min(10).max(300),
-  marketingSpend: z.string().trim().min(1).max(120),
-  desiredOutcome: z.string().trim().min(1).max(120),
-  timeline: z.string().trim().min(1).max(120),
   sourcePage: z.string().trim().max(200).optional(),
 });
 
