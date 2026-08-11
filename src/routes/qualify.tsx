@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertCircle, Calendar, Check, Lock, MessageCircle } from "lucide-react";
+import { AlertCircle, Calendar, Check, Lock, MessageCircle, ShieldCheck } from "lucide-react";
 import { BrandLockup } from "@/components/site/brand-lockup";
 import { QuestionStep } from "@/components/site/question-step";
 import {
@@ -423,6 +423,10 @@ function PaymentStep({
           <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
             <Lock size={12} aria-hidden="true" /> Secure payment. Your card details never touch
             this site.
+          </p>
+          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-muted">
+            <ShieldCheck size={13} className="shrink-0 text-lime" aria-hidden="true" />
+            Fully refundable on request — email us any time before your session.
           </p>
           <p className="mt-2 text-center text-[12px] text-muted-2">
             By continuing you agree to our{" "}

@@ -1,5 +1,5 @@
 import { Check } from "lucide-react";
-import portrait from "@/assets/akhil-portrait-4x5.jpg.asset.json";
+import portrait from "@/assets/akhil-portrait-4x5.jpg";
 import { Reveal } from "./reveal";
 
 
@@ -31,7 +31,7 @@ export function FounderSection() {
             >
               <div className="relative aspect-[4/5] w-full">
                 <img
-                  src={portrait.url}
+                  src={portrait}
                   alt="Akhil Srivastava, Founder of Growth Multiplier AI"
                   className="absolute inset-0 h-full w-full object-cover"
                   loading="lazy"

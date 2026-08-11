@@ -17,6 +17,10 @@ export const FAQS: FaqItem[] = [
     a: "No. You get the funnel breakdown either way — and if your acquisition doesn't need rebuilding, you'll be told exactly that.",
   },
   {
+    q: "What does it cost to work with you after the call?",
+    a: "It depends entirely on which stages of the system you need built — a landing page and follow-up setup is a very different scope to a full acquisition rebuild. You'll get a clear, specific number on the call once we've seen your funnel. There's no obligation either way, and no pressure to decide on the call itself.",
+  },
+  {
     q: "What if I don't want to work with you afterwards?",
     a: "Then you keep the plan and we part on good terms. There's no follow-up sequence chasing you, which would be a poor advertisement for a company that sells follow-up.",
   },
