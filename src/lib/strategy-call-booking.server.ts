@@ -21,6 +21,7 @@ import {
   type CalendlyEvent,
 } from "./calendly.server";
 import { getWhatsappCommunityUrl } from "./whatsapp-access.server";
+import { isQualificationComplete, type QualificationDetails } from "./strategy-call.server";
 
 async function admin() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
@@ -47,13 +48,19 @@ export interface BookingAccess {
   whatsappStatus: string;
   /** Boolean gate only — the community URL never travels in this payload. */
   whatsappUnlocked: boolean;
+  /** All five post-payment answers present. */
+  qualificationComplete: boolean;
+  /** Any answers already given, so a returning lead resumes in the right place. */
+  qualification: QualificationDetails | null;
 }
 
 async function loadLead(leadId: string, accessToken: string) {
   const db = await admin();
   const { data } = await db
     .from("strategy_call_leads")
-    .select("id, name, email")
+    .select(
+      "id, name, email, business_type, what_you_sell, marketing_spend, desired_outcome, timeline",
+    )
     .eq("id", leadId)
     .eq("access_token", accessToken)
     .maybeSingle();
