@@ -47,7 +47,7 @@ export function SiteNav() {
         </ul>
 
         <div className="hidden min-[900px]:block">
-          <BookCta />
+          <BookCta label="Book My Strategy Call" className="!text-[13.5px]" />
         </div>
 
         <button
