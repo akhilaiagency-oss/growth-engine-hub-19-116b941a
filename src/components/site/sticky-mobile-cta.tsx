@@ -12,7 +12,7 @@ export function StickyMobileCta() {
           <span className="block text-[15px] font-bold text-lime">₹9</span>
         </div>
         <div className="flex-1">
-          <BookCta fullWidth />
+          <BookCta label="Book ₹9 Strategy Call →" fullWidth />
         </div>
       </div>
     </div>

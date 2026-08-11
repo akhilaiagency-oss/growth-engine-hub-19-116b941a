@@ -54,6 +54,11 @@ async function calendlyGateway<T>(path: string): Promise<T | null> {
   return (await response.json()) as T;
 }
 
+/** Read-only gateway GET, for other server-only modules (availability, etc). */
+export async function calendlyGet<T>(path: string): Promise<T | null> {
+  return calendlyGateway<T>(path);
+}
+
 /** Resolved once per server instance — the PAT maps to a single Calendly user. */
 let cachedUserUri: string | null = null;
 

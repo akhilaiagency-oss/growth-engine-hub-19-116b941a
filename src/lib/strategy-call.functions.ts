@@ -134,3 +134,14 @@ export const saveQualificationDetails = createServerFn({ method: "POST" })
       timeline: data.timeline,
     }),
   );
+
+/**
+ * Honest scarcity — real Calendly availability only. Returns `{ available }`
+ * when a genuine count is known, otherwise null so the UI shows the
+ * qualitative line with no number. Never invents a count.
+ */
+export const getSessionAvailability = createServerFn({ method: "GET" }).handler(async () => {
+  const { getSessionAvailabilityCount } = await import("./session-availability.server");
+  const available = await getSessionAvailabilityCount();
+  return available === null ? null : { available };
+});

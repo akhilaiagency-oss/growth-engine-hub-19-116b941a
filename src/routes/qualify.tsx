@@ -20,6 +20,7 @@ import {
   verifyStrategyCallPayment,
 } from "@/lib/strategy-call.functions";
 import { loadRazorpayCheckout, openRazorpayCheckout } from "@/lib/razorpay-checkout";
+import { SessionAvailability } from "@/components/site/session-availability";
 
 const TITLE = "Strategy Session Qualification — Growth Multiplier AI";
 const DESCRIPTION =
@@ -346,11 +347,11 @@ function PaymentStep({
         tabIndex={-1}
         className="text-[19px] leading-snug font-semibold text-fg outline-none"
       >
-        {state === "paid" ? "Payment confirmed" : "Reserve your strategy session"}
+        {state === "paid" ? "Payment confirmed" : "Secure your session for ₹9"}
       </h2>
 
       <div className="mt-4 flex items-center justify-between gap-4 rounded-[10px] border border-border bg-surface-2 p-[14px]">
-        <span className="text-[14.5px] text-muted">1:1 Growth Strategy Call</span>
+        <span className="text-[14.5px] text-muted">1:1 AI Growth Strategy Session</span>
         <span className="text-[20px] font-bold text-lime">₹9</span>
       </div>
 
@@ -428,7 +429,8 @@ function PaymentStep({
             <ShieldCheck size={13} className="shrink-0 text-lime" aria-hidden="true" />
             Fully refundable on request — email us any time before your session.
           </p>
-          <p className="mt-2 text-center text-[12px] text-muted-2">
+          <SessionAvailability className="mt-4 text-center" />
+          <p className="mt-3 text-center text-[12px] text-muted-2">
             By continuing you agree to our{" "}
             <Link to="/terms" className="underline-offset-4 hover:underline">
               Terms
