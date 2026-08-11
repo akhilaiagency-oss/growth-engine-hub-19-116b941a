@@ -1,4 +1,4 @@
-import { submitLead } from "@/lib/strategy-call.functions";
+import { saveQualificationDetails, submitLead } from "@/lib/strategy-call.functions";
 
 export interface QualificationAnswers {
   name: string;
@@ -13,6 +13,13 @@ export interface QualificationAnswers {
 
 export type QualificationField = keyof QualificationAnswers;
 
+/** The three fields collected before payment. */
+export type ContactField = "name" | "email" | "phone";
+/** The five fields collected after payment, before the calendar. */
+export type DetailField = Exclude<QualificationField, ContactField>;
+
+export type DetailAnswers = Record<DetailField, string>;
+
 export const EMPTY_ANSWERS: QualificationAnswers = {
   name: "",
   email: "",
@@ -24,7 +31,17 @@ export const EMPTY_ANSWERS: QualificationAnswers = {
   timeline: "",
 };
 
+export const EMPTY_DETAILS: DetailAnswers = {
+  businessType: "",
+  whatYouSell: "",
+  marketingSpend: "",
+  desiredOutcome: "",
+  timeline: "",
+};
+
 export const STORAGE_KEY = "gma-qualification";
+export const DETAILS_STORAGE_KEY = "gma-qualification-details";
+
 
 interface BaseQuestion {
   field: QualificationField;
