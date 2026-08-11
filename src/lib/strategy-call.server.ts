@@ -61,11 +61,8 @@ export async function createLead(input: LeadInput): Promise<LeadHandle> {
       name: input.name.trim(),
       email: input.email.trim().toLowerCase(),
       phone: input.phone.trim(),
-      business_type: input.businessType,
-      what_you_sell: input.whatYouSell.trim(),
-      marketing_spend: input.marketingSpend,
-      desired_outcome: input.desiredOutcome,
-      timeline: input.timeline,
+      // The remaining five answers are collected after payment.
+
       answers: { ...input },
       stage: "qualified",
       source_page: input.sourcePage ?? null,
