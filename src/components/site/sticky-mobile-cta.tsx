@@ -1,19 +1,23 @@
 import { BookCta } from "./book-cta";
+import { OfferCountdown } from "./offer-countdown";
+import { URGENCY } from "@/lib/urgency";
 
 export function StickyMobileCta() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-[rgba(7,11,20,0.92)] backdrop-blur-md min-[900px]:hidden">
+    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-[rgba(7,11,20,0.94)] backdrop-blur-md min-[900px]:hidden">
       <div
-        className="flex items-center gap-3 px-4 pt-3"
+        className="px-4 pt-2.5"
         style={{ paddingBottom: "max(10px, env(safe-area-inset-bottom))" }}
       >
-        <div className="shrink-0 leading-tight">
-          <span className="block text-[12px] text-muted">Strategy call</span>
-          <span className="block text-[15px] font-bold text-lime">₹9</span>
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <span className="inline-flex items-baseline gap-1.5 text-[12px] text-muted">
+            <span className="line-through text-muted-2">₹{URGENCY.originalPrice}</span>
+            <span className="text-[15px] font-bold text-lime">₹{URGENCY.offerPrice}</span>
+            <span>today</span>
+          </span>
+          <OfferCountdown label="Ends in" />
         </div>
-        <div className="flex-1">
-          <BookCta label="Book ₹9 Strategy Call →" fullWidth />
-        </div>
+        <BookCta label="Book My Strategy Call" fullWidth />
       </div>
     </div>
   );

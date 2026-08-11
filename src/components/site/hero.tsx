@@ -3,7 +3,7 @@ import { CtaNote } from "./cta-note";
 import { VslSlot } from "./vsl-slot";
 import { PriceAnchor } from "./price-anchor";
 import { SlotsLeft } from "./slots-left";
-import { OfferCountdown } from "./offer-countdown";
+import { CountdownBlocks } from "./countdown-blocks";
 
 export function Hero() {
   return (
@@ -29,10 +29,15 @@ export function Hero() {
           appointments.
         </p>
 
-        <div className="mt-6 flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-          <PriceAnchor suffix="today" />
-          <SlotsLeft />
-          <OfferCountdown />
+        <div className="mx-auto mt-8 flex max-w-[520px] flex-col items-center gap-5 rounded-[16px] border border-border bg-[rgba(14,21,38,0.72)] px-6 py-6 backdrop-blur-sm">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
+            <PriceAnchor size="lg" suffix="today" />
+            <SlotsLeft />
+          </div>
+          <CountdownBlocks />
+          <p className="text-[12.5px] leading-relaxed text-muted-2">
+            When the timer ends, the session returns to ₹99.
+          </p>
         </div>
 
         <div className="mt-10">

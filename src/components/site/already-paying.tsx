@@ -31,7 +31,7 @@ export function AlreadyPaying() {
         </Reveal>
 
         <Reveal className="mt-8 flex justify-center">
-          <BookCta label="Find My Acquisition Gaps →" />
+          <BookCta label="Find My Acquisition Gaps" />
         </Reveal>
       </div>
     </section>
