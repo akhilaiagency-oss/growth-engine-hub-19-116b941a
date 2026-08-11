@@ -1,5 +1,6 @@
 import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
+import { BookCta } from "./book-cta";
 
 const OUTCOMES = [
   {
@@ -28,6 +29,15 @@ const OUTCOMES = [
   },
 ];
 
+const VISIBILITY_ITEMS = [
+  "which traffic is producing genuine interest",
+  "which landing pages actually convert",
+  "which leads are qualified, and which aren't",
+  "which prospects are reaching a booked appointment",
+  "where follow-up is breaking down",
+  "which part of the funnel deserves attention next",
+];
+
 export function Outcomes() {
   return (
     <section id="outcomes" className="section-y band-raised">
@@ -54,6 +64,24 @@ export function Outcomes() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6 md:p-7">
+          <h3 className="text-[17px] font-bold tracking-[-0.01em] text-fg">
+            Imagine opening your reporting and seeing more than clicks and form fills
+          </h3>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            {VISIBILITY_ITEMS.map((item) => (
+              <li key={item} className="flex items-start gap-2.5 text-[14px] leading-relaxed text-muted">
+                <Check size={15} className="mt-0.5 shrink-0 text-lime" />
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <Reveal className="mt-8 flex justify-center">
+          <BookCta />
+        </Reveal>
       </div>
     </section>
   );
