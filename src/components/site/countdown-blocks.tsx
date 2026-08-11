@@ -14,7 +14,7 @@ export function CountdownBlocks({
   align?: "center" | "start";
 }) {
   const { ready, expired, label } = useCountdown();
-  const [hh, mm, ss] = label.split(":");
+  const [hh = "--", mm = "--", ss = "--"] = label.split(":");
 
   const tile =
     size === "sm"
