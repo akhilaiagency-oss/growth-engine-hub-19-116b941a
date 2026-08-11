@@ -75,7 +75,14 @@ const DETAILS = [
 
 export function SessionSection() {
   return (
-    <section id="session" className="section-y">
+    <section
+      id="session"
+      className="section-y band-base"
+      style={{
+        backgroundImage:
+          "radial-gradient(680px 300px at 50% 0%, rgba(131,226,78,0.10), transparent 70%)",
+      }}
+    >
       <div className="container-page">
         <Reveal className="mx-auto max-w-[760px] text-center">
           <span className="eyebrow">The session</span>

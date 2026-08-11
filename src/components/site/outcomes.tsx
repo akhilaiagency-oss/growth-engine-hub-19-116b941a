@@ -30,7 +30,7 @@ const OUTCOMES = [
 
 export function Outcomes() {
   return (
-    <section id="outcomes" className="section-y bg-surface">
+    <section id="outcomes" className="section-y band-raised">
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Outcomes</span>

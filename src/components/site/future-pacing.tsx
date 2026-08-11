@@ -13,7 +13,7 @@ const ITEMS = [
 
 export function FuturePacing() {
   return (
-    <section id="what-changes" className="section-y bg-surface">
+    <section id="what-changes" className="section-y band-base">
       <div className="container-narrow">
         <Reveal>
           <span className="eyebrow">What changes</span>

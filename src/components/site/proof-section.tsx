@@ -32,7 +32,7 @@ const CARDS = [
 
 export function ProofSection() {
   return (
-    <section id="proof" className="section-y bg-surface">
+    <section id="proof" className="section-y band-base">
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Proof &amp; evidence</span>
@@ -45,7 +45,7 @@ export function ProofSection() {
 
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {CARDS.map(({ Icon, title, body }) => (
-            <Reveal key={title} className="rounded-[12px] border border-border bg-bg p-6">
+            <Reveal key={title} className="rounded-[12px] border border-border bg-surface p-6">
               <span className="flex h-10 w-10 items-center justify-center rounded-[8px] border border-dashed border-border-strong text-muted-2">
                 <Icon size={18} />
               </span>
@@ -55,7 +55,7 @@ export function ProofSection() {
           ))}
         </div>
 
-        <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-surface p-6">
           <h3 className="text-[17px] font-semibold tracking-[-0.01em] text-fg">
             Built to be measured
           </h3>
@@ -84,7 +84,7 @@ export function ProofSection() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-6 flex items-start gap-3 rounded-[12px] border border-border bg-bg p-6">
+        <Reveal className="mt-6 flex items-start gap-3 rounded-[12px] border border-border bg-surface p-6">
           <Info size={18} className="mt-0.5 shrink-0 text-lime" />
           <p className="text-[14.5px] leading-relaxed text-muted">
             <strong className="font-semibold text-fg">

@@ -13,7 +13,7 @@ const WORKS = [
 
 export function FounderSection() {
   return (
-    <section id="founder" className="section-y bg-surface">
+    <section id="founder" className="section-y band-raised">
       <div className="container-page">
         <div className="grid items-start gap-10 min-[900px]:grid-cols-[0.85fr_1.15fr] min-[900px]:gap-[56px]">
           <Reveal className="relative">
@@ -105,7 +105,7 @@ export function FounderSection() {
               {["Founder-led delivery", "Strategy-driven engagements"].map((p) => (
                 <span
                   key={p}
-                  className="rounded-full border border-border bg-bg px-3 py-1.5 text-[12.5px] text-muted md:text-[11.5px]"
+                  className="rounded-full border border-border bg-surface-2 px-3 py-1.5 text-[12.5px] text-muted md:text-[11.5px]"
                 >
                   {p}
                 </span>

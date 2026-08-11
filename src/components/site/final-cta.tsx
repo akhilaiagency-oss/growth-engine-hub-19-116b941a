@@ -10,10 +10,10 @@ const ITEMS = ["30–45 minutes, 1-on-1", "Secure Razorpay checkout", "You keep 
 
 export function FinalCta() {
   return (
-    <section id="get-started" className="section-y">
+    <section id="get-started" className="section-y band-raised">
       <div className="container-page">
         <Reveal
-          className="rounded-[16px] border border-border bg-surface px-6 py-12 text-center md:px-[72px] md:py-[72px]"
+          className="rounded-[16px] border border-border bg-bg px-6 py-12 text-center md:px-[72px] md:py-[72px]"
           // radial lime wash from the top
         >
           <div

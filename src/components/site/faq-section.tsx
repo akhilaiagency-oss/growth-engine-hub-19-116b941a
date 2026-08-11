@@ -7,7 +7,7 @@ export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="section-y bg-surface">
+    <section id="faq" className="section-y band-base">
       <div className="container-narrow">
         <Reveal>
           <span className="eyebrow">FAQ</span>

@@ -187,6 +187,27 @@
   background: var(--surface);
 }
 
+/* Section band rhythm — alternating raised / deep bands down the page. */
+@utility band-raised {
+  position: relative;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+}
+
+@utility band-base {
+  position: relative;
+  background-color: var(--bg);
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.022),
+    rgba(255, 255, 255, 0) 120px
+  );
+  background-repeat: no-repeat;
+  border-top: 1px solid var(--border);
+}
+
+
+
 @utility btn-primary {
   display: inline-flex;
   align-items: center;

@@ -19,7 +19,7 @@ const NOT_FOR = [
 
 export function WhoFor() {
   return (
-    <section id="fit" className="section-y">
+    <section id="fit" className="section-y band-raised">
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Fit</span>
@@ -31,7 +31,7 @@ export function WhoFor() {
         </Reveal>
 
         <div className="mt-10 grid gap-5 md:grid-cols-2">
-          <Reveal className="card-surface p-6 md:p-7">
+          <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
             <h3 className="text-[17px] font-bold tracking-[-0.01em] text-lime">
               This is for you if
             </h3>
@@ -45,7 +45,7 @@ export function WhoFor() {
             </ul>
           </Reveal>
 
-          <Reveal className="card-surface p-6 md:p-7">
+          <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
             <h3 className="text-[17px] font-bold tracking-[-0.01em] text-muted">
               This isn't for you if
             </h3>

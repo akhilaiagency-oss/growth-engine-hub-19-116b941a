@@ -3,7 +3,7 @@ import { BookCta } from "./book-cta";
 
 export function AlreadyPaying() {
   return (
-    <section id="already-paying" className="section-y">
+    <section id="already-paying" className="section-y band-raised">
       <div className="container-narrow">
         <Reveal>
           <span className="eyebrow">Why solve this now</span>
@@ -20,7 +20,7 @@ export function AlreadyPaying() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-8 rounded-[12px] border border-border bg-surface p-6">
+        <Reveal className="mt-8 rounded-[12px] border border-border bg-bg p-6">
           <p
             className="text-[17px] leading-relaxed font-semibold text-fg"
             style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}

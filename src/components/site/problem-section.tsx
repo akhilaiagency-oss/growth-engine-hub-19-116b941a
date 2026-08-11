@@ -21,7 +21,7 @@ const CARDS = [
 
 export function ProblemSection() {
   return (
-    <section id="problem" className="section-y">
+    <section id="problem" className="section-y band-base">
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">The acquisition problem</span>
