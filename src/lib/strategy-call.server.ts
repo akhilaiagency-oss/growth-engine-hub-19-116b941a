@@ -14,12 +14,16 @@ export interface LeadInput {
   name: string;
   email: string;
   phone: string;
+  sourcePage?: string | undefined;
+}
+
+/** The five answers collected after payment, before the calendar. */
+export interface QualificationDetails {
   businessType: string;
   whatYouSell: string;
   marketingSpend: string;
   desiredOutcome: string;
   timeline: string;
-  sourcePage?: string | undefined;
 }
 
 export interface LeadHandle {
