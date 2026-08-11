@@ -4,6 +4,8 @@ import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
 import { TrustStrip } from "@/components/site/trust-strip";
 import { ProblemSection } from "@/components/site/problem-section";
+import { AlreadyPaying } from "@/components/site/already-paying";
+import { FuturePacing } from "@/components/site/future-pacing";
 import { LeakMap } from "@/components/site/leak-map";
 import { EngineSection } from "@/components/site/engine-section";
 import { Outcomes } from "@/components/site/outcomes";
@@ -73,14 +75,16 @@ function Index() {
         <Hero />
         <TrustStrip />
         <ProblemSection />
+        <AlreadyPaying />
         <LeakMap />
         <EngineSection />
+        <FuturePacing />
         <Outcomes />
+        <ProofSection />
+        <FounderSection />
         <SessionSection />
         <HowItWorks />
-        <ProofSection />
         <WhySection />
-        <FounderSection />
         <WhoFor />
         <FaqSection />
         <FinalCta />

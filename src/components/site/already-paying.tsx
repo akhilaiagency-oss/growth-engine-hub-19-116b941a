@@ -20,10 +20,7 @@ export function AlreadyPaying() {
           </p>
         </Reveal>
 
-        <Reveal
-          className="mt-8 rounded-[12px] bg-surface p-6"
-          
-        >
+        <Reveal className="mt-8 rounded-[12px] border border-border bg-surface p-6">
           <p
             className="text-[17px] leading-relaxed font-semibold text-fg"
             style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}
