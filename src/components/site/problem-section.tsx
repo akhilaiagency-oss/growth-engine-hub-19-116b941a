@@ -1,5 +1,6 @@
 import { Timer, Unplug, CalendarX } from "lucide-react";
 import { Reveal } from "./reveal";
+import { BookCta } from "./book-cta";
 
 const CARDS = [
   {
@@ -45,6 +46,16 @@ export function ProblemSection() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
+          <p
+            className="text-[17px] leading-relaxed font-semibold text-fg"
+            style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}
+          >
+            Every click represents an acquisition cost you have already committed. Before increasing
+            your ad budget, it's worth finding where the existing funnel is leaking.
+          </p>
+        </Reveal>
       </div>
     </section>
   );
