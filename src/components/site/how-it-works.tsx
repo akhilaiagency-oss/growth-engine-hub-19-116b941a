@@ -36,7 +36,7 @@ export function HowItWorks() {
 
         <div className="mt-10 grid gap-5 md:grid-cols-3">
           {STEPS.map((s) => (
-            <Reveal key={s.n} className="card-surface p-6">
+            <Reveal key={s.n} className="rounded-[12px] border border-border bg-bg p-6">
               <span className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-lime text-[13px] font-bold text-lime-ink">
                 {s.n}
               </span>
@@ -49,7 +49,7 @@ export function HowItWorks() {
           ))}
         </div>
 
-        <Reveal className="mt-5 card-surface p-6 md:p-7">
+        <Reveal className="mt-5 rounded-[12px] border border-border bg-bg p-6 md:p-7">
           <h3 className="text-[17px] font-bold tracking-[-0.01em] text-fg">On the call itself</h3>
           <p className="mt-3 max-w-[860px] text-[14.5px] leading-relaxed text-muted">
             We put your real numbers against the Acquisition Leak Map, find the stage costing you
