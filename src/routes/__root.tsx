@@ -10,7 +10,7 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { UrgencyBar } from "@/components/site/urgency-bar";
+
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -124,9 +124,6 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <UrgencyBar />
-      {/* Reserves the fixed urgency bar's 36px so nothing sits underneath it. */}
-      <div className="h-9" aria-hidden="true" />
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
