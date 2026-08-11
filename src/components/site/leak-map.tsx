@@ -59,7 +59,7 @@ export function LeakMap() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-10 rounded-[16px] border border-border bg-surface p-5 md:p-8">
+        <Reveal className="mt-8 rounded-[16px] border border-border bg-surface p-5 md:p-8">
           <div className="flex flex-wrap items-center gap-6 border-b border-border pb-5">
             <span className="flex items-center gap-2 text-[12.5px] text-muted md:text-[12px]">
               <span

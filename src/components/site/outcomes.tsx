@@ -41,7 +41,7 @@ export function Outcomes() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-2">
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
           {OUTCOMES.map((o) => (
             <Reveal key={o.title} className="rounded-[12px] border border-border bg-bg p-6">
               <div className="flex items-start gap-3">

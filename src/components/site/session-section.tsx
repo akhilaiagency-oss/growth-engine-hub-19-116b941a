@@ -106,7 +106,7 @@ export function SessionSection() {
 
         </Reveal>
 
-        <div className="mt-10 grid items-start gap-10 min-[900px]:grid-cols-[1.35fr_1fr]">
+        <div className="mt-8 grid items-start gap-10 min-[900px]:grid-cols-[1.35fr_1fr]">
           {/* Agenda */}
           <Reveal className="card-surface p-2">
             <ul>

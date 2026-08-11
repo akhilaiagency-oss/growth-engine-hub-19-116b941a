@@ -90,7 +90,7 @@ export function EngineSection() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-10 rounded-[16px] border border-border bg-bg p-5 md:p-8">
+        <Reveal className="mt-8 rounded-[16px] border border-border bg-bg p-5 md:p-8">
           {/* Desktop loop diagram */}
           <div className="hidden min-[820px]:block">
             <svg

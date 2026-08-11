@@ -36,7 +36,7 @@ export function ProblemSection() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
           {CARDS.map(({ Icon, title, body }) => (
             <Reveal key={title} className="card-surface p-6">
               <Icon size={20} className="text-muted-2" />

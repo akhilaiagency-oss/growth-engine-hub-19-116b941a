@@ -34,7 +34,7 @@ export function HowItWorks() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-5 md:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-3">
           {STEPS.map((s) => (
             <Reveal key={s.n} className="rounded-[12px] border border-border bg-bg p-6">
               <span className="flex h-8 w-8 items-center justify-center rounded-[8px] bg-lime text-[13px] font-bold text-lime-ink">
