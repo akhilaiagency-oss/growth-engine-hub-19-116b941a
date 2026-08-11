@@ -124,9 +124,11 @@ export function SessionSection() {
           <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
             <div className="h-[2px] w-full bg-lime" />
             <div className="p-7">
-              <div className="flex items-baseline gap-3">
+              <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <span className="text-[30px] font-bold text-fg">₹9</span>
-                <span className="text-[13px] text-muted md:text-[12.5px]">reserves your session</span>
+                <span className="text-[13px] text-muted md:text-[12.5px]">
+                  1:1 AI Growth Strategy Session
+                </span>
               </div>
 
               <div className="my-6 h-px w-full bg-border" />
@@ -139,6 +141,29 @@ export function SessionSection() {
                 A paid step — however small — means the calendar goes to people who are genuinely
                 working on this problem. It keeps the session focused, and it means Akhil arrives
                 having looked at your business rather than running a generic call.
+              </p>
+
+              <div className="my-6 h-px w-full bg-border" />
+
+              <p className="text-[15px] font-semibold text-fg">Low commitment. High clarity.</p>
+              <p className="mt-2 text-[14px] leading-[1.7] text-muted">
+                The ₹9 reserves your session. The goal isn't to sell you a predetermined package —
+                it's to understand your acquisition system, identify the biggest bottleneck, and
+                work out whether Growth Multiplier AI is genuinely a fit.
+              </p>
+
+              <div className="mt-5 border-l-2 border-lime pl-4">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-lime md:text-[11.5px]">
+                  Clarity guarantee
+                </p>
+                <p className="mt-2 text-[14px] leading-[1.7] text-fg">
+                  You'll leave the session knowing what we believe deserves attention first in your
+                  acquisition system — not a generic marketing presentation.
+                </p>
+              </div>
+
+              <p className="mt-5 text-[14px] font-semibold text-fg">
+                If we're not the right fit, we'll tell you.
               </p>
 
               <p className="mt-7 text-[12px] font-semibold uppercase md:text-[11px] tracking-[0.14em] text-muted-2">
@@ -156,9 +181,12 @@ export function SessionSection() {
               <div className="mt-7">
                 <BookCta fullWidth />
               </div>
+              <CtaNote className="mt-3" />
+              <SessionAvailability className="mt-4 text-center" />
               <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
+
             </div>
           </Reveal>
         </div>
