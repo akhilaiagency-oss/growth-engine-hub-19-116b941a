@@ -136,11 +136,20 @@ function BookPage() {
       try {
         const result = await verifyStrategyCallBooking({ data: { ...h, ...hints } });
         if (result.status === "confirmed" && result.booking) {
-          // The server already returned the confirmed booking — render it now
-          // instead of waiting on another round trip.
-          setAccess((prev) => (prev ? { ...prev, booking: result.booking } : prev));
+          // The server already returned the confirmed booking AND the freshly
+          // computed WhatsApp gate — render it now, no extra round trip.
+          setAccess((prev) =>
+            prev
+              ? {
+                  ...prev,
+                  booking: result.booking,
+                  whatsappUnlocked: result.whatsappUnlocked,
+                  whatsappStatus: result.whatsappStatus,
+                }
+              : prev,
+          );
           setError(null);
-          // Revalidate in the background (WhatsApp gate etc.); UI doesn't wait.
+          // Non-blocking background revalidate; the UI never waits on it.
           void load(h);
           return true;
         }
@@ -376,8 +385,14 @@ function ConfirmedCard({
   handle: LeadHandle | null;
 }) {
   const [opening, setOpening] = useState(false);
-  const [locked, setLocked] = useState(!whatsappUnlocked);
-  const [joined, setJoined] = useState(whatsappStatus === "joined");
+  // Derived from props so a fresh gate arriving with the verify response (or a
+  // background revalidate) unlocks the button without a reload.
+  const [claimFailed, setClaimFailed] = useState(false);
+  const [joinedLocally, setJoinedLocally] = useState(false);
+  const locked = claimFailed || !whatsappUnlocked;
+  const joined = joinedLocally || whatsappStatus === "joined";
+  const setLocked = setClaimFailed;
+  const setJoined = setJoinedLocally;
 
   const when = booking.scheduledAt
     ? new Date(booking.scheduledAt).toLocaleString(undefined, {

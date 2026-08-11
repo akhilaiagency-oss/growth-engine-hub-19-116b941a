@@ -159,7 +159,17 @@ export type VerifyStatus = "unpaid" | "pending" | "confirmed" | "not_configured"
 export interface VerifyResult {
   status: VerifyStatus;
   booking: BookingAccess["booking"];
+  /** Same gate as BookingAccess, so the fast path never renders a stale lock. */
+  whatsappUnlocked: boolean;
+  whatsappStatus: string;
 }
+
+const LOCKED_VERIFY: VerifyResult = {
+  status: "unpaid",
+  booking: null,
+  whatsappUnlocked: false,
+  whatsappStatus: "not_granted",
+};
 
 export interface BookingHints {
   eventUri?: string | null;
@@ -183,12 +193,13 @@ export async function verifyCalendlyBooking(
 ): Promise<VerifyResult> {
   const db = await admin();
   const lead = await loadLead(leadId, accessToken);
-  if (!lead) return { status: "unpaid", booking: null };
+  if (!lead) return LOCKED_VERIFY;
 
   const payment = await paidPayment(lead.id);
-  if (!payment) return { status: "unpaid", booking: null };
+  if (!payment) return LOCKED_VERIFY;
 
-  if (!isCalendlyApiConfigured()) return { status: "not_configured", booking: null };
+  if (!isCalendlyApiConfigured())
+    return { ...LOCKED_VERIFY, status: "not_configured" };
 
   const paidAtRaw = payment.verified_at ?? payment.paid_at ?? null;
   const paidAtMs = paidAtRaw ? new Date(paidAtRaw).getTime() : null;
@@ -261,8 +272,18 @@ export async function verifyCalendlyBooking(
       .eq("lead_id", lead.id)
       .in("whatsapp_status", ["not_granted", "invited", "revoked"]);
 
+    // Read the gate back from the row we just wrote: 'enabled', or 'joined'
+    // when this lead had already joined during an earlier booking.
+    const { data: entitlement } = await db
+      .from("strategy_call_entitlements")
+      .select("whatsapp_status")
+      .eq("lead_id", lead.id)
+      .maybeSingle();
+
     return {
       status: "confirmed",
+      whatsappUnlocked: Boolean(getWhatsappCommunityUrl()),
+      whatsappStatus: entitlement?.whatsapp_status ?? "enabled",
       booking: {
         status: "confirmed",
         scheduledAt: event.start_time ?? null,
@@ -304,7 +325,7 @@ export async function verifyCalendlyBooking(
     if (claimed) return claimed;
   }
 
-  return { status: "pending", booking: null };
+  return { ...LOCKED_VERIFY, status: "pending" };
 }
 
 export interface ReconcileSummary {
