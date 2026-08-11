@@ -11,7 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BookRouteImport } from './routes/book'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as QualifyRouteImport } from './routes/qualify'
+import { Route as RefundPolicyRouteImport } from './routes/refund-policy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as ApiPublicHooksReconcileCalendlyRouteImport } from './routes/api/public/hooks/reconcile-calendly'
 import { Route as ApiPublicWebhooksRazorpayRouteImport } from './routes/api/public/webhooks/razorpay'
 
@@ -25,9 +28,24 @@ const BookRoute = BookRouteImport.update({
   path: '/book',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QualifyRoute = QualifyRouteImport.update({
   id: '/qualify',
   path: '/qualify',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefundPolicyRoute = RefundPolicyRouteImport.update({
+  id: '/refund-policy',
+  path: '/refund-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiPublicHooksReconcileCalendlyRoute =
@@ -46,14 +64,20 @@ const ApiPublicWebhooksRazorpayRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/privacy': typeof PrivacyRoute
   '/qualify': typeof QualifyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/terms': typeof TermsRoute
   '/api/public/hooks/reconcile-calendly': typeof ApiPublicHooksReconcileCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/privacy': typeof PrivacyRoute
   '/qualify': typeof QualifyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/terms': typeof TermsRoute
   '/api/public/hooks/reconcile-calendly': typeof ApiPublicHooksReconcileCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
@@ -61,7 +85,10 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/book': typeof BookRoute
+  '/privacy': typeof PrivacyRoute
   '/qualify': typeof QualifyRoute
+  '/refund-policy': typeof RefundPolicyRoute
+  '/terms': typeof TermsRoute
   '/api/public/hooks/reconcile-calendly': typeof ApiPublicHooksReconcileCalendlyRoute
   '/api/public/webhooks/razorpay': typeof ApiPublicWebhooksRazorpayRoute
 }
@@ -70,21 +97,30 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/book'
+    | '/privacy'
     | '/qualify'
+    | '/refund-policy'
+    | '/terms'
     | '/api/public/hooks/reconcile-calendly'
     | '/api/public/webhooks/razorpay'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/book'
+    | '/privacy'
     | '/qualify'
+    | '/refund-policy'
+    | '/terms'
     | '/api/public/hooks/reconcile-calendly'
     | '/api/public/webhooks/razorpay'
   id:
     | '__root__'
     | '/'
     | '/book'
+    | '/privacy'
     | '/qualify'
+    | '/refund-policy'
+    | '/terms'
     | '/api/public/hooks/reconcile-calendly'
     | '/api/public/webhooks/razorpay'
   fileRoutesById: FileRoutesById
@@ -92,7 +128,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BookRoute: typeof BookRoute
+  PrivacyRoute: typeof PrivacyRoute
   QualifyRoute: typeof QualifyRoute
+  RefundPolicyRoute: typeof RefundPolicyRoute
+  TermsRoute: typeof TermsRoute
   ApiPublicHooksReconcileCalendlyRoute: typeof ApiPublicHooksReconcileCalendlyRoute
   ApiPublicWebhooksRazorpayRoute: typeof ApiPublicWebhooksRazorpayRoute
 }
@@ -113,11 +152,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/qualify': {
       id: '/qualify'
       path: '/qualify'
       fullPath: '/qualify'
       preLoaderRoute: typeof QualifyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/refund-policy': {
+      id: '/refund-policy'
+      path: '/refund-policy'
+      fullPath: '/refund-policy'
+      preLoaderRoute: typeof RefundPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/public/hooks/reconcile-calendly': {
@@ -140,10 +200,23 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BookRoute: BookRoute,
+  PrivacyRoute: PrivacyRoute,
   QualifyRoute: QualifyRoute,
+  RefundPolicyRoute: RefundPolicyRoute,
+  TermsRoute: TermsRoute,
   ApiPublicHooksReconcileCalendlyRoute: ApiPublicHooksReconcileCalendlyRoute,
   ApiPublicWebhooksRazorpayRoute: ApiPublicWebhooksRazorpayRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { BrandLockup } from "./brand-lockup";
 
 const PAGE_LINKS = [
@@ -7,11 +8,17 @@ const PAGE_LINKS = [
   { href: "#faq", label: "FAQ" },
 ];
 
+const LEGAL_LINKS = [
+  { to: "/privacy", label: "Privacy Policy" },
+  { to: "/terms", label: "Terms of Service" },
+  { to: "/refund-policy", label: "Refund Policy" },
+] as const;
+
 export function SiteFooter() {
   return (
     <footer className="border-t border-border pb-[calc(104px+env(safe-area-inset-bottom))] min-[900px]:pb-0">
       <div className="container-page py-14">
-        <div className="grid gap-10 min-[700px]:grid-cols-[1.6fr_1fr_1fr]">
+        <div className="grid gap-10 min-[700px]:grid-cols-2 min-[1000px]:grid-cols-[1.6fr_1fr_1fr_1fr]">
           <div>
             <BrandLockup size="footer" />
 
@@ -55,6 +62,24 @@ export function SiteFooter() {
               <li className="flex min-h-[44px] items-center text-[13.5px] text-muted-2 md:min-h-0">
                 WhatsApp community — link added at launch
               </li>
+            </ul>
+          </div>
+
+          <div>
+            <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
+              Legal
+            </p>
+            <ul className="mt-4 flex flex-col gap-1 md:gap-3">
+              {LEGAL_LINKS.map((l) => (
+                <li key={l.to}>
+                  <Link
+                    to={l.to}
+                    className="flex min-h-[44px] items-center text-[13.5px] text-muted transition-colors hover:text-fg md:min-h-0"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

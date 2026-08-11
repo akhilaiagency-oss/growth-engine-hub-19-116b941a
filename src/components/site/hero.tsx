@@ -20,9 +20,9 @@ export function Hero() {
         </h1>
 
         <p className="mx-auto mt-5 max-w-[660px] text-[17px] leading-relaxed text-muted">
-          Growth Multiplier AI connects high-converting landing pages, AI qualification, CRM,
-          automation and follow-up into one acquisition system designed to turn traffic into
-          qualified leads, booked appointments and measurable revenue.
+          We connect your landing pages, lead qualification, follow-up and booking into one
+          acquisition system — so the traffic you're already paying for turns into booked
+          appointments.
         </p>
 
         <div className="mt-10">
