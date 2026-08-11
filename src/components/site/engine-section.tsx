@@ -72,7 +72,14 @@ export function EngineSection() {
   const active = ENGINE_STAGES.find((s) => s.id === activeId)!;
 
   return (
-    <section id="engine" className="section-y">
+    <section
+      id="engine"
+      className="section-y band-raised"
+      style={{
+        backgroundImage:
+          "radial-gradient(760px 320px at 50% 0%, rgba(62,134,255,0.10), transparent 68%), radial-gradient(560px 260px at 78% 12%, rgba(63,220,232,0.06), transparent 66%)",
+      }}
+    >
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Our proprietary system</span>
@@ -83,7 +90,7 @@ export function EngineSection() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-10 rounded-[16px] border border-border bg-surface p-5 md:p-8">
+        <Reveal className="mt-10 rounded-[16px] border border-border bg-bg p-5 md:p-8">
           {/* Desktop loop diagram */}
           <div className="hidden min-[820px]:block">
             <svg
@@ -290,7 +297,7 @@ export function EngineSection() {
           </div>
         </Reveal>
 
-        <Reveal className="mt-6 rounded-[12px] bg-surface p-6">
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
           <p
             className="text-[16px] leading-relaxed"
             style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}

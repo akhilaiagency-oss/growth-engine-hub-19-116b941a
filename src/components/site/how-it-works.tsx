@@ -24,7 +24,7 @@ const STEPS = [
 
 export function HowItWorks() {
   return (
-    <section id="how-it-works" className="section-y">
+    <section id="how-it-works" className="section-y band-raised">
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">How it works</span>

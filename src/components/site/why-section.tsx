@@ -25,7 +25,7 @@ const ROWS = [
 
 export function WhySection() {
   return (
-    <section id="why" className="section-y">
+    <section id="why" className="section-y band-base">
       <div className="container-narrow">
         <Reveal>
           <span className="eyebrow">Why Growth Multiplier AI</span>
