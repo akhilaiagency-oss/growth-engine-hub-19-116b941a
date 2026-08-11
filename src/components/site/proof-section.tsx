@@ -1,5 +1,16 @@
-import { FileText, LineChart, BookOpen, Info } from "lucide-react";
+import { FileText, LineChart, BookOpen, Info, ChevronRight } from "lucide-react";
 import { Reveal } from "./reveal";
+
+const CHAIN = [
+  "Traffic",
+  "Lead",
+  "Qualified",
+  "Booked",
+  "Showed",
+  "Opportunity",
+  "Revenue",
+];
+
 
 const CARDS = [
   {
@@ -43,6 +54,35 @@ export function ProofSection() {
             </Reveal>
           ))}
         </div>
+
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
+          <h3 className="text-[17px] font-semibold tracking-[-0.01em] text-fg">
+            Built to be measured
+          </h3>
+          <p className="mt-2 text-[14px] leading-relaxed text-muted">
+            Proof of results will live here as engagements complete. In the meantime, here is the
+            chain every Growth Multiplier AI build is instrumented against.
+          </p>
+          <ul className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2.5">
+            {CHAIN.map((stage, i) => (
+              <li key={stage} className="flex items-center gap-2">
+                <span className="rounded-[10px] border border-border bg-surface-2 px-3 py-1.5 text-[12.5px] text-muted">
+                  {stage}
+                </span>
+                {i < CHAIN.length - 1 && (
+                  <ChevronRight
+                    size={14}
+                    aria-hidden="true"
+                    className="shrink-0 text-cyan opacity-40"
+                  />
+                )}
+              </li>
+            ))}
+          </ul>
+          <p className="mt-4 text-[12.5px] leading-relaxed text-muted-2">
+            Every stage is tracked separately, so a drop can be located rather than guessed at.
+          </p>
+        </Reveal>
 
         <Reveal className="mt-6 flex items-start gap-3 rounded-[12px] border border-border bg-bg p-6">
           <Info size={18} className="mt-0.5 shrink-0 text-lime" />
