@@ -136,11 +136,20 @@ function BookPage() {
       try {
         const result = await verifyStrategyCallBooking({ data: { ...h, ...hints } });
         if (result.status === "confirmed" && result.booking) {
-          // The server already returned the confirmed booking — render it now
-          // instead of waiting on another round trip.
-          setAccess((prev) => (prev ? { ...prev, booking: result.booking } : prev));
+          // The server already returned the confirmed booking AND the freshly
+          // computed WhatsApp gate — render it now, no extra round trip.
+          setAccess((prev) =>
+            prev
+              ? {
+                  ...prev,
+                  booking: result.booking,
+                  whatsappUnlocked: result.whatsappUnlocked,
+                  whatsappStatus: result.whatsappStatus,
+                }
+              : prev,
+          );
           setError(null);
-          // Revalidate in the background (WhatsApp gate etc.); UI doesn't wait.
+          // Non-blocking background revalidate; the UI never waits on it.
           void load(h);
           return true;
         }
