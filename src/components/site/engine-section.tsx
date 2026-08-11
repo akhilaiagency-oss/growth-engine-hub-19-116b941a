@@ -222,6 +222,39 @@ export function EngineSection() {
             </div>
           </div>
 
+          {/* Scannable stage list — all seven readable without interaction */}
+          <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {ENGINE_STAGES.map((s) => {
+              const isActive = s.id === activeId;
+              return (
+                <li key={s.id}>
+                  <button
+                    type="button"
+                    aria-pressed={isActive}
+                    onClick={() => setActiveId(s.id)}
+                    className="flex h-full w-full flex-col rounded-[8px] border-l-2 p-3 text-left transition-colors"
+                    style={{
+                      borderLeftColor: isActive ? "var(--lime)" : "var(--border)",
+                      background: isActive ? "var(--surface-2)" : "transparent",
+                    }}
+                  >
+                    <span className="flex items-center gap-2">
+                      <span className="text-[12px] font-bold text-lime md:text-[11px]">
+                        {s.number}
+                      </span>
+                      <span className="text-[12.5px] font-semibold tracking-[1px] text-fg">
+                        {s.name}
+                      </span>
+                    </span>
+                    <span className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-muted">
+                      {s.title}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+
           {/* Shared detail panel */}
           <div
             aria-live="polite"

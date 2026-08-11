@@ -424,6 +424,17 @@ function PaymentStep({
             <Lock size={12} aria-hidden="true" /> Secure payment. Your card details never touch
             this site.
           </p>
+          <p className="mt-2 text-center text-[12px] text-muted-2">
+            By continuing you agree to our{" "}
+            <Link to="/terms" className="underline-offset-4 hover:underline">
+              Terms
+            </Link>{" "}
+            and{" "}
+            <Link to="/privacy" className="underline-offset-4 hover:underline">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </>
       )}
 

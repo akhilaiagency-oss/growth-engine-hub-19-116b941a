@@ -20,7 +20,7 @@ import { StickyMobileCta } from "@/components/site/sticky-mobile-cta";
 
 const TITLE = "Growth Multiplier AI — Turn Ad Traffic Into Qualified Opportunities";
 const DESCRIPTION =
-  "Growth Multiplier AI connects high-converting landing pages, AI qualification, CRM, automation and follow-up into one acquisition system designed to turn traffic into qualified leads, booked appointments and measurable revenue.";
+  "We connect your landing pages, lead qualification, follow-up and booking into one acquisition system — so the traffic you're already paying for turns into booked appointments.";
 
 export const Route = createFileRoute("/")({
   component: Index,
