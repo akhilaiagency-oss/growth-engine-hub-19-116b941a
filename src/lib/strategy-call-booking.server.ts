@@ -99,6 +99,8 @@ export async function getBookingAccess(
     booking: null,
     whatsappStatus: "not_granted",
     whatsappUnlocked: false,
+    qualificationComplete: false,
+    qualification: null,
   };
 
   const lead = await loadLead(leadId, accessToken);
@@ -142,6 +144,14 @@ export async function getBookingAccess(
     configured: Boolean(base),
     schedulingUrl,
     prefill: { name: lead.name, email: lead.email },
+    qualificationComplete: isQualificationComplete(lead),
+    qualification: {
+      businessType: lead.business_type ?? "",
+      whatYouSell: lead.what_you_sell ?? "",
+      marketingSpend: lead.marketing_spend ?? "",
+      desiredOutcome: lead.desired_outcome ?? "",
+      timeline: lead.timeline ?? "",
+    },
     booking: booking
       ? {
           status: booking.status,
