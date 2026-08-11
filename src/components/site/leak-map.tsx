@@ -165,7 +165,7 @@ export function LeakMap() {
           <p className="mb-[14px] text-[14.5px] leading-relaxed text-muted">
             Most owners can guess their weakest stage. Almost none can prove it.
           </p>
-          <BookCta label="Map My Funnel — Book My ₹9 Strategy Call →" />
+          <BookCta label="Map My Funnel — Book My Strategy Call" />
         </div>
       </div>
     </section>
