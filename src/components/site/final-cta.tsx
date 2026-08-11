@@ -3,7 +3,8 @@ import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
-import { OfferCountdown } from "./offer-countdown";
+import { CountdownBlocks } from "./countdown-blocks";
+import { SlotsLeft } from "./slots-left";
 
 const ITEMS = ["30–45 minutes, 1-on-1", "Secure Razorpay checkout", "You keep the plan either way"];
 
