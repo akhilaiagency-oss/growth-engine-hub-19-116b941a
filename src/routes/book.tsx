@@ -11,7 +11,13 @@ import {
   RefreshCw,
 } from "lucide-react";
 import { BrandLockup } from "@/components/site/brand-lockup";
-import { readLeadHandle, type LeadHandle } from "@/data/qualification";
+import { QualificationDetailsFlow } from "@/components/site/question-flow";
+import {
+  EMPTY_DETAILS,
+  readLeadHandle,
+  submitQualificationDetails,
+  type LeadHandle,
+} from "@/data/qualification";
 import {
   claimWhatsappCommunityAccess,
   getStrategyCallBooking,
@@ -270,6 +276,17 @@ function BookPage() {
             whatsappStatus={access.whatsappStatus}
             whatsappUnlocked={access.whatsappUnlocked}
             handle={handle}
+          />
+        ) : showDetails && handle ? (
+          <QualificationDetailsFlow
+            initial={access.qualification ?? EMPTY_DETAILS}
+            onComplete={async (details) => {
+              const { saved } = await submitQualificationDetails(handle, details);
+              if (!saved) return false;
+              // Reveal the calendar in the same view — no reload, no extra click.
+              setAccess((prev) => (prev ? { ...prev, qualificationComplete: true } : prev));
+              return true;
+            }}
           />
         ) : (
           <>
