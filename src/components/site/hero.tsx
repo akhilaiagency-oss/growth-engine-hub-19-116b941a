@@ -9,7 +9,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-5 pt-[168px] pb-[72px]"
+      className="relative overflow-hidden px-5 pt-[132px] pb-[72px]"
       style={{
         backgroundImage:
           "radial-gradient(800px 440px at 20% -10%, rgba(62,134,255,0.18), transparent 62%), radial-gradient(700px 420px at 84% 2%, rgba(131,226,78,0.10), transparent 58%)",
@@ -29,15 +29,11 @@ export function Hero() {
           appointments.
         </p>
 
-        <div className="mx-auto mt-8 flex max-w-[520px] flex-col items-center gap-5 rounded-[16px] border border-border bg-[rgba(14,21,38,0.72)] px-6 py-6 backdrop-blur-sm">
+        <div className="mx-auto mt-8 flex max-w-[520px] flex-col items-center gap-4 rounded-[16px] border border-border bg-[rgba(14,21,38,0.72)] px-6 py-5 backdrop-blur-sm">
           <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
             <PriceAnchor size="lg" suffix="today" />
             <SlotsLeft />
           </div>
-          <CountdownBlocks />
-          <p className="text-[12.5px] leading-relaxed text-muted-2">
-            When the timer ends, the session returns to ₹99.
-          </p>
         </div>
 
         <div className="mt-10">
@@ -51,7 +47,15 @@ export function Hero() {
           </a>
         </div>
 
-        <CtaNote className="mt-3" />
+        <div className="mx-auto mt-7 flex max-w-[460px] flex-col items-center gap-3 rounded-[16px] border border-border bg-[rgba(14,21,38,0.72)] px-6 py-5 backdrop-blur-sm">
+          <CountdownBlocks />
+          <p className="text-[12.5px] leading-relaxed text-muted-2">
+            When the timer ends, the session returns to ₹99.
+          </p>
+        </div>
+
+        <CtaNote className="mt-4" />
+
 
 
         <p className="mt-4 text-[12.5px] text-muted-2">
