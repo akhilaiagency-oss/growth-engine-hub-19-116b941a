@@ -191,7 +191,10 @@ export function SessionSection() {
                 <BookCta fullWidth />
               </div>
               <CtaNote className="mt-3" />
-              <SessionAvailability className="mt-4 text-center" />
+              <p className="mt-4 text-center text-[12.5px] leading-relaxed text-muted-2">
+                Sessions are intentionally limited so each one can focus on your business rather
+                than becoming a generic sales call.
+              </p>
               <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
