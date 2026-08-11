@@ -278,16 +278,22 @@ function BookPage() {
             handle={handle}
           />
         ) : showDetails && handle ? (
-          <QualificationDetailsFlow
-            initial={access.qualification ?? EMPTY_DETAILS}
-            onComplete={async (details) => {
-              const { saved } = await submitQualificationDetails(handle, details);
-              if (!saved) return false;
-              // Reveal the calendar in the same view — no reload, no extra click.
-              setAccess((prev) => (prev ? { ...prev, qualificationComplete: true } : prev));
-              return true;
-            }}
-          />
+          <>
+            <p className="text-[14px] font-semibold text-lime">Payment confirmed ✓</p>
+            <p className="mt-1 mb-6 text-[14.5px] text-muted">
+              Your strategy session is now ready to schedule.
+            </p>
+            <QualificationDetailsFlow
+              initial={access.qualification ?? EMPTY_DETAILS}
+              onComplete={async (details) => {
+                const { saved } = await submitQualificationDetails(handle, details);
+                if (!saved) return false;
+                // Reveal the calendar in the same view — no reload, no extra click.
+                setAccess((prev) => (prev ? { ...prev, qualificationComplete: true } : prev));
+                return true;
+              }}
+            />
+          </>
         ) : (
           <>
             <h1 className="text-[26px] leading-tight font-semibold text-fg sm:text-[32px]">
