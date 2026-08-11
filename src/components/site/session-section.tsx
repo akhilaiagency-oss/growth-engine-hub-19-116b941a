@@ -2,7 +2,9 @@ import { Check, X } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
-import { SessionAvailability } from "./session-availability";
+import { PriceAnchor } from "./price-anchor";
+import { SlotsLeft } from "./slots-left";
+import { OfferCountdown } from "./offer-countdown";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
@@ -125,10 +127,17 @@ export function SessionSection() {
             <div className="h-[2px] w-full bg-lime" />
             <div className="p-7">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                <span className="text-[30px] font-bold text-fg">₹9</span>
+                <PriceAnchor size="lg" suffix="" />
                 <span className="text-[13px] text-muted md:text-[12.5px]">
                   1:1 AI Growth Strategy Session
                 </span>
+              </div>
+              <p className="mt-1.5 text-[12.5px] text-muted-2">
+                Today's rate. Standard price ₹99.
+              </p>
+              <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <SlotsLeft />
+                <OfferCountdown />
               </div>
 
               <div className="my-6 h-px w-full bg-border" />
