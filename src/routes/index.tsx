@@ -2,19 +2,14 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FAQS } from "@/data/faq";
 import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
-import { TrustStrip } from "@/components/site/trust-strip";
 import { ProblemSection } from "@/components/site/problem-section";
-import { AlreadyPaying } from "@/components/site/already-paying";
-import { FuturePacing } from "@/components/site/future-pacing";
 import { LeakMap } from "@/components/site/leak-map";
 import { EngineSection } from "@/components/site/engine-section";
 import { Outcomes } from "@/components/site/outcomes";
+import { ProofSection } from "@/components/site/proof-section";
+import { FounderSection } from "@/components/site/founder-section";
 import { SessionSection } from "@/components/site/session-section";
 import { HowItWorks } from "@/components/site/how-it-works";
-import { ProofSection } from "@/components/site/proof-section";
-import { WhySection } from "@/components/site/why-section";
-import { FounderSection } from "@/components/site/founder-section";
-import { WhoFor } from "@/components/site/who-for";
 import { FaqSection } from "@/components/site/faq-section";
 import { FinalCta } from "@/components/site/final-cta";
 import { SiteFooter } from "@/components/site/site-footer";
@@ -73,25 +68,19 @@ function Index() {
       <SiteNav />
       <main>
         <Hero />
-        <TrustStrip />
         <ProblemSection />
-        <AlreadyPaying />
         <LeakMap />
         <EngineSection />
-        <FuturePacing />
         <Outcomes />
         <ProofSection />
         <FounderSection />
         <SessionSection />
         <HowItWorks />
-        <WhySection />
-        <WhoFor />
         <FaqSection />
         <FinalCta />
       </main>
       <SiteFooter />
       <StickyMobileCta />
     </>
-
   );
 }

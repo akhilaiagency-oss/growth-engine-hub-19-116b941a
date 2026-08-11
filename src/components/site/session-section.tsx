@@ -26,8 +26,6 @@ const THIS_ISNT = [
   "A full consulting engagement in 45 minutes",
 ];
 
-
-
 const AGENDA = [
   {
     n: "01",
@@ -73,6 +71,22 @@ const DETAILS = [
   "You keep the plan whether or not we work together",
 ];
 
+const FOR = [
+  "You're already running paid traffic, or you're ready to start",
+  "You sell something that involves a call, consultation or appointment",
+  "You're getting leads but too few turn into real conversations",
+  "Your follow-up depends on someone manually remembering to do it",
+  "You want one connected system instead of five disconnected tools",
+];
+
+const NOT_FOR = [
+  "You're looking for a one-off landing page with nothing behind it",
+  "You want overnight results without changing how follow-up works",
+  "You have no budget for traffic and aren't planning to have one",
+  "You'd rather buy a guarantee than build a system",
+  "You only want a vendor to take instructions, not a partner to challenge them",
+];
+
 export function SessionSection() {
   return (
     <section
@@ -103,10 +117,9 @@ export function SessionSection() {
               </li>
             ))}
           </ul>
-
         </Reveal>
 
-        <div className="mt-8 grid items-start gap-10 min-[900px]:grid-cols-[1.35fr_1fr]">
+        <div className="mt-8 grid items-start gap-8 min-[900px]:grid-cols-[1.35fr_1fr]">
           {/* Agenda */}
           <Reveal className="card-surface p-2">
             <ul>
@@ -205,7 +218,6 @@ export function SessionSection() {
               <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
-
             </div>
           </Reveal>
         </div>
@@ -243,6 +255,38 @@ export function SessionSection() {
           </p>
         </Reveal>
 
+        <div className="mt-6 grid gap-5 md:grid-cols-2">
+          <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
+            <h3 className="text-[17px] font-bold tracking-[-0.01em] text-lime">
+              This call is for you if
+            </h3>
+            <ul className="mt-5 flex flex-col gap-3.5">
+              {FOR.map((t) => (
+                <li key={t} className="flex items-start gap-3 text-[14.5px] leading-relaxed text-fg">
+                  <Check size={17} className="mt-0.5 shrink-0 text-lime" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+
+          <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
+            <h3 className="text-[17px] font-bold tracking-[-0.01em] text-muted">
+              This call isn't for you if
+            </h3>
+            <ul className="mt-5 flex flex-col gap-3.5">
+              {NOT_FOR.map((t) => (
+                <li
+                  key={t}
+                  className="flex items-start gap-3 text-[14.5px] leading-relaxed text-muted"
+                >
+                  <X size={17} className="mt-0.5 shrink-0 text-muted-2" />
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </Reveal>
+        </div>
       </div>
     </section>
   );
