@@ -382,11 +382,12 @@ export async function applyVerifiedWebhook(input: {
   let result = "ignored";
 
   const paidEvent =
+    input.eventType === "payment_page.paid" ||
     input.eventType === "payment_link.paid" ||
     input.eventType === "payment.captured" ||
     input.eventType === "order.paid";
 
-  if (paidEvent && (referenceId || paymentLinkId || orderId)) {
+  if (paidEvent) {
     // Never grant on an amount we did not ask for.
     if (entity.amount !== STRATEGY_CALL_AMOUNT_PAISE || entity.currency !== STRATEGY_CALL_CURRENCY) {
       console.error("[strategy-call] webhook amount mismatch — manual review", {
@@ -394,20 +395,46 @@ export async function applyVerifiedWebhook(input: {
         amount: entity.amount,
         currency: entity.currency,
       });
-      result = "amount_mismatch";
+      result = "mismatch";
     } else {
-      const leadId = await markPaid({
-        referenceId,
-        paymentLinkId,
-        orderId,
-        paymentId: entity.id ?? "",
-        method: entity.method,
-        payload: input.payload,
-      });
-      result = leadId ? "paid" : "unknown_payment";
+      // Legacy Payment Links carry our own reference; hosted Payment Pages do
+      // not, so we fall back to matching the payer's email + phone.
+      let leadId: string | null = null;
+      if (referenceId || paymentLinkId || orderId) {
+        leadId = await markPaid({
+          referenceId,
+          paymentLinkId,
+          orderId,
+          paymentId: entity.id ?? "",
+          method: entity.method,
+          payload: input.payload,
+        });
+      }
+
+      if (leadId) {
+        result = "paid";
+      } else {
+        const payer = extractPayer(entity as Record<string, unknown>);
+        const match = await findLeadForPayer(payer);
+        if (match) {
+          await markPaidForLead(match.leadId, {
+            paymentId: entity.id ?? "",
+            method: entity.method ?? null,
+            payload: input.payload,
+            matchMethod: match.matchMethod,
+          });
+          result = "paid";
+        } else {
+          console.error("[strategy-call] paid webhook could not be matched to a lead", {
+            eventId: input.eventId,
+          });
+          result = "unmatched";
+        }
+      }
     }
 
   } else if (input.eventType === "payment.failed" && (paymentLinkId || orderId)) {
+
     let update = db
       .from("strategy_call_payments")
       .update({
