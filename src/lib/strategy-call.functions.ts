@@ -7,10 +7,10 @@ import {
 } from "./strategy-call.server";
 import {
   isBookingUnlocked,
-  recordCheckoutOutcome,
-  startPayment,
-  verifyCheckoutPayment,
+  startPaymentLink,
+  verifyPaymentLinkReturn,
 } from "./strategy-call-payments.server";
+import { getRequestHeader } from "@tanstack/react-start/server";
 import { getBookingAccess, verifyCalendlyBooking } from "./strategy-call-booking.server";
 import { claimWhatsappAccess } from "./whatsapp-access.server";
 
@@ -27,16 +27,13 @@ const handleSchema = z.object({
   accessToken: z.string().uuid(),
 });
 
-const verifySchema = handleSchema.extend({
-  orderId: z.string().trim().min(4).max(120),
+/** The signed GET params Razorpay appends to the Payment Link callback URL. */
+const paymentLinkReturnSchema = handleSchema.extend({
   paymentId: z.string().trim().min(4).max(120),
+  paymentLinkId: z.string().trim().min(4).max(120),
+  referenceId: z.string().trim().min(1).max(160),
+  status: z.string().trim().min(1).max(40),
   signature: z.string().trim().min(16).max(256),
-});
-
-const outcomeSchema = handleSchema.extend({
-  orderId: z.string().trim().min(4).max(120),
-  outcome: z.enum(["payment_failed", "payment_cancelled"]),
-  reason: z.string().trim().max(300).optional(),
 });
 
 /** Optional, UNTRUSTED hints from the Calendly embed. Validated server-side. */
@@ -55,23 +52,18 @@ export const getFunnelStatus = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
   .handler(async ({ data }) => readFunnelStatus(data.leadId, data.accessToken));
 
-/** Creates the ₹9 Razorpay order server-side and returns only public fields. */
-export const createStrategyCallOrder = createServerFn({ method: "POST" })
+/** Creates the ₹9 hosted Razorpay Payment Link and returns only public fields. */
+export const createStrategyCallPaymentLink = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
-  .handler(async ({ data }) => startPayment(data.leadId, data.accessToken));
-
-/** Verifies the Checkout signature server-side. The browser is never trusted. */
-export const verifyStrategyCallPayment = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => verifySchema.parse(input))
-  .handler(async ({ data }) => verifyCheckoutPayment(data));
-
-/** Records a browser-side failure or dismissal. Cannot downgrade a paid row. */
-export const recordStrategyCallOutcome = createServerFn({ method: "POST" })
-  .inputValidator((input: unknown) => outcomeSchema.parse(input))
   .handler(async ({ data }) => {
-    await recordCheckoutOutcome(data);
-    return { ok: true };
+    const origin = getRequestHeader("origin") ?? null;
+    return startPaymentLink(data.leadId, data.accessToken, origin);
   });
+
+/** Verifies the Payment Link return signature server-side. Browser untrusted. */
+export const verifyStrategyCallPaymentLinkReturn = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => paymentLinkReturnSchema.parse(input))
+  .handler(async ({ data }) => verifyPaymentLinkReturn(data));
 
 /** Authoritative answer to "can this lead reach Calendly?" */
 export const checkBookingUnlocked = createServerFn({ method: "POST" })
