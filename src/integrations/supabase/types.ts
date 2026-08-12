@@ -238,9 +238,6 @@ export type Database = {
           provider_payload: Json
           razorpay_order_id: string | null
           razorpay_payment_id: string | null
-          razorpay_payment_link_id: string | null
-          razorpay_payment_link_short_url: string | null
-          razorpay_reference_id: string | null
           razorpay_signature: string | null
           receipt: string | null
           status: Database["public"]["Enums"]["strategy_call_payment_status"]
@@ -262,9 +259,6 @@ export type Database = {
           provider_payload?: Json
           razorpay_order_id?: string | null
           razorpay_payment_id?: string | null
-          razorpay_payment_link_id?: string | null
-          razorpay_payment_link_short_url?: string | null
-          razorpay_reference_id?: string | null
           razorpay_signature?: string | null
           receipt?: string | null
           status?: Database["public"]["Enums"]["strategy_call_payment_status"]
@@ -286,9 +280,6 @@ export type Database = {
           provider_payload?: Json
           razorpay_order_id?: string | null
           razorpay_payment_id?: string | null
-          razorpay_payment_link_id?: string | null
-          razorpay_payment_link_short_url?: string | null
-          razorpay_reference_id?: string | null
           razorpay_signature?: string | null
           receipt?: string | null
           status?: Database["public"]["Enums"]["strategy_call_payment_status"]
