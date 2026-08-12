@@ -102,7 +102,7 @@ function QualifyPage() {
     return () => window.clearTimeout(t);
   }, [step]);
 
-  const startPayment = useCallback((current: ContactAnswers) => {
+  const goToPayment = useCallback((current: ContactAnswers) => {
     setHandleError(null);
     setHandle(readLeadHandle());
     submitQualification(current)
@@ -130,9 +130,9 @@ function QualifyPage() {
       return next;
     });
     // No review step: after the third answer, go straight to payment.
-    if (step === TOTAL - 1) startPayment(answers);
+    if (step === TOTAL - 1) goToPayment(answers);
     else setStep((s) => s + 1);
-  }, [answers, field, question, startPayment, step]);
+  }, [answers, field, question, goToPayment, step]);
 
   const percent = Math.round((Math.min(step, PAY_STEP) / PAY_STEP) * 100);
   const progressLabel = step === PAY_STEP ? "Last step" : `Question ${step + 1} of ${TOTAL}`;
