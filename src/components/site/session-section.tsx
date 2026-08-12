@@ -68,7 +68,7 @@ const DOCUMENTS = [
   {
     label: "Document 01",
     title: "The Landing Page Audit Checklist",
-    body: "23 checks, run against a page before deciding whether to rebuild it or repair it. Covers the single-action test, the qualification gap, mobile CTA position, and the four things that quietly kill a real-estate enquiry form.",
+    body: "23 checks, run against a page before deciding whether to rebuild it or repair it. Covers the single-action test, the qualification gap, mobile CTA position, and the four things that quietly kill a enquiry form.",
   },
   {
     label: "Document 02",
