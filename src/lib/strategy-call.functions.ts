@@ -65,6 +65,29 @@ export const verifyStrategyCallPaymentLinkReturn = createServerFn({ method: "POS
   .inputValidator((input: unknown) => paymentLinkReturnSchema.parse(input))
   .handler(async ({ data }) => verifyPaymentLinkReturn(data));
 
+/**
+ * Hosted Payment Page start. Returns the dashboard-hosted Razorpay URL only —
+ * the secret never appears in any page payload. The webhook remains the only
+ * authority for marking the payment paid.
+ */
+export const startHostedPagePayment = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => {
+    const { startHostedPagePayment: start } = await import("./hosted-payment.server");
+    return start(data.leadId, data.accessToken);
+  });
+
+/** Recovery: bind a signature-verified but unmatched payment to this lead. */
+export const claimHostedPagePayment = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    handleSchema.extend({ email: z.string().trim().email().max(200) }).parse(input),
+  )
+  .handler(async ({ data }) => {
+    const { claimHostedPagePayment: claim } = await import("./hosted-payment.server");
+    return claim({ leadId: data.leadId, accessToken: data.accessToken, email: data.email });
+  });
+
+
 /** Authoritative answer to "can this lead reach Calendly?" */
 export const checkBookingUnlocked = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
