@@ -194,6 +194,7 @@ export async function startPaymentLink(
 async function markPaid(input: {
   orderId?: string | undefined;
   paymentLinkId?: string | undefined;
+  referenceId?: string | undefined;
   paymentId: string;
   signature?: string | undefined;
   method?: string | undefined;
@@ -202,9 +203,11 @@ async function markPaid(input: {
   const db = await admin();
 
   let query = db.from("strategy_call_payments").select("id, lead_id, status");
-  if (input.paymentLinkId) query = query.eq("razorpay_payment_link_id", input.paymentLinkId);
+  if (input.referenceId) query = query.eq("razorpay_reference_id", input.referenceId);
+  else if (input.paymentLinkId) query = query.eq("razorpay_payment_link_id", input.paymentLinkId);
   else if (input.orderId) query = query.eq("razorpay_order_id", input.orderId);
   else return null;
+
 
   const { data: payment } = await query.maybeSingle();
 
