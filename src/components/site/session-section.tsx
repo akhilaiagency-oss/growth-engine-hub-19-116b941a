@@ -1,4 +1,4 @@
-import { Check, X } from "lucide-react";
+import { Check, ShieldCheck, X } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
@@ -64,6 +64,24 @@ const AGENDA = [
   },
 ];
 
+const DOCUMENTS = [
+  {
+    label: "Document 01",
+    title: "The Landing Page Audit Checklist",
+    body: "23 checks, run against a page before deciding whether to rebuild it or repair it. Covers the single-action test, the qualification gap, mobile CTA position, and the four things that quietly kill a real-estate enquiry form.",
+  },
+  {
+    label: "Document 02",
+    title: "The Follow-Up Speed Scorecard",
+    body: "A one-page instrument for measuring how long your enquiries actually wait for a first reply — split across weekday, evening and weekend. Most owners guess in minutes. The scorecard gives you the real number, and what it costs at your current cost per lead.",
+  },
+  {
+    label: "Document 03",
+    title: "The Lead Qualification Question Bank",
+    body: "40 qualification questions grouped by industry and weighted toward real estate — budget, timeline, decision authority, financing readiness, intent. Drop them into your form, your WhatsApp flow, or your first call.",
+  },
+];
+
 const DETAILS = [
   "30–45 minutes, 1-on-1 with Akhil",
   "Zoom or Google Meet",
@@ -120,27 +138,66 @@ export function SessionSection() {
         </Reveal>
 
         <div className="mt-8 grid items-start gap-8 min-[900px]:grid-cols-[1.35fr_1fr]">
-          {/* Agenda */}
-          <Reveal className="card-surface p-2">
-            <ul>
-              {AGENDA.map((a, i) => (
-                <li
-                  key={a.n}
-                  className={`flex gap-4 px-4 py-[18px] ${
-                    i < AGENDA.length - 1 ? "border-b border-border" : ""
-                  }`}
-                >
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] border border-border bg-surface-2 text-[12px] font-bold text-lime md:text-[11px]">
-                    {a.n}
-                  </span>
-                  <div>
-                    <h3 className="text-[16px] font-semibold text-fg">{a.title}</h3>
-                    <p className="mt-1 text-[14px] leading-[1.6] text-muted">{a.body}</p>
+          {/* Agenda + documents */}
+          <div className="flex flex-col gap-6">
+            <Reveal className="card-surface p-2">
+              <ul>
+                {AGENDA.map((a, i) => (
+                  <li
+                    key={a.n}
+                    className={`flex gap-4 px-4 py-[18px] ${
+                      i < AGENDA.length - 1 ? "border-b border-border" : ""
+                    }`}
+                  >
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] border border-border bg-surface-2 text-[12px] font-bold text-lime md:text-[11px]">
+                      {a.n}
+                    </span>
+                    <div>
+                      <h3 className="text-[16px] font-semibold text-fg">{a.title}</h3>
+                      <p className="mt-1 text-[14px] leading-[1.6] text-muted">{a.body}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+
+            <Reveal>
+              <span className="eyebrow">Yours to keep</span>
+              <h3 className="mt-3 text-[21px] font-bold leading-[1.2] tracking-[-0.02em] text-fg md:text-[24px]">
+                Three working documents you keep, whether or not we work together.
+              </h3>
+              <p className="mt-3 text-[15px] leading-[1.7] text-muted">
+                Not lead magnets written to be downloaded and forgotten. These are the internal
+                checklists we run before building any acquisition system. All three are sent the
+                moment your session is confirmed.
+              </p>
+
+              <div className="mt-5 flex flex-col gap-4">
+                {DOCUMENTS.map((d) => (
+                  <div
+                    key={d.label}
+                    className="border-l-2 border-lime bg-surface p-5"
+                    style={{ borderRadius: "0 12px 12px 0" }}
+                  >
+                    <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-2">
+                      {d.label}
+                    </span>
+                    <h4 className="mt-2 text-[16px] font-semibold text-fg">{d.title}</h4>
+                    <p className="mt-2 text-[14px] leading-[1.7] text-muted">{d.body}</p>
                   </div>
-                </li>
-              ))}
-            </ul>
-          </Reveal>
+                ))}
+              </div>
+
+              <p className="mt-4 flex items-start gap-2.5 text-[13.5px] leading-relaxed text-muted">
+                <span
+                  aria-hidden="true"
+                  className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-lime"
+                />
+                Sent on confirmation. Nothing further is required from you to receive them.
+              </p>
+            </Reveal>
+          </div>
+
 
           {/* Commitment card */}
           <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
@@ -181,15 +238,8 @@ export function SessionSection() {
                 work out whether Growth Multiplier AI is genuinely a fit.
               </p>
 
-              <div className="mt-5 border-l-2 border-lime pl-4">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-lime md:text-[11.5px]">
-                  Clarity guarantee
-                </p>
-                <p className="mt-2 text-[14px] leading-[1.7] text-fg">
-                  You'll leave the session knowing what we believe deserves attention first in your
-                  acquisition system — not a generic marketing presentation.
-                </p>
-              </div>
+
+
 
               <p className="mt-5 text-[14px] font-semibold text-fg">
                 If we're not the right fit, we'll tell you.
@@ -221,6 +271,38 @@ export function SessionSection() {
             </div>
           </Reveal>
         </div>
+
+        <Reveal
+          className="mt-6 rounded-[16px] p-[26px] md:p-10"
+          style={{
+            border: "1px solid rgba(131,226,78,0.3)",
+            backgroundColor: "rgba(131,226,78,0.045)",
+          }}
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-[12px] border border-border-strong bg-surface">
+            <ShieldCheck size={20} className="text-lime" aria-hidden="true" />
+          </span>
+          <h3 className="mt-4 text-[21px] font-bold leading-[1.2] tracking-[-0.02em] text-fg md:text-[24px]">
+            If you don't leave with clarity, you don't pay.
+          </h3>
+          <p className="mt-4 max-w-[760px] text-[15px] leading-[1.75] text-muted">
+            Attend the session. If you finish it without knowing which stage of your acquisition
+            system is costing you the most, and what to do about it first — email{" "}
+            <a
+              href="mailto:akhil.ai.agency@gmail.com"
+              className="font-semibold text-lime underline underline-offset-4"
+            >
+              akhil.ai.agency@gmail.com
+            </a>{" "}
+            and your ₹9 is returned. No form to fill in. No reason required. No follow-up asking you
+            to reconsider.
+          </p>
+          <p className="mt-4 text-[13.5px] leading-relaxed text-muted-2">
+            We would rather refund ₹9 than have you tell someone the call wasn't worth your time.
+          </p>
+        </Reveal>
+
+
 
         <Reveal className="mt-6 rounded-[12px] border border-border bg-surface-2 p-6">
           <h3 className="text-[17px] font-semibold text-fg">

@@ -1,15 +1,24 @@
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ElementType,
+  type ReactNode,
+} from "react";
 
 export function Reveal({
   children,
   as: Tag = "div",
   className = "",
   id,
+  style,
 }: {
   children: ReactNode;
   as?: ElementType;
   className?: string;
   id?: string;
+  style?: CSSProperties;
 }) {
   const ref = useRef<HTMLElement | null>(null);
   const [shown, setShown] = useState(false);
@@ -33,7 +42,7 @@ export function Reveal({
   }, []);
 
   return (
-    <Tag id={id} ref={ref} className={`reveal ${shown ? "reveal-in" : ""} ${className}`}>
+    <Tag id={id} ref={ref} style={style} className={`reveal ${shown ? "reveal-in" : ""} ${className}`}>
       {children}
     </Tag>
   );
