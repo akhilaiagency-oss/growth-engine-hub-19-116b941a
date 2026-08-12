@@ -560,9 +560,8 @@ export async function findLeadForPayer(payer: Payer): Promise<PayerMatch | null>
   const { data: phoneLeads, error: phoneError } = await db
     .from("strategy_call_leads")
     .select("id, email, phone, created_at")
-    .ilike("phone", `%${payer.contact}`)
     .order("created_at", { ascending: false })
-    .limit(50);
+    .limit(500);
   if (phoneError) {
     console.error("[strategy-call] payer phone lookup failed", phoneError);
     return null;
