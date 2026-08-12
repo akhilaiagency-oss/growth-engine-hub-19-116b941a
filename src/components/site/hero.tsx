@@ -23,7 +23,7 @@ export function Hero() {
           Not Just Leads.
         </h1>
 
-        <p className="mx-auto mt-5 max-w-[660px] text-[17px] leading-relaxed text-muted">
+        <p className="mx-auto mt-5 max-w-[660px] text-[17px] font-semibold leading-relaxed text-muted">
           We connect your landing pages, lead qualification, follow-up and booking into one
           acquisition system — so the traffic you're already paying for turns into booked
           appointments.
