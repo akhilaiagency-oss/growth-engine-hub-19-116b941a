@@ -126,6 +126,18 @@ export const claimWhatsappCommunityAccess = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => handleSchema.parse(input))
   .handler(async ({ data }) => claimWhatsappAccess(data.leadId, data.accessToken));
 
+/**
+ * Short-lived signed URLs for the three bonus PDFs. Re-validates the verified
+ * payment AND the confirmed booking on every call; an unauthorised lead gets
+ * an empty array and never sees the bucket, the object keys or a URL.
+ */
+export const getStrategyCallBonusDocuments = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) => handleSchema.parse(input))
+  .handler(async ({ data }) => {
+    const { getBonusDocuments } = await import("./bonus-documents.server");
+    return getBonusDocuments(data.leadId, data.accessToken);
+  });
+
 const detailsSchema = handleSchema.extend({
   businessType: z.string().trim().min(1).max(120),
   whatYouSell: z.string().trim().min(10).max(300),

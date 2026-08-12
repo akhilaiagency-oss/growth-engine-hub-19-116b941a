@@ -5,6 +5,8 @@ import {
   ArrowLeft,
   Calendar,
   Check,
+  Download,
+  FileText,
   Loader2,
   Lock,
   MessageCircle,
@@ -24,6 +26,7 @@ import {
   getStrategyCallBooking,
   verifyStrategyCallBooking,
   claimHostedPagePayment,
+  getStrategyCallBonusDocuments,
 } from "@/lib/strategy-call.functions";
 
 const TITLE = "Book Your Strategy Session — Growth Multiplier AI";
@@ -661,10 +664,78 @@ function ConfirmedCard({
               )}
             </>
           )}
+
+          <BonusDocuments handle={handle} />
         </div>
       </div>
     </div>
 
+  );
+}
+
+/**
+ * The three bonus PDFs. Fetched only once the booking is confirmed (this
+ * component only ever renders inside ConfirmedCard) and re-fetched whenever
+ * the tab regains focus, because the signed URLs expire after an hour.
+ */
+function BonusDocuments({ handle }: { handle: LeadHandle | null }) {
+  const [docs, setDocs] = useState<{ title: string; description: string; url: string }[]>([]);
+
+  useEffect(() => {
+    if (!handle) return;
+    let cancelled = false;
+
+    const fetchDocs = async () => {
+      try {
+        const result = await getStrategyCallBonusDocuments({ data: handle });
+        if (!cancelled) setDocs(result);
+      } catch {
+        if (!cancelled) setDocs([]);
+      }
+    };
+
+    void fetchDocs();
+    const onFocus = () => void fetchDocs();
+    window.addEventListener("focus", onFocus);
+    return () => {
+      cancelled = true;
+      window.removeEventListener("focus", onFocus);
+    };
+  }, [handle]);
+
+  if (docs.length === 0) return null;
+
+  return (
+    <div className="mt-7 border-t border-border pt-6">
+      <p className="flex items-center gap-2 text-[15px] font-semibold text-fg">
+        <FileText size={16} className="text-lime" aria-hidden="true" /> Your three documents
+      </p>
+      <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+        Yours to keep, whether or not we work together.
+      </p>
+
+      <ul className="mt-5 space-y-4">
+        {docs.map((doc) => (
+          <li
+            key={doc.title}
+            className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5"
+          >
+            <div className="min-w-0">
+              <p className="text-[14.5px] font-semibold text-fg">{doc.title}</p>
+              <p className="mt-1 text-[13px] leading-relaxed text-muted">{doc.description}</p>
+            </div>
+            <a
+              href={doc.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-[8px] border border-lime bg-transparent px-4 text-[13.5px] font-semibold text-lime transition-colors hover:bg-[rgba(131,226,78,0.1)]"
+            >
+              <Download size={14} aria-hidden="true" /> Download
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
