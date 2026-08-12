@@ -114,28 +114,27 @@ export async function sendBonusDocumentsEmail(leadId: string): Promise<BonusEmai
 }
 
 /**
- * Delivery seam. Returns false when the project has no verified sender domain
- * yet, in which case the caller releases the once-only claim untouched.
+ * Delivery seam. Sends through the project's managed email infrastructure.
+ * Returns false only when sending is not configured, in which case the caller
+ * releases the once-only claim untouched.
  */
 async function deliver(to: string, name: string, docs: BonusDocument[]): Promise<boolean> {
-  const apiKey = process.env["LOVABLE_API_KEY"];
-  const senderDomain = process.env["EMAIL_SENDER_DOMAIN"];
-  if (!apiKey || !senderDomain) return false;
+  if (!process.env["LOVABLE_API_KEY"]) return false;
 
-  const response = await fetch("https://api.lovable.dev/v1/email/send", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
+  const { sendTemplateEmail } = await import("./email-templates/send-email");
+
+  const result = await sendTemplateEmail("bonus-documents", to, {
+    templateData: {
+      firstName: firstName(name),
+      documents: docs.map((d) => ({
+        title: d.title,
+        description: d.description,
+        url: d.url,
+      })),
     },
-    body: JSON.stringify({
-      domain: senderDomain,
-      from_name: BONUS_EMAIL_SENDER_NAME,
-      to,
-      subject: BONUS_EMAIL_SUBJECT,
-      text: renderBonusEmailText(name, docs),
-    }),
   });
 
-  return response.ok;
+  // A suppressed recipient is a final outcome, not a retryable failure — the
+  // claim stays stamped so we never loop on it.
+  return result.sent || result.reason === "recipient_suppressed";
 }
