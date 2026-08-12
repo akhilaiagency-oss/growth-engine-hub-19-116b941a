@@ -1,18 +1,21 @@
 /**
  * Payment state machine for the ₹9 Strategy Call — server only.
  *
+ * Flow: Razorpay **Payment Links** (hosted redirect). The browser is sent away
+ * to a Razorpay-hosted page and returned to /book with signed GET params.
+ *
  * States: created → payment_pending → paid | payment_failed | payment_cancelled
  * Only `paid` + `verified` unlocks Calendly, and that decision is made here
  * (and in the database function `strategy_call_booking_unlocked`), never by
- * the browser. A frontend "success" callback is treated as a hint that a
- * signature needs verifying — never as proof of payment.
+ * the browser. The return-URL params are a hint that a signature needs
+ * verifying — the webhook remains authoritative.
  */
 import {
   STRATEGY_CALL_AMOUNT_PAISE,
   STRATEGY_CALL_CURRENCY,
-  createRazorpayOrder,
+  createRazorpayPaymentLink,
   getRazorpayCreds,
-  verifyCheckoutSignature,
+  verifyPaymentLinkSignature,
 } from "./razorpay.server";
 
 export type PaymentState =
@@ -22,14 +25,18 @@ export type PaymentState =
   | "payment_failed"
   | "payment_cancelled";
 
-export interface OrderForCheckout {
-  orderId: string;
-  amountPaise: number;
-  currency: string;
-  keyId: string;
-  mode: "test" | "live";
-  prefill: { name: string; email: string; contact: string };
-}
+export type PaymentLinkStart =
+  | { alreadyPaid: true }
+  | { locked: true }
+  | {
+      shortUrl: string;
+      paymentLinkId: string;
+      amountPaise: number;
+      currency: string;
+      mode: "test" | "live";
+    };
+
+const GENERIC_ERROR = "Something went wrong. Please try again.";
 
 type Json = Parameters<typeof JSON.parse>[0] extends never ? never : unknown;
 
@@ -43,128 +50,151 @@ async function admin() {
   return supabaseAdmin;
 }
 
-async function requireLead(leadId: string, accessToken: string) {
+async function findLead(leadId: string, accessToken: string) {
   const db = await admin();
-  const { data } = await db
+  const { data, error } = await db
     .from("strategy_call_leads")
     .select("id, name, email, phone")
     .eq("id", leadId)
     .eq("access_token", accessToken)
     .maybeSingle();
-  if (!data) throw new Error("We couldn't find your session. Please start again.");
+  if (error) {
+    console.error("[strategy-call] lead lookup failed", error);
+    throw new Error(GENERIC_ERROR);
+  }
   return data;
 }
 
+async function requireLead(leadId: string, accessToken: string) {
+  const lead = await findLead(leadId, accessToken);
+  if (!lead) throw new Error("We couldn't find your session. Please start again.");
+  return lead;
+}
+
+/** Base URL the hosted payment page returns the visitor to. */
+function callbackUrl(origin: string | null): string {
+  const base =
+    (origin && /^https?:\/\//.test(origin) ? origin.replace(/\/+$/, "") : null) ??
+    (process.env["PUBLIC_SITE_URL"] ?? "https://growth-engine-hub-19.lovable.app").replace(
+      /\/+$/,
+      "",
+    );
+  return `${base}/book`;
+}
+
 /**
- * Creates (or reuses) the single open Razorpay order for a lead.
- * A partial unique index on (lead_id) for open payments makes duplicate
- * payment rows impossible even under concurrent clicks.
+ * Creates (or reuses) the single open Razorpay Payment Link for a lead and
+ * returns the hosted URL to redirect to. Reusing the open row means refreshing
+ * or double-clicking never spawns duplicate payment records.
  */
-export async function startPayment(
+export async function startPaymentLink(
   leadId: string,
   accessToken: string,
-): Promise<OrderForCheckout> {
-  const lead = await requireLead(leadId, accessToken);
+  origin: string | null,
+): Promise<PaymentLinkStart> {
+  const lead = await findLead(leadId, accessToken);
+  if (!lead) return { locked: true };
+
   const db = await admin();
-  const { keyId, mode } = getRazorpayCreds();
+  const { mode } = getRazorpayCreds();
 
-  const prefill = { name: lead.name, email: lead.email, contact: lead.phone };
-
-  // Already paid? Never create a second order.
+  // Already paid? Never create a second link.
   const { data: paid } = await db
     .from("strategy_call_payments")
-    .select("razorpay_order_id, amount_paise, currency")
+    .select("id")
     .eq("lead_id", lead.id)
     .eq("status", "paid")
     .maybeSingle();
-  if (paid?.razorpay_order_id) {
-    return {
-      orderId: paid.razorpay_order_id,
-      amountPaise: paid.amount_paise,
-      currency: paid.currency,
-      keyId,
-      mode,
-      prefill,
-    };
-  }
+  if (paid) return { alreadyPaid: true };
 
-  // Reuse an open attempt so refreshing the page doesn't spawn orders.
+  // Reuse an open attempt's live link when we still have one.
   const { data: open } = await db
     .from("strategy_call_payments")
-    .select("id, razorpay_order_id, amount_paise, currency")
+    .select("id, razorpay_payment_link_id, razorpay_payment_link_short_url, amount_paise, currency")
     .eq("lead_id", lead.id)
     .in("status", ["created", "payment_pending"])
     .maybeSingle();
 
-  if (open?.razorpay_order_id) {
+  if (open?.razorpay_payment_link_short_url && open.razorpay_payment_link_id) {
     await db
       .from("strategy_call_payments")
       .update({ status: "payment_pending", attempts: 1 })
       .eq("id", open.id);
     return {
-      orderId: open.razorpay_order_id,
+      shortUrl: open.razorpay_payment_link_short_url,
+      paymentLinkId: open.razorpay_payment_link_id,
       amountPaise: open.amount_paise,
       currency: open.currency,
-      keyId,
       mode,
-      prefill,
     };
   }
 
-  const receipt = `sc_${lead.id.replace(/-/g, "").slice(0, 24)}`;
-  const order = await createRazorpayOrder({
+  const referenceId = `sc_${lead.id.replace(/-/g, "").slice(0, 18)}_${Date.now().toString(36)}`;
+  const link = await createRazorpayPaymentLink({
     amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
-    receipt,
+    referenceId,
+    description: "₹9 Strategy Call reservation",
+    customer: { name: lead.name, email: lead.email, contact: lead.phone },
+    callbackUrl: callbackUrl(origin),
     notes: { lead_id: lead.id },
   });
 
+  const row = {
+    razorpay_payment_link_id: link.id,
+    razorpay_payment_link_short_url: link.short_url,
+    razorpay_reference_id: referenceId,
+    status: "payment_pending" as const,
+    receipt: referenceId,
+  };
+
   if (open) {
-    await db
-      .from("strategy_call_payments")
-      .update({ razorpay_order_id: order.id, status: "payment_pending", receipt })
-      .eq("id", open.id);
+    const { error } = await db.from("strategy_call_payments").update(row).eq("id", open.id);
+    if (error) {
+      console.error("[strategy-call] payment update failed", error);
+      throw new Error(GENERIC_ERROR);
+    }
   } else {
     const { error } = await db.from("strategy_call_payments").insert({
       lead_id: lead.id,
-      razorpay_order_id: order.id,
       amount_paise: STRATEGY_CALL_AMOUNT_PAISE,
       currency: STRATEGY_CALL_CURRENCY,
-      status: "payment_pending",
-      receipt,
       attempts: 1,
+      ...row,
     });
-    if (error) throw new Error(error.message);
+    if (error) {
+      console.error("[strategy-call] payment insert failed", error);
+      throw new Error(GENERIC_ERROR);
+    }
   }
 
-  await db
-    .from("strategy_call_leads")
-    .update({ stage: "payment_pending" })
-    .eq("id", lead.id);
+  await db.from("strategy_call_leads").update({ stage: "payment_pending" }).eq("id", lead.id);
 
   return {
-    orderId: order.id,
+    shortUrl: link.short_url,
+    paymentLinkId: link.id,
     amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
     currency: STRATEGY_CALL_CURRENCY,
-    keyId,
     mode,
-    prefill,
   };
 }
 
 /** Marks a payment row paid + verified and unlocks the rest of the journey. */
 async function markPaid(input: {
-  orderId: string;
+  orderId?: string | undefined;
+  paymentLinkId?: string | undefined;
   paymentId: string;
   signature?: string | undefined;
   method?: string | undefined;
   payload?: Record<string, unknown> | undefined;
 }): Promise<string | null> {
   const db = await admin();
-  const { data: payment } = await db
-    .from("strategy_call_payments")
-    .select("id, lead_id, status")
-    .eq("razorpay_order_id", input.orderId)
-    .maybeSingle();
+
+  let query = db.from("strategy_call_payments").select("id, lead_id, status");
+  if (input.paymentLinkId) query = query.eq("razorpay_payment_link_id", input.paymentLinkId);
+  else if (input.orderId) query = query.eq("razorpay_order_id", input.orderId);
+  else return null;
+
+  const { data: payment } = await query.maybeSingle();
 
   if (!payment) return null;
   if (payment.status === "paid") return payment.lead_id; // idempotent no-op
@@ -199,14 +229,16 @@ async function markPaid(input: {
 }
 
 /**
- * Verifies the Razorpay Checkout handshake server-side.
- * A bad signature records `mismatch` and leaves the payment locked.
+ * Verifies the signed GET params Razorpay appends to the Payment Link
+ * callback URL. A bad signature records `mismatch` and leaves the lead locked.
  */
-export async function verifyCheckoutPayment(input: {
+export async function verifyPaymentLinkReturn(input: {
   leadId: string;
   accessToken: string;
-  orderId: string;
   paymentId: string;
+  paymentLinkId: string;
+  referenceId: string;
+  status: string;
   signature: string;
 }): Promise<{ status: PaymentState; bookingUnlocked: boolean }> {
   const lead = await requireLead(input.leadId, input.accessToken);
@@ -215,59 +247,40 @@ export async function verifyCheckoutPayment(input: {
   const { data: payment } = await db
     .from("strategy_call_payments")
     .select("id, lead_id, status")
-    .eq("razorpay_order_id", input.orderId)
+    .eq("razorpay_payment_link_id", input.paymentLinkId)
     .maybeSingle();
 
   if (!payment || payment.lead_id !== lead.id) {
     return { status: "payment_failed", bookingUnlocked: false };
   }
+  if (payment.status === "paid") return { status: "paid", bookingUnlocked: true };
 
-  const ok = verifyCheckoutSignature({
-    orderId: input.orderId,
+  const ok = verifyPaymentLinkSignature({
+    paymentLinkId: input.paymentLinkId,
+    referenceId: input.referenceId,
+    status: input.status,
     paymentId: input.paymentId,
     signature: input.signature,
   });
 
-  if (!ok) {
+  if (!ok || input.status !== "paid") {
     await db
       .from("strategy_call_payments")
       .update({
-        verification_status: "mismatch",
+        verification_status: ok ? "unverified" : "mismatch",
         razorpay_payment_id: input.paymentId,
-        failure_reason: "Signature verification failed",
+        failure_reason: ok ? `Payment link status: ${input.status}` : "Signature verification failed",
       })
       .eq("id", payment.id);
     return { status: payment.status as PaymentState, bookingUnlocked: false };
   }
 
   await markPaid({
-    orderId: input.orderId,
+    paymentLinkId: input.paymentLinkId,
     paymentId: input.paymentId,
     signature: input.signature,
   });
   return { status: "paid", bookingUnlocked: true };
-}
-
-/** Browser-reported failure/dismissal. Never affects a payment already paid. */
-export async function recordCheckoutOutcome(input: {
-  leadId: string;
-  accessToken: string;
-  orderId: string;
-  outcome: "payment_failed" | "payment_cancelled";
-  reason?: string | undefined;
-}): Promise<void> {
-  const lead = await requireLead(input.leadId, input.accessToken);
-  const db = await admin();
-  await db
-    .from("strategy_call_payments")
-    .update({
-      status: input.outcome,
-      failure_reason: input.reason ?? null,
-      cancelled_at: input.outcome === "payment_cancelled" ? new Date().toISOString() : null,
-    })
-    .eq("razorpay_order_id", input.orderId)
-    .eq("lead_id", lead.id)
-    .in("status", ["created", "payment_pending"]);
 }
 
 /** Authoritative gate for the booking step. */
@@ -283,6 +296,13 @@ interface RazorpayWebhookEntity {
   order_id?: string;
   method?: string;
   error_description?: string;
+}
+
+interface RazorpayWebhookPayload {
+  payload?: {
+    payment?: { entity?: RazorpayWebhookEntity };
+    payment_link?: { entity?: { id?: string; status?: string } };
+  };
 }
 
 /** Idempotent webhook application. Called only after signature verification. */
@@ -303,38 +323,45 @@ export async function applyVerifiedWebhook(input: {
   });
   if (insertError) {
     if (insertError.code === "23505") return "duplicate";
-    throw new Error(insertError.message);
+    console.error("[strategy-call] webhook insert failed", insertError);
+    throw new Error(GENERIC_ERROR);
   }
 
-  const entity = (
-    (input.payload as { payload?: { payment?: { entity?: RazorpayWebhookEntity } } }).payload
-      ?.payment?.entity ?? {}
-  ) as RazorpayWebhookEntity;
+  const body = input.payload as RazorpayWebhookPayload;
+  const entity = (body.payload?.payment?.entity ?? {}) as RazorpayWebhookEntity;
+  const paymentLinkId = body.payload?.payment_link?.entity?.id;
   const orderId = entity.order_id;
   let result = "ignored";
 
-  if (orderId) {
-    if (input.eventType === "payment.captured" || input.eventType === "order.paid") {
-      const leadId = await markPaid({
-        orderId,
-        paymentId: entity.id ?? "",
-        method: entity.method,
-        payload: input.payload,
-      });
-      result = leadId ? "paid" : "unknown_order";
-    } else if (input.eventType === "payment.failed") {
-      await db
-        .from("strategy_call_payments")
-        .update({
-          status: "payment_failed",
-          razorpay_payment_id: entity.id ?? null,
-          failure_reason: entity.error_description ?? "Payment failed",
-          provider_payload: asJson(input.payload),
-        })
-        .eq("razorpay_order_id", orderId)
-        .in("status", ["created", "payment_pending"]);
-      result = "failed";
-    }
+  const paidEvent =
+    input.eventType === "payment_link.paid" ||
+    input.eventType === "payment.captured" ||
+    input.eventType === "order.paid";
+
+  if (paidEvent && (paymentLinkId || orderId)) {
+    const leadId = await markPaid({
+      paymentLinkId,
+      orderId,
+      paymentId: entity.id ?? "",
+      method: entity.method,
+      payload: input.payload,
+    });
+    result = leadId ? "paid" : "unknown_payment";
+  } else if (input.eventType === "payment.failed" && (paymentLinkId || orderId)) {
+    let update = db
+      .from("strategy_call_payments")
+      .update({
+        status: "payment_failed" as const,
+        razorpay_payment_id: entity.id ?? null,
+        failure_reason: entity.error_description ?? "Payment failed",
+        provider_payload: asJson(input.payload),
+      })
+      .in("status", ["created", "payment_pending"]);
+    update = paymentLinkId
+      ? update.eq("razorpay_payment_link_id", paymentLinkId)
+      : update.eq("razorpay_order_id", orderId!);
+    await update;
+    result = "failed";
   }
 
   await db
