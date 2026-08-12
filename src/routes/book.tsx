@@ -5,6 +5,8 @@ import {
   ArrowLeft,
   Calendar,
   Check,
+  Download,
+  FileText,
   Loader2,
   Lock,
   MessageCircle,
@@ -24,6 +26,7 @@ import {
   getStrategyCallBooking,
   verifyStrategyCallBooking,
   claimHostedPagePayment,
+  getStrategyCallBonusDocuments,
 } from "@/lib/strategy-call.functions";
 
 const TITLE = "Book Your Strategy Session — Growth Multiplier AI";
