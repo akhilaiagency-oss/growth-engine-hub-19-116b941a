@@ -129,42 +129,53 @@ export async function startPaymentLink(
     };
   }
 
-  const referenceId = `sc_${lead.id.replace(/-/g, "").slice(0, 18)}_${Date.now().toString(36)}`;
-  const link = await createRazorpayPaymentLink({
-    amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
-    referenceId,
-    description: "₹9 Strategy Call reservation",
-    customer: { name: lead.name, email: lead.email, contact: lead.phone },
-    callbackUrl: callbackUrl(origin),
-    notes: { lead_id: lead.id },
-  });
-
-  const row = {
-    razorpay_payment_link_id: link.id,
-    razorpay_payment_link_short_url: link.short_url,
-    razorpay_reference_id: referenceId,
-    status: "payment_pending" as const,
-    receipt: referenceId,
-  };
-
-  if (open) {
-    const { error } = await db.from("strategy_call_payments").update(row).eq("id", open.id);
-    if (error) {
-      console.error("[strategy-call] payment update failed", error);
-      throw new Error(GENERIC_ERROR);
-    }
-  } else {
-    const { error } = await db.from("strategy_call_payments").insert({
-      lead_id: lead.id,
-      amount_paise: STRATEGY_CALL_AMOUNT_PAISE,
-      currency: STRATEGY_CALL_CURRENCY,
-      attempts: 1,
-      ...row,
-    });
-    if (error) {
+  // The payment row UUID is the Razorpay reference_id (36 chars < 40 limit),
+  // so a retry always gets a fresh, unique reference.
+  let paymentRowId = open?.id ?? null;
+  if (!paymentRowId) {
+    const { data: inserted, error } = await db
+      .from("strategy_call_payments")
+      .insert({
+        lead_id: lead.id,
+        amount_paise: STRATEGY_CALL_AMOUNT_PAISE,
+        currency: STRATEGY_CALL_CURRENCY,
+        attempts: 1,
+        status: "created" as const,
+      })
+      .select("id")
+      .single();
+    if (error || !inserted) {
       console.error("[strategy-call] payment insert failed", error);
       throw new Error(GENERIC_ERROR);
     }
+    paymentRowId = inserted.id;
+  }
+
+  const referenceId = paymentRowId;
+  const link = await createRazorpayPaymentLink({
+    amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
+    referenceId,
+    description: "₹9 AI Growth Strategy Session — Growth Multiplier AI",
+    customer: { name: lead.name, email: lead.email, contact: lead.phone },
+    callbackUrl: callbackUrl(origin),
+    notes: { lead_id: lead.id, payment_row_id: paymentRowId },
+    expireBy: Math.floor(Date.now() / 1000) + 3600,
+  });
+
+  const { error: updateError } = await db
+    .from("strategy_call_payments")
+    .update({
+      razorpay_payment_link_id: link.id,
+      razorpay_payment_link_short_url: link.short_url,
+      razorpay_reference_id: referenceId,
+      status: "payment_pending" as const,
+      receipt: referenceId,
+      attempts: 1,
+    })
+    .eq("id", paymentRowId);
+  if (updateError) {
+    console.error("[strategy-call] payment update failed", updateError);
+    throw new Error(GENERIC_ERROR);
   }
 
   await db.from("strategy_call_leads").update({ stage: "payment_pending" }).eq("id", lead.id);
@@ -176,6 +187,7 @@ export async function startPaymentLink(
     currency: STRATEGY_CALL_CURRENCY,
     mode,
   };
+
 }
 
 /** Marks a payment row paid + verified and unlocks the rest of the journey. */
