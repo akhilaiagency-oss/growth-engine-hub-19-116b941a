@@ -23,7 +23,7 @@ import {
   getFunnelStatus,
   getStrategyCallBooking,
   verifyStrategyCallBooking,
-  verifyStrategyCallPaymentLinkReturn,
+  claimHostedPagePayment,
 } from "@/lib/strategy-call.functions";
 
 const TITLE = "Book Your Strategy Session — Growth Multiplier AI";
@@ -50,36 +50,6 @@ export const Route = createFileRoute("/book")({
 });
 
 type Access = Awaited<ReturnType<typeof getStrategyCallBooking>>;
-
-/**
- * Razorpay appends these to the Payment Link callback URL. They are only a
- * hint: the signature is verified server-side, and the `payment_link.paid`
- * webhook remains authoritative if it lands later.
- */
-function readPaymentReturn() {
-  const p = new URLSearchParams(window.location.search);
-  const paymentId = p.get("razorpay_payment_id");
-  const paymentLinkId = p.get("razorpay_payment_link_id");
-  const referenceId = p.get("razorpay_payment_link_reference_id");
-  const status = p.get("razorpay_payment_link_status");
-  const signature = p.get("razorpay_signature");
-  if (!paymentId || !paymentLinkId || !referenceId || !status || !signature) return null;
-  return { paymentId, paymentLinkId, referenceId, status, signature };
-}
-
-/** Removes the payment params so a refresh cannot replay them. */
-function stripPaymentParams() {
-  const url = new URL(window.location.href);
-  for (const key of [
-    "razorpay_payment_id",
-    "razorpay_payment_link_id",
-    "razorpay_payment_link_reference_id",
-    "razorpay_payment_link_status",
-    "razorpay_signature",
-  ])
-    url.searchParams.delete(key);
-  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
-}
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
@@ -151,25 +121,17 @@ function BookPage() {
       return;
     }
     void (async () => {
-      // 1. Returning from the hosted Razorpay page? Confirm the payment first.
-      const ret = readPaymentReturn();
-      if (ret) {
+      // 1. The hosted Razorpay Payment Page returns nothing the browser can
+      // prove, so the signature-verified webhook is the only authority. If an
+      // attempt is open, wait for it to land.
+      const initial = await getFunnelStatus({ data: h }).catch(() => null);
+      if (initial?.payment && initial.payment.status !== "paid") {
         setConfirmingPayment(true);
-        stripPaymentParams();
         let paid = false;
-        try {
-          const verified = await verifyStrategyCallPaymentLinkReturn({ data: { ...h, ...ret } });
-          paid = verified.bookingUnlocked;
-        } catch {
-          /* fall through to polling — the webhook may still be in flight */
-        }
-        if (!paid) {
-          // The webhook is authoritative and can land a moment later.
-          for (let i = 0; i < 6 && !paid; i += 1) {
-            await sleep(1500);
-            const status = await getFunnelStatus({ data: h }).catch(() => null);
-            paid = status?.payment?.status === "paid";
-          }
+        for (let i = 0; i < 45 && !paid; i += 1) {
+          await sleep(2000);
+          const status = await getFunnelStatus({ data: h }).catch(() => null);
+          paid = status?.payment?.status === "paid";
         }
         setConfirmingPayment(false);
         if (!paid) setPaymentFailed(true);
@@ -334,7 +296,12 @@ function BookPage() {
             reservation…
           </p>
         ) : !access?.unlocked ? (
-          <LockedCard hasHandle={Boolean(handle)} paymentFailed={paymentFailed} />
+          <LockedCard
+            hasHandle={Boolean(handle)}
+            paymentFailed={paymentFailed}
+            handle={handle}
+            onClaimed={() => handle && void load(handle)}
+          />
         ) : confirmed ? (
           <ConfirmedCard
             booking={booking}
@@ -448,11 +415,16 @@ function BookPage() {
 function LockedCard({
   hasHandle,
   paymentFailed = false,
+  handle,
+  onClaimed,
 }: {
   hasHandle: boolean;
   paymentFailed?: boolean;
+  handle: LeadHandle | null;
+  onClaimed: () => void;
 }) {
   return (
+    <>
     <div className="mx-auto max-w-[560px] rounded-[16px] border border-border bg-surface p-8 text-center">
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-[12px] border border-border bg-surface-2">
         <Lock size={20} className="text-muted" aria-hidden="true" />
@@ -471,6 +443,82 @@ function LockedCard({
       <p className="mt-3 text-[12.5px] text-muted-2">
         Already paid? Give it a moment and refresh — confirmation can take a minute.
       </p>
+    </div>
+    {handle && <RecoveryPanel handle={handle} onClaimed={onClaimed} />}
+    </>
+  );
+}
+
+/**
+ * "Paid but not showing yet?" — binds a signature-verified payment the webhook
+ * could not match. The server does all the checking; this only collects the
+ * email that was used on the payment page.
+ */
+function RecoveryPanel({ handle, onClaimed }: { handle: LeadHandle; onClaimed: () => void }) {
+  const [email, setEmail] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+
+  const submit = async () => {
+    if (!email.trim()) return;
+    setBusy(true);
+    setMessage(null);
+    try {
+      const result = await claimHostedPagePayment({ data: { ...handle, email: email.trim() } });
+      if (result.status === "paid" || result.status === "already_paid") {
+        setMessage("Payment found — unlocking your booking…");
+        onClaimed();
+      } else if (result.status === "not_found") {
+        setMessage(result.message);
+      } else {
+        setMessage("We couldn't find your session. Please start again.");
+      }
+    } catch {
+      setMessage("Something went wrong. Please try again.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="mx-auto mt-5 max-w-[560px] rounded-[16px] border border-border bg-surface p-6">
+      <p className="text-[15px] font-semibold text-fg">Paid but not showing yet?</p>
+      <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+        Enter the email you used on the payment page and we'll match your payment to this session.
+      </p>
+      <form
+        className="mt-4 flex flex-col gap-3 sm:flex-row"
+        onSubmit={(e) => {
+          e.preventDefault();
+          void submit();
+        }}
+      >
+        <label className="sr-only" htmlFor="recovery-email">
+          Email used on the payment page
+        </label>
+        <input
+          id="recovery-email"
+          type="email"
+          inputMode="email"
+          autoComplete="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@company.com"
+          className="min-h-[44px] w-full flex-1 rounded-[8px] border border-border bg-surface-2 px-3 text-[16px] text-fg outline-none focus:border-lime"
+        />
+        <button
+          type="submit"
+          disabled={busy}
+          className="btn-primary min-h-[44px] shrink-0 disabled:opacity-60"
+        >
+          {busy ? "Checking…" : "Find my payment"}
+        </button>
+      </form>
+      {message && (
+        <p className="mt-3 text-[13px] text-muted" role="status">
+          {message}
+        </p>
+      )}
     </div>
   );
 }

@@ -382,11 +382,12 @@ export async function applyVerifiedWebhook(input: {
   let result = "ignored";
 
   const paidEvent =
+    input.eventType === "payment_page.paid" ||
     input.eventType === "payment_link.paid" ||
     input.eventType === "payment.captured" ||
     input.eventType === "order.paid";
 
-  if (paidEvent && (referenceId || paymentLinkId || orderId)) {
+  if (paidEvent) {
     // Never grant on an amount we did not ask for.
     if (entity.amount !== STRATEGY_CALL_AMOUNT_PAISE || entity.currency !== STRATEGY_CALL_CURRENCY) {
       console.error("[strategy-call] webhook amount mismatch — manual review", {
@@ -394,20 +395,46 @@ export async function applyVerifiedWebhook(input: {
         amount: entity.amount,
         currency: entity.currency,
       });
-      result = "amount_mismatch";
+      result = "mismatch";
     } else {
-      const leadId = await markPaid({
-        referenceId,
-        paymentLinkId,
-        orderId,
-        paymentId: entity.id ?? "",
-        method: entity.method,
-        payload: input.payload,
-      });
-      result = leadId ? "paid" : "unknown_payment";
+      // Legacy Payment Links carry our own reference; hosted Payment Pages do
+      // not, so we fall back to matching the payer's email + phone.
+      let leadId: string | null = null;
+      if (referenceId || paymentLinkId || orderId) {
+        leadId = await markPaid({
+          referenceId,
+          paymentLinkId,
+          orderId,
+          paymentId: entity.id ?? "",
+          method: entity.method,
+          payload: input.payload,
+        });
+      }
+
+      if (leadId) {
+        result = "paid";
+      } else {
+        const payer = extractPayer(entity as Record<string, unknown>);
+        const match = await findLeadForPayer(payer);
+        if (match) {
+          await markPaidForLead(match.leadId, {
+            paymentId: entity.id ?? "",
+            method: entity.method ?? null,
+            payload: input.payload,
+            matchMethod: match.matchMethod,
+          });
+          result = "paid";
+        } else {
+          console.error("[strategy-call] paid webhook could not be matched to a lead", {
+            eventId: input.eventId,
+          });
+          result = "unmatched";
+        }
+      }
     }
 
   } else if (input.eventType === "payment.failed" && (paymentLinkId || orderId)) {
+
     let update = db
       .from("strategy_call_payments")
       .update({
@@ -432,3 +459,184 @@ export async function applyVerifiedWebhook(input: {
 
   return result;
 }
+
+// ---------------------------------------------------------------------------
+// Hosted Payment Page support.
+//
+// A Dashboard-hosted Razorpay Payment Page gives us no signed browser return
+// and no reference id of ours, so the signature-verified webhook is the ONLY
+// authority. Matching is done on the payer's email (and phone when present),
+// which is why /qualify tells the visitor to reuse the same details.
+// ---------------------------------------------------------------------------
+
+export interface Payer {
+  email: string | null;
+  contact: string | null;
+}
+
+function normEmail(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const v = value.trim().toLowerCase();
+  return v.length > 3 && v.includes("@") ? v : null;
+}
+
+/** Last 10 digits — India-friendly comparison that ignores +91 / spacing. */
+function phoneTail(value: unknown): string | null {
+  if (typeof value !== "string") return null;
+  const digits = value.replace(/\D+/g, "");
+  return digits.length >= 10 ? digits.slice(-10) : null;
+}
+
+/** Pulls the payer's email/phone out of a Razorpay payment entity. */
+export function extractPayer(entity: Record<string, unknown>): Payer {
+  const notes = (entity["notes"] ?? {}) as Record<string, unknown>;
+  const email = normEmail(entity["email"]) ?? normEmail(notes["email"]);
+  const contact =
+    phoneTail(entity["contact"]) ?? phoneTail(notes["contact"]) ?? phoneTail(notes["phone"]);
+  return { email, contact };
+}
+
+export interface PayerMatch {
+  leadId: string;
+  matchMethod: "webhook_email_phone" | "webhook_email_only";
+}
+
+/**
+ * Finds the lead behind a payer. Email must match exactly (case-insensitive);
+ * phone is a strengthening signal, recorded so every grant is auditable.
+ * Only leads without a paid payment are eligible.
+ */
+export async function findLeadForPayer(payer: Payer): Promise<PayerMatch | null> {
+  if (!payer.email) return null;
+  const db = await admin();
+
+  const { data: leads, error } = await db
+    .from("strategy_call_leads")
+    .select("id, email, phone, created_at")
+    .ilike("email", payer.email)
+    .order("created_at", { ascending: false })
+    .limit(25);
+  if (error) {
+    console.error("[strategy-call] payer lead lookup failed", error);
+    return null;
+  }
+  const candidates = (leads ?? []).filter((l) => (l.email ?? "").trim().toLowerCase() === payer.email);
+  if (candidates.length === 0) return null;
+
+  const { data: paidRows } = await db
+    .from("strategy_call_payments")
+    .select("lead_id")
+    .in(
+      "lead_id",
+      candidates.map((c) => c.id),
+    )
+    .eq("status", "paid");
+  const alreadyPaid = new Set((paidRows ?? []).map((r) => r.lead_id));
+
+  const open = candidates.filter((c) => !alreadyPaid.has(c.id));
+  if (open.length === 0) return null;
+
+  const withPhone = payer.contact
+    ? open.find((c) => phoneTail(c.phone) === payer.contact)
+    : undefined;
+  if (withPhone) return { leadId: withPhone.id, matchMethod: "webhook_email_phone" };
+
+  return { leadId: open[0]!.id, matchMethod: "webhook_email_only" };
+}
+
+/**
+ * Marks a lead paid + verified from a matched provider payment. Idempotent:
+ * a lead that already has a paid row is left untouched.
+ */
+export async function markPaidForLead(
+  leadId: string,
+  input: {
+    paymentId: string;
+    method?: string | null;
+    payload?: Record<string, unknown> | undefined;
+    matchMethod: string;
+  },
+): Promise<boolean> {
+  const db = await admin();
+
+  const { data: paid } = await db
+    .from("strategy_call_payments")
+    .select("id")
+    .eq("lead_id", leadId)
+    .eq("status", "paid")
+    .maybeSingle();
+  if (paid) return true;
+
+  const { data: open } = await db
+    .from("strategy_call_payments")
+    .select("id")
+    .eq("lead_id", leadId)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  let paymentRowId = open?.id ?? null;
+  if (!paymentRowId) {
+    const { data: inserted, error } = await db
+      .from("strategy_call_payments")
+      .insert({
+        lead_id: leadId,
+        amount_paise: STRATEGY_CALL_AMOUNT_PAISE,
+        currency: STRATEGY_CALL_CURRENCY,
+        attempts: 1,
+        status: "created" as const,
+      })
+      .select("id")
+      .single();
+    if (error || !inserted) {
+      console.error("[strategy-call] payment insert failed", error);
+      throw new Error(GENERIC_ERROR);
+    }
+    paymentRowId = inserted.id;
+  }
+
+  const now = new Date().toISOString();
+  const { error: updateError } = await db
+    .from("strategy_call_payments")
+    .update({
+      razorpay_payment_id: input.paymentId,
+      status: "paid" as const,
+      verification_status: "verified",
+      verified_at: now,
+      paid_at: now,
+      method: input.method ?? null,
+      failure_reason: null,
+      match_method: input.matchMethod,
+      matched_at: now,
+      provider_payload: asJson(input.payload),
+    })
+    .eq("id", paymentRowId);
+  if (updateError) {
+    console.error("[strategy-call] payment mark-paid failed", updateError);
+    throw new Error(GENERIC_ERROR);
+  }
+
+  await db.from("strategy_call_leads").update({ stage: "paid" }).eq("id", leadId);
+  await db
+    .from("strategy_call_bookings")
+    .upsert(
+      { lead_id: leadId, payment_id: paymentRowId, status: "pending" },
+      { onConflict: "lead_id", ignoreDuplicates: true },
+    );
+
+  return true;
+}
+
+/** True when this provider payment id is already bound to any payment row. */
+export async function isPaymentIdBound(paymentId: string): Promise<boolean> {
+  const db = await admin();
+  const { data } = await db
+    .from("strategy_call_payments")
+    .select("id")
+    .eq("razorpay_payment_id", paymentId)
+    .limit(1)
+    .maybeSingle();
+  return Boolean(data);
+}
+
+export { requireLead as requireStrategyCallLead, findLead as findStrategyCallLead };

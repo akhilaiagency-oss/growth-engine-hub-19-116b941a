@@ -233,6 +233,8 @@ export type Database = {
           failure_reason: string | null
           id: string
           lead_id: string
+          match_method: string | null
+          matched_at: string | null
           method: string | null
           paid_at: string | null
           provider_payload: Json
@@ -257,6 +259,8 @@ export type Database = {
           failure_reason?: string | null
           id?: string
           lead_id: string
+          match_method?: string | null
+          matched_at?: string | null
           method?: string | null
           paid_at?: string | null
           provider_payload?: Json
@@ -281,6 +285,8 @@ export type Database = {
           failure_reason?: string | null
           id?: string
           lead_id?: string
+          match_method?: string | null
+          matched_at?: string | null
           method?: string | null
           paid_at?: string | null
           provider_payload?: Json
