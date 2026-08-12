@@ -272,6 +272,38 @@ export function SessionSection() {
           </Reveal>
         </div>
 
+        <Reveal
+          className="mt-6 rounded-[16px] p-[26px] md:p-10"
+          style={{
+            border: "1px solid rgba(131,226,78,0.3)",
+            backgroundColor: "rgba(131,226,78,0.045)",
+          }}
+        >
+          <span className="flex h-10 w-10 items-center justify-center rounded-[12px] border border-border-strong bg-surface">
+            <ShieldCheck size={20} className="text-lime" aria-hidden="true" />
+          </span>
+          <h3 className="mt-4 text-[21px] font-bold leading-[1.2] tracking-[-0.02em] text-fg md:text-[24px]">
+            If you don't leave with clarity, you don't pay.
+          </h3>
+          <p className="mt-4 max-w-[760px] text-[15px] leading-[1.75] text-muted">
+            Attend the session. If you finish it without knowing which stage of your acquisition
+            system is costing you the most, and what to do about it first — email{" "}
+            <a
+              href="mailto:akhil.ai.agency@gmail.com"
+              className="font-semibold text-lime underline underline-offset-4"
+            >
+              akhil.ai.agency@gmail.com
+            </a>{" "}
+            and your ₹9 is returned. No form to fill in. No reason required. No follow-up asking you
+            to reconsider.
+          </p>
+          <p className="mt-4 text-[13.5px] leading-relaxed text-muted-2">
+            We would rather refund ₹9 than have you tell someone the call wasn't worth your time.
+          </p>
+        </Reveal>
+
+
+
         <Reveal className="mt-6 rounded-[12px] border border-border bg-surface-2 p-6">
           <h3 className="text-[17px] font-semibold text-fg">
             Here's what this is — and what it isn't
