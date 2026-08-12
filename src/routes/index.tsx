@@ -4,7 +4,10 @@ import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
 import { ProblemSection } from "@/components/site/problem-section";
 import { LeakMap } from "@/components/site/leak-map";
+import { ThreeThingsSection } from "@/components/site/three-things-section";
 import { EngineSection } from "@/components/site/engine-section";
+import { TwoRoadsSection } from "@/components/site/two-roads-section";
+
 import { Outcomes } from "@/components/site/outcomes";
 import { ProofSection } from "@/components/site/proof-section";
 import { FounderSection } from "@/components/site/founder-section";
