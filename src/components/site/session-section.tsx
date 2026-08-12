@@ -1,4 +1,4 @@
-import { Check, X } from "lucide-react";
+import { Check, ShieldCheck, X } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
