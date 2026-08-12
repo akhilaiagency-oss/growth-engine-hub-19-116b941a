@@ -45,22 +45,25 @@ export function isRazorpayConfigured(): boolean {
   return Boolean(process.env["RAZORPAY_KEY_ID"] && process.env["RAZORPAY_KEY_SECRET"]);
 }
 
-export interface RazorpayOrder {
+export interface RazorpayPaymentLink {
   id: string;
-  amount: number;
-  currency: string;
+  short_url: string;
   status: string;
-  receipt?: string;
+  reference_id?: string;
 }
 
-export async function createRazorpayOrder(params: {
+/** Creates a hosted Razorpay Payment Link and returns its public short URL. */
+export async function createRazorpayPaymentLink(params: {
   amountPaise: number;
-  receipt: string;
+  referenceId: string;
+  description: string;
+  customer: { name: string; email: string; contact: string };
+  callbackUrl: string;
   notes: Record<string, string>;
-}): Promise<RazorpayOrder> {
+}): Promise<RazorpayPaymentLink> {
   const { keyId, keySecret, mode } = getRazorpayCreds();
-  console.log(`[Razorpay] Creating ${mode} order for receipt ${params.receipt}`);
-  const res = await fetch(`${RAZORPAY_API}/orders`, {
+  console.log(`[Razorpay] Creating ${mode} payment link ${params.referenceId}`);
+  const res = await fetch(`${RAZORPAY_API}/payment_links`, {
     method: "POST",
     headers: {
       "content-type": "application/json",
@@ -69,18 +72,24 @@ export async function createRazorpayOrder(params: {
     body: JSON.stringify({
       amount: params.amountPaise,
       currency: STRATEGY_CALL_CURRENCY,
-      receipt: params.receipt,
-      payment_capture: 1,
+      accept_partial: false,
+      reference_id: params.referenceId,
+      description: params.description,
+      customer: params.customer,
+      notify: { sms: false, email: true },
+      reminder_enable: true,
       notes: params.notes,
+      callback_url: params.callbackUrl,
+      callback_method: "get",
     }),
   });
 
   if (!res.ok) {
     const detail = await res.text();
-    console.error("Razorpay order creation failed", res.status, detail);
+    console.error("Razorpay payment link creation failed", res.status, detail);
     throw new Error("Could not start the payment. Please try again.");
   }
-  return (await res.json()) as RazorpayOrder;
+  return (await res.json()) as RazorpayPaymentLink;
 }
 
 function safeEqualHex(a: string, b: string): boolean {
@@ -90,15 +99,20 @@ function safeEqualHex(a: string, b: string): boolean {
   return timingSafeEqual(bufA, bufB);
 }
 
-/** Checkout handshake: HMAC-SHA256(order_id|payment_id) with the key secret. */
-export function verifyCheckoutSignature(input: {
-  orderId: string;
+/**
+ * Payment Link return handshake:
+ * HMAC-SHA256(payment_link_id|reference_id|status|payment_id) with the secret.
+ */
+export function verifyPaymentLinkSignature(input: {
+  paymentLinkId: string;
+  referenceId: string;
+  status: string;
   paymentId: string;
   signature: string;
 }): boolean {
   const { keySecret } = getRazorpayCreds();
   const expected = createHmac("sha256", keySecret)
-    .update(`${input.orderId}|${input.paymentId}`)
+    .update(`${input.paymentLinkId}|${input.referenceId}|${input.status}|${input.paymentId}`)
     .digest("hex");
   return safeEqualHex(expected, input.signature);
 }
