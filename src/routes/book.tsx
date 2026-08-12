@@ -248,6 +248,22 @@ function BookPage() {
     [],
   );
 
+  // While the locked state is shown, keep checking quietly so a late webhook
+  // resolves the page without the visitor doing anything.
+  const unlocked = access?.unlocked ?? false;
+  useEffect(() => {
+    if (loading || confirmingPayment || unlocked || !handle) return;
+    const id = window.setInterval(() => {
+      void (async () => {
+        const status = await getFunnelStatus({ data: handle }).catch(() => null);
+        if (status?.payment?.status === "paid") await load(handle);
+      })();
+    }, 6000);
+    return () => window.clearInterval(id);
+  }, [loading, confirmingPayment, unlocked, handle, load]);
+
+
+
   const booking = access?.booking ?? null;
   const confirmed =
     booking !== null &&
