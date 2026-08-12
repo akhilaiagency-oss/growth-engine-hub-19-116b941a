@@ -7,10 +7,10 @@ import {
 } from "./strategy-call.server";
 import {
   isBookingUnlocked,
-  recordCheckoutOutcome,
-  startPayment,
-  verifyCheckoutPayment,
+  startPaymentLink,
+  verifyPaymentLinkReturn,
 } from "./strategy-call-payments.server";
+
 import { getBookingAccess, verifyCalendlyBooking } from "./strategy-call-booking.server";
 import { claimWhatsappAccess } from "./whatsapp-access.server";
 
@@ -27,17 +27,16 @@ const handleSchema = z.object({
   accessToken: z.string().uuid(),
 });
 
-const verifySchema = handleSchema.extend({
-  orderId: z.string().trim().min(4).max(120),
-  paymentId: z.string().trim().min(4).max(120),
-  signature: z.string().trim().min(16).max(256),
+const paymentLinkReturnSchema = handleSchema.extend({
+  params: z.object({
+    paymentId: z.string().trim().min(4).max(120),
+    paymentLinkId: z.string().trim().min(4).max(120),
+    referenceId: z.string().trim().min(4).max(60),
+    status: z.string().trim().min(2).max(40),
+    signature: z.string().trim().min(16).max(256),
+  }),
 });
 
-const outcomeSchema = handleSchema.extend({
-  orderId: z.string().trim().min(4).max(120),
-  outcome: z.enum(["payment_failed", "payment_cancelled"]),
-  reason: z.string().trim().max(300).optional(),
-});
 
 /** Optional, UNTRUSTED hints from the Calendly embed. Validated server-side. */
 const verifyBookingSchema = handleSchema.extend({
