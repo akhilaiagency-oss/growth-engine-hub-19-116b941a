@@ -16,6 +16,7 @@ import {
   createRazorpayPaymentLink,
   getRazorpayCreds,
   verifyPaymentLinkSignature,
+  fetchRazorpayPayment,
 } from "./razorpay.server";
 
 export type PaymentState =
@@ -129,42 +130,53 @@ export async function startPaymentLink(
     };
   }
 
-  const referenceId = `sc_${lead.id.replace(/-/g, "").slice(0, 18)}_${Date.now().toString(36)}`;
-  const link = await createRazorpayPaymentLink({
-    amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
-    referenceId,
-    description: "₹9 Strategy Call reservation",
-    customer: { name: lead.name, email: lead.email, contact: lead.phone },
-    callbackUrl: callbackUrl(origin),
-    notes: { lead_id: lead.id },
-  });
-
-  const row = {
-    razorpay_payment_link_id: link.id,
-    razorpay_payment_link_short_url: link.short_url,
-    razorpay_reference_id: referenceId,
-    status: "payment_pending" as const,
-    receipt: referenceId,
-  };
-
-  if (open) {
-    const { error } = await db.from("strategy_call_payments").update(row).eq("id", open.id);
-    if (error) {
-      console.error("[strategy-call] payment update failed", error);
-      throw new Error(GENERIC_ERROR);
-    }
-  } else {
-    const { error } = await db.from("strategy_call_payments").insert({
-      lead_id: lead.id,
-      amount_paise: STRATEGY_CALL_AMOUNT_PAISE,
-      currency: STRATEGY_CALL_CURRENCY,
-      attempts: 1,
-      ...row,
-    });
-    if (error) {
+  // The payment row UUID is the Razorpay reference_id (36 chars < 40 limit),
+  // so a retry always gets a fresh, unique reference.
+  let paymentRowId = open?.id ?? null;
+  if (!paymentRowId) {
+    const { data: inserted, error } = await db
+      .from("strategy_call_payments")
+      .insert({
+        lead_id: lead.id,
+        amount_paise: STRATEGY_CALL_AMOUNT_PAISE,
+        currency: STRATEGY_CALL_CURRENCY,
+        attempts: 1,
+        status: "created" as const,
+      })
+      .select("id")
+      .single();
+    if (error || !inserted) {
       console.error("[strategy-call] payment insert failed", error);
       throw new Error(GENERIC_ERROR);
     }
+    paymentRowId = inserted.id;
+  }
+
+  const referenceId = paymentRowId;
+  const link = await createRazorpayPaymentLink({
+    amountPaise: STRATEGY_CALL_AMOUNT_PAISE,
+    referenceId,
+    description: "₹9 AI Growth Strategy Session — Growth Multiplier AI",
+    customer: { name: lead.name, email: lead.email, contact: lead.phone },
+    callbackUrl: callbackUrl(origin),
+    notes: { lead_id: lead.id, payment_row_id: paymentRowId },
+    expireBy: Math.floor(Date.now() / 1000) + 3600,
+  });
+
+  const { error: updateError } = await db
+    .from("strategy_call_payments")
+    .update({
+      razorpay_payment_link_id: link.id,
+      razorpay_payment_link_short_url: link.short_url,
+      razorpay_reference_id: referenceId,
+      status: "payment_pending" as const,
+      receipt: referenceId,
+      attempts: 1,
+    })
+    .eq("id", paymentRowId);
+  if (updateError) {
+    console.error("[strategy-call] payment update failed", updateError);
+    throw new Error(GENERIC_ERROR);
   }
 
   await db.from("strategy_call_leads").update({ stage: "payment_pending" }).eq("id", lead.id);
@@ -176,12 +188,14 @@ export async function startPaymentLink(
     currency: STRATEGY_CALL_CURRENCY,
     mode,
   };
+
 }
 
 /** Marks a payment row paid + verified and unlocks the rest of the journey. */
 async function markPaid(input: {
   orderId?: string | undefined;
   paymentLinkId?: string | undefined;
+  referenceId?: string | undefined;
   paymentId: string;
   signature?: string | undefined;
   method?: string | undefined;
@@ -190,9 +204,11 @@ async function markPaid(input: {
   const db = await admin();
 
   let query = db.from("strategy_call_payments").select("id, lead_id, status");
-  if (input.paymentLinkId) query = query.eq("razorpay_payment_link_id", input.paymentLinkId);
+  if (input.referenceId) query = query.eq("razorpay_reference_id", input.referenceId);
+  else if (input.paymentLinkId) query = query.eq("razorpay_payment_link_id", input.paymentLinkId);
   else if (input.orderId) query = query.eq("razorpay_order_id", input.orderId);
   else return null;
+
 
   const { data: payment } = await query.maybeSingle();
 
@@ -247,10 +263,11 @@ export async function verifyPaymentLinkReturn(input: {
   const { data: payment } = await db
     .from("strategy_call_payments")
     .select("id, lead_id, status")
-    .eq("razorpay_payment_link_id", input.paymentLinkId)
+    .eq("razorpay_reference_id", input.referenceId)
     .maybeSingle();
 
   if (!payment || payment.lead_id !== lead.id) {
+    console.error("[strategy-call] payment link return did not match this lead");
     return { status: "payment_failed", bookingUnlocked: false };
   }
   if (payment.status === "paid") return { status: "paid", bookingUnlocked: true };
@@ -275,12 +292,40 @@ export async function verifyPaymentLinkReturn(input: {
     return { status: payment.status as PaymentState, bookingUnlocked: false };
   }
 
+  // Signature proves authenticity; Razorpay's API proves the money.
+  const remote = await fetchRazorpayPayment(input.paymentId);
+  const amountOk =
+    remote?.amount === STRATEGY_CALL_AMOUNT_PAISE &&
+    remote.currency === STRATEGY_CALL_CURRENCY &&
+    remote.status === "captured";
+
+  if (!amountOk) {
+    console.error("[strategy-call] payment amount/status mismatch — manual review", {
+      paymentId: input.paymentId,
+      amount: remote?.amount,
+      currency: remote?.currency,
+      status: remote?.status,
+    });
+    await db
+      .from("strategy_call_payments")
+      .update({
+        verification_status: "mismatch",
+        razorpay_payment_id: input.paymentId,
+        failure_reason: "Payment amount, currency or capture status did not match",
+      })
+      .eq("id", payment.id);
+    return { status: payment.status as PaymentState, bookingUnlocked: false };
+  }
+
   await markPaid({
     paymentLinkId: input.paymentLinkId,
+    referenceId: input.referenceId,
     paymentId: input.paymentId,
     signature: input.signature,
+    method: remote.method,
   });
   return { status: "paid", bookingUnlocked: true };
+
 }
 
 /** Authoritative gate for the booking step. */
@@ -295,13 +340,15 @@ interface RazorpayWebhookEntity {
   id?: string;
   order_id?: string;
   method?: string;
+  amount?: number;
+  currency?: string;
   error_description?: string;
 }
 
 interface RazorpayWebhookPayload {
   payload?: {
     payment?: { entity?: RazorpayWebhookEntity };
-    payment_link?: { entity?: { id?: string; status?: string } };
+    payment_link?: { entity?: { id?: string; status?: string; reference_id?: string } };
   };
 }
 
@@ -330,6 +377,7 @@ export async function applyVerifiedWebhook(input: {
   const body = input.payload as RazorpayWebhookPayload;
   const entity = (body.payload?.payment?.entity ?? {}) as RazorpayWebhookEntity;
   const paymentLinkId = body.payload?.payment_link?.entity?.id;
+  const referenceId = body.payload?.payment_link?.entity?.reference_id;
   const orderId = entity.order_id;
   let result = "ignored";
 
@@ -338,15 +386,27 @@ export async function applyVerifiedWebhook(input: {
     input.eventType === "payment.captured" ||
     input.eventType === "order.paid";
 
-  if (paidEvent && (paymentLinkId || orderId)) {
-    const leadId = await markPaid({
-      paymentLinkId,
-      orderId,
-      paymentId: entity.id ?? "",
-      method: entity.method,
-      payload: input.payload,
-    });
-    result = leadId ? "paid" : "unknown_payment";
+  if (paidEvent && (referenceId || paymentLinkId || orderId)) {
+    // Never grant on an amount we did not ask for.
+    if (entity.amount !== STRATEGY_CALL_AMOUNT_PAISE || entity.currency !== STRATEGY_CALL_CURRENCY) {
+      console.error("[strategy-call] webhook amount mismatch — manual review", {
+        eventId: input.eventId,
+        amount: entity.amount,
+        currency: entity.currency,
+      });
+      result = "amount_mismatch";
+    } else {
+      const leadId = await markPaid({
+        referenceId,
+        paymentLinkId,
+        orderId,
+        paymentId: entity.id ?? "",
+        method: entity.method,
+        payload: input.payload,
+      });
+      result = leadId ? "paid" : "unknown_payment";
+    }
+
   } else if (input.eventType === "payment.failed" && (paymentLinkId || orderId)) {
     let update = db
       .from("strategy_call_payments")
