@@ -82,7 +82,9 @@ function Index() {
         <SessionSection />
         <HowItWorks />
         <FaqSection />
+        <TwoRoadsSection />
         <FinalCta />
+
       </main>
       <SiteFooter />
       <StickyMobileCta />
