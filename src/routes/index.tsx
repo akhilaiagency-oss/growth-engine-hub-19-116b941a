@@ -73,7 +73,9 @@ function Index() {
         <Hero />
         <ProblemSection />
         <LeakMap />
+        <ThreeThingsSection />
         <EngineSection />
+
         <Outcomes />
         <ProofSection />
         <FounderSection />
