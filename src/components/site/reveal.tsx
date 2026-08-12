@@ -42,7 +42,7 @@ export function Reveal({
   }, []);
 
   return (
-    <Tag id={id} ref={ref} className={`reveal ${shown ? "reveal-in" : ""} ${className}`}>
+    <Tag id={id} ref={ref} style={style} className={`reveal ${shown ? "reveal-in" : ""} ${className}`}>
       {children}
     </Tag>
   );
