@@ -116,6 +116,7 @@ export type Database = {
           lead_id: string
           notes: string | null
           revoked_at: string | null
+          sent_bonus_email_at: string | null
           updated_at: string
           whatsapp_access_enabled_at: string | null
           whatsapp_invite_url: string | null
@@ -130,6 +131,7 @@ export type Database = {
           lead_id: string
           notes?: string | null
           revoked_at?: string | null
+          sent_bonus_email_at?: string | null
           updated_at?: string
           whatsapp_access_enabled_at?: string | null
           whatsapp_invite_url?: string | null
@@ -144,6 +146,7 @@ export type Database = {
           lead_id?: string
           notes?: string | null
           revoked_at?: string | null
+          sent_bonus_email_at?: string | null
           updated_at?: string
           whatsapp_access_enabled_at?: string | null
           whatsapp_invite_url?: string | null
