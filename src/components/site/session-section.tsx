@@ -238,15 +238,8 @@ export function SessionSection() {
                 work out whether Growth Multiplier AI is genuinely a fit.
               </p>
 
-              <div className="mt-5 border-l-2 border-lime pl-4">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.14em] text-lime md:text-[11.5px]">
-                  Clarity guarantee
-                </p>
-                <p className="mt-2 text-[14px] leading-[1.7] text-fg">
-                  You'll leave the session knowing what we believe deserves attention first in your
-                  acquisition system — not a generic marketing presentation.
-                </p>
-              </div>
+
+
 
               <p className="mt-5 text-[14px] font-semibold text-fg">
                 If we're not the right fit, we'll tell you.
