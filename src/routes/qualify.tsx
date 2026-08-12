@@ -14,7 +14,7 @@ import {
   type LeadHandle,
   type Question,
 } from "@/data/qualification";
-import { createStrategyCallPaymentLink } from "@/lib/strategy-call.functions";
+import { startHostedPagePayment } from "@/lib/strategy-call.functions";
 import { SessionAvailability } from "@/components/site/session-availability";
 
 const TITLE = "Strategy Session Qualification — Growth Multiplier AI";
@@ -273,7 +273,7 @@ function PaymentStep({
     setMessage(null);
     setState("starting");
     try {
-      const result = await createStrategyCallPaymentLink({ data: handle });
+      const result = await startHostedPagePayment({ data: handle });
 
       if ("alreadyPaid" in result) {
         void navigate({ to: "/book" });
@@ -285,9 +285,9 @@ function PaymentStep({
         return;
       }
 
-      // Hand off to Razorpay's hosted page. Nothing sensitive lives here.
+      // Hand off to Razorpay's hosted payment page.
       setState("redirecting");
-      window.location.href = result.shortUrl;
+      window.location.href = result.paymentUrl;
     } catch {
       setState("error");
       setMessage("Something went wrong. Please try again.");
@@ -313,6 +313,11 @@ function PaymentStep({
 
       <p className="mt-3 text-[14px] leading-relaxed text-muted">
         ₹9 isn't the price of the strategy. It's a small commitment to reserve your session.
+      </p>
+
+      <p className="mt-4 rounded-[10px] border border-lime/40 bg-[rgba(131,226,78,0.07)] p-[14px] text-[13.5px] leading-relaxed text-fg">
+        Use the same email and phone number on the payment page — that's how we match your payment
+        to your session.
       </p>
 
       <button
