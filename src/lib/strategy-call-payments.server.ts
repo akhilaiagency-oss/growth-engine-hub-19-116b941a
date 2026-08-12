@@ -340,13 +340,15 @@ interface RazorpayWebhookEntity {
   id?: string;
   order_id?: string;
   method?: string;
+  amount?: number;
+  currency?: string;
   error_description?: string;
 }
 
 interface RazorpayWebhookPayload {
   payload?: {
     payment?: { entity?: RazorpayWebhookEntity };
-    payment_link?: { entity?: { id?: string; status?: string } };
+    payment_link?: { entity?: { id?: string; status?: string; reference_id?: string } };
   };
 }
 
@@ -375,6 +377,7 @@ export async function applyVerifiedWebhook(input: {
   const body = input.payload as RazorpayWebhookPayload;
   const entity = (body.payload?.payment?.entity ?? {}) as RazorpayWebhookEntity;
   const paymentLinkId = body.payload?.payment_link?.entity?.id;
+  const referenceId = body.payload?.payment_link?.entity?.reference_id;
   const orderId = entity.order_id;
   let result = "ignored";
 
@@ -383,15 +386,27 @@ export async function applyVerifiedWebhook(input: {
     input.eventType === "payment.captured" ||
     input.eventType === "order.paid";
 
-  if (paidEvent && (paymentLinkId || orderId)) {
-    const leadId = await markPaid({
-      paymentLinkId,
-      orderId,
-      paymentId: entity.id ?? "",
-      method: entity.method,
-      payload: input.payload,
-    });
-    result = leadId ? "paid" : "unknown_payment";
+  if (paidEvent && (referenceId || paymentLinkId || orderId)) {
+    // Never grant on an amount we did not ask for.
+    if (entity.amount !== STRATEGY_CALL_AMOUNT_PAISE || entity.currency !== STRATEGY_CALL_CURRENCY) {
+      console.error("[strategy-call] webhook amount mismatch — manual review", {
+        eventId: input.eventId,
+        amount: entity.amount,
+        currency: entity.currency,
+      });
+      result = "amount_mismatch";
+    } else {
+      const leadId = await markPaid({
+        referenceId,
+        paymentLinkId,
+        orderId,
+        paymentId: entity.id ?? "",
+        method: entity.method,
+        payload: input.payload,
+      });
+      result = leadId ? "paid" : "unknown_payment";
+    }
+
   } else if (input.eventType === "payment.failed" && (paymentLinkId || orderId)) {
     let update = db
       .from("strategy_call_payments")
