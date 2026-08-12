@@ -20,8 +20,10 @@ import {
 } from "@/data/qualification";
 import {
   claimWhatsappCommunityAccess,
+  getFunnelStatus,
   getStrategyCallBooking,
   verifyStrategyCallBooking,
+  verifyStrategyCallPaymentLinkReturn,
 } from "@/lib/strategy-call.functions";
 
 const TITLE = "Book Your Strategy Session — Growth Multiplier AI";
@@ -48,6 +50,38 @@ export const Route = createFileRoute("/book")({
 });
 
 type Access = Awaited<ReturnType<typeof getStrategyCallBooking>>;
+
+/**
+ * Razorpay appends these to the Payment Link callback URL. They are only a
+ * hint: the signature is verified server-side, and the `payment_link.paid`
+ * webhook remains authoritative if it lands later.
+ */
+function readPaymentReturn() {
+  const p = new URLSearchParams(window.location.search);
+  const paymentId = p.get("razorpay_payment_id");
+  const paymentLinkId = p.get("razorpay_payment_link_id");
+  const referenceId = p.get("razorpay_payment_link_reference_id");
+  const status = p.get("razorpay_payment_link_status");
+  const signature = p.get("razorpay_signature");
+  if (!paymentId || !paymentLinkId || !referenceId || !status || !signature) return null;
+  return { paymentId, paymentLinkId, referenceId, status, signature };
+}
+
+/** Removes the payment params so a refresh cannot replay them. */
+function stripPaymentParams() {
+  const url = new URL(window.location.href);
+  for (const key of [
+    "razorpay_payment_id",
+    "razorpay_payment_link_id",
+    "razorpay_payment_link_reference_id",
+    "razorpay_payment_link_status",
+    "razorpay_signature",
+  ])
+    url.searchParams.delete(key);
+  window.history.replaceState({}, "", `${url.pathname}${url.search}${url.hash}`);
+}
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 const CALENDLY_SCRIPT = "https://assets.calendly.com/assets/external/widget.js";
 
@@ -89,6 +123,8 @@ function BookPage() {
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
   const [unconfirmed, setUnconfirmed] = useState(false);
   const [checking, setChecking] = useState(false);
+  const [confirmingPayment, setConfirmingPayment] = useState(false);
+  const [paymentFailed, setPaymentFailed] = useState(false);
   const pollRef = useRef<number | null>(null);
   const handleRef = useRef<LeadHandle | null>(null);
 
@@ -115,6 +151,30 @@ function BookPage() {
       return;
     }
     void (async () => {
+      // 1. Returning from the hosted Razorpay page? Confirm the payment first.
+      const ret = readPaymentReturn();
+      if (ret) {
+        setConfirmingPayment(true);
+        stripPaymentParams();
+        let paid = false;
+        try {
+          const verified = await verifyStrategyCallPaymentLinkReturn({ data: { ...h, ...ret } });
+          paid = verified.bookingUnlocked;
+        } catch {
+          /* fall through to polling — the webhook may still be in flight */
+        }
+        if (!paid) {
+          // The webhook is authoritative and can land a moment later.
+          for (let i = 0; i < 6 && !paid; i += 1) {
+            await sleep(1500);
+            const status = await getFunnelStatus({ data: h }).catch(() => null);
+            paid = status?.payment?.status === "paid";
+          }
+        }
+        setConfirmingPayment(false);
+        if (!paid) setPaymentFailed(true);
+      }
+
       const result = await load(h);
       const status = result?.booking?.status;
       const settled = status === "confirmed" || status === "scheduled" || status === "rescheduled";
@@ -263,13 +323,18 @@ function BookPage() {
       </header>
 
       <main className="mx-auto max-w-[900px] px-5 py-12">
-        {loading ? (
+        {confirmingPayment ? (
+          <p className="flex items-center gap-2 text-[14px] text-muted">
+            <Loader2 size={16} className="animate-spin" aria-hidden="true" /> Confirming your
+            payment…
+          </p>
+        ) : loading ? (
           <p className="flex items-center gap-2 text-[14px] text-muted">
             <Loader2 size={16} className="animate-spin" aria-hidden="true" /> Checking your
             reservation…
           </p>
         ) : !access?.unlocked ? (
-          <LockedCard hasHandle={Boolean(handle)} />
+          <LockedCard hasHandle={Boolean(handle)} paymentFailed={paymentFailed} />
         ) : confirmed ? (
           <ConfirmedCard
             booking={booking}
@@ -380,7 +445,13 @@ function BookPage() {
   );
 }
 
-function LockedCard({ hasHandle }: { hasHandle: boolean }) {
+function LockedCard({
+  hasHandle,
+  paymentFailed = false,
+}: {
+  hasHandle: boolean;
+  paymentFailed?: boolean;
+}) {
   return (
     <div className="mx-auto max-w-[560px] rounded-[16px] border border-border bg-surface p-8 text-center">
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-[12px] border border-border bg-surface-2">
@@ -390,7 +461,9 @@ function LockedCard({ hasHandle }: { hasHandle: boolean }) {
         Strategy Session Booking Locked
       </h1>
       <p className="mx-auto mt-3 max-w-[420px] text-[14.5px] leading-relaxed text-muted">
-        A confirmed ₹9 payment is required before selecting your strategy-session time.
+        {paymentFailed
+          ? "We couldn't confirm your ₹9 payment yet. If money left your account it will confirm automatically within a few minutes — refresh this page shortly."
+          : "A confirmed ₹9 payment is required before selecting your strategy-session time."}
       </p>
       <Link to="/qualify" className="btn-primary mt-6 inline-flex">
         {hasHandle ? "Complete my ₹9 reservation →" : "Book My ₹9 Strategy Call →"}
