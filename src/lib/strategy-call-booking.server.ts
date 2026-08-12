@@ -289,6 +289,15 @@ export async function verifyCalendlyBooking(
       .eq("lead_id", lead.id)
       .in("whatsapp_status", ["not_granted", "invited", "revoked"]);
 
+    // Bonus documents email — fire-and-forget, once only. An email failure can
+    // never fail or roll back the booking confirmation above.
+    try {
+      const { sendBonusDocumentsEmail } = await import("./bonus-email.server");
+      await sendBonusDocumentsEmail(lead.id);
+    } catch {
+      /* intentionally ignored */
+    }
+
     // Read the gate back from the row we just wrote: 'enabled', or 'joined'
     // when this lead had already joined during an earlier booking.
     const { data: entitlement } = await db
