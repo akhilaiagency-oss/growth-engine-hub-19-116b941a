@@ -60,6 +60,7 @@ export async function createRazorpayPaymentLink(params: {
   customer: { name: string; email: string; contact: string };
   callbackUrl: string;
   notes: Record<string, string>;
+  expireBy?: number;
 }): Promise<RazorpayPaymentLink> {
   const { keyId, keySecret, mode } = getRazorpayCreds();
   console.log(`[Razorpay] Creating ${mode} payment link ${params.referenceId}`);
@@ -77,7 +78,8 @@ export async function createRazorpayPaymentLink(params: {
       description: params.description,
       customer: params.customer,
       notify: { sms: false, email: true },
-      reminder_enable: true,
+      reminder_enable: false,
+      expire_by: params.expireBy ?? Math.floor(Date.now() / 1000) + 3600,
       notes: params.notes,
       callback_url: params.callbackUrl,
       callback_method: "get",
@@ -91,6 +93,28 @@ export async function createRazorpayPaymentLink(params: {
   }
   return (await res.json()) as RazorpayPaymentLink;
 }
+
+export interface RazorpayPayment {
+  id: string;
+  amount: number;
+  currency: string;
+  status: string;
+  method?: string;
+}
+
+/** Server-side truth for a payment: GET /v1/payments/{id}. */
+export async function fetchRazorpayPayment(paymentId: string): Promise<RazorpayPayment | null> {
+  const { keyId, keySecret } = getRazorpayCreds();
+  const res = await fetch(`${RAZORPAY_API}/payments/${encodeURIComponent(paymentId)}`, {
+    headers: { authorization: `Basic ${btoa(`${keyId}:${keySecret}`)}` },
+  });
+  if (!res.ok) {
+    console.error("Razorpay payment fetch failed", res.status, await res.text());
+    return null;
+  }
+  return (await res.json()) as RazorpayPayment;
+}
+
 
 function safeEqualHex(a: string, b: string): boolean {
   const bufA = Buffer.from(a, "utf8");
