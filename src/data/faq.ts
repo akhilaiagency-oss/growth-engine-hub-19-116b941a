@@ -17,6 +17,11 @@ export const FAQS: FaqItem[] = [
     a: "No. You get the funnel breakdown either way — and if your acquisition doesn't need rebuilding, you'll be told exactly that.",
   },
   {
+    q: "Are you going to sell me a ₹50,000 retainer at the end of this?",
+    a: "There is a paid engagement, and if it looks like a fit you'll hear about it — near the end, after we've both looked at your funnel. It isn't a fixed package and it isn't quoted before the scope is understood. What matters more is this: the plan you leave with is complete on its own. It isn't a teaser with the useful part held back behind a proposal. Taking it away and implementing it yourself is a legitimate outcome of the session, and it happens.",
+  },
+
+  {
     q: "What does it cost to work with you after the call?",
     a: "It depends entirely on which stages of the system you need built — a landing page and follow-up setup is a very different scope to a full acquisition rebuild. You'll get a clear, specific number on the call once we've seen your funnel. There's no obligation either way, and no pressure to decide on the call itself.",
   },
