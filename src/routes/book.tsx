@@ -248,6 +248,22 @@ function BookPage() {
     [],
   );
 
+  // While the locked state is shown, keep checking quietly so a late webhook
+  // resolves the page without the visitor doing anything.
+  const unlocked = access?.unlocked ?? false;
+  useEffect(() => {
+    if (loading || confirmingPayment || unlocked || !handle) return;
+    const id = window.setInterval(() => {
+      void (async () => {
+        const status = await getFunnelStatus({ data: handle }).catch(() => null);
+        if (status?.payment?.status === "paid") await load(handle);
+      })();
+    }, 6000);
+    return () => window.clearInterval(id);
+  }, [loading, confirmingPayment, unlocked, handle, load]);
+
+
+
   const booking = access?.booking ?? null;
   const confirmed =
     booking !== null &&
@@ -424,33 +440,50 @@ function LockedCard({
   onClaimed: () => void;
 }) {
   return (
-    <>
-    <div className="mx-auto max-w-[560px] rounded-[16px] border border-border bg-surface p-8 text-center">
+    <div className="mx-auto max-w-[560px] rounded-[16px] border border-border bg-surface p-8">
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-[12px] border border-border bg-surface-2">
         <Lock size={20} className="text-muted" aria-hidden="true" />
       </span>
-      <h1 className="mt-5 text-[22px] leading-tight font-semibold text-fg">
-        Strategy Session Booking Locked
+      <h1 className="mt-5 text-center text-[22px] leading-tight font-semibold text-fg">
+        {paymentFailed || hasHandle
+          ? "We're still confirming your payment"
+          : "Reserve your strategy session"}
       </h1>
-      <p className="mx-auto mt-3 max-w-[420px] text-[14.5px] leading-relaxed text-muted">
-        {paymentFailed
-          ? "We couldn't confirm your ₹9 payment yet. If money left your account it will confirm automatically within a few minutes — refresh this page shortly."
+      <p className="mx-auto mt-3 max-w-[440px] text-center text-[14.5px] leading-relaxed text-muted">
+        {paymentFailed || hasHandle
+          ? "If money left your account, your payment is safe and recorded. It usually confirms within a minute."
           : "A confirmed ₹9 payment is required before selecting your strategy-session time."}
       </p>
-      <Link to="/qualify" className="btn-primary mt-6 inline-flex">
-        {hasHandle ? "Complete my ₹9 reservation →" : "Book My ₹9 Strategy Call →"}
-      </Link>
-      <p className="mt-3 text-[12.5px] text-muted-2">
-        Already paid? Give it a moment and refresh — confirmation can take a minute.
-      </p>
+
+      {handle ? (
+        <>
+          <RecoveryPanel handle={handle} onClaimed={onClaimed} />
+          <p className="mt-3 text-center text-[12.5px] text-muted-2">
+            Confirmation can take a moment — this page keeps checking in the background.
+          </p>
+          <div className="mt-6 border-t border-border pt-5 text-center">
+            <p className="text-[12.5px] text-muted-2">Haven't paid yet?</p>
+            <Link
+              to="/qualify"
+              className="mt-1 inline-flex min-h-[44px] items-center text-[13.5px] text-muted underline underline-offset-4 transition-colors hover:text-fg"
+            >
+              Reserve my session for ₹9 →
+            </Link>
+          </div>
+        </>
+      ) : (
+        <div className="mt-6 text-center">
+          <Link to="/qualify" className="btn-primary inline-flex">
+            Book My ₹9 Strategy Call →
+          </Link>
+        </div>
+      )}
     </div>
-    {handle && <RecoveryPanel handle={handle} onClaimed={onClaimed} />}
-    </>
   );
 }
 
 /**
- * "Paid but not showing yet?" — binds a signature-verified payment the webhook
+ * Primary recovery action — binds a signature-verified payment the webhook
  * could not match. The server does all the checking; this only collects the
  * email that was used on the payment page.
  */
@@ -481,10 +514,13 @@ function RecoveryPanel({ handle, onClaimed }: { handle: LeadHandle; onClaimed: (
   };
 
   return (
-    <div className="mx-auto mt-5 max-w-[560px] rounded-[16px] border border-border bg-surface p-6">
-      <p className="text-[15px] font-semibold text-fg">Paid but not showing yet?</p>
+    <div className="mt-6">
+      <p className="text-[15px] font-semibold text-fg">
+        Almost there — we just need to match your payment
+      </p>
       <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
-        Enter the email you used on the payment page and we'll match your payment to this session.
+        If you paid with a different email address than the one you gave us, enter the email you
+        used on the payment page and we'll connect it to your session.
       </p>
       <form
         className="mt-4 flex flex-col gap-3 sm:flex-row"
@@ -522,6 +558,7 @@ function RecoveryPanel({ handle, onClaimed }: { handle: LeadHandle; onClaimed: (
     </div>
   );
 }
+
 
 function ConfirmedCard({
   booking,

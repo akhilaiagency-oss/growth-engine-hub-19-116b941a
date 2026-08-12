@@ -498,51 +498,96 @@ export function extractPayer(entity: Record<string, unknown>): Payer {
 
 export interface PayerMatch {
   leadId: string;
-  matchMethod: "webhook_email_phone" | "webhook_email_only";
+  matchMethod: "webhook_email_phone" | "webhook_email_only" | "webhook_phone_only";
+}
+
+/** Lead ids that already have a paid payment row. */
+async function paidLeadIds(ids: string[]): Promise<Set<string>> {
+  if (ids.length === 0) return new Set();
+  const db = await admin();
+  const { data } = await db
+    .from("strategy_call_payments")
+    .select("lead_id")
+    .in("lead_id", ids)
+    .eq("status", "paid");
+  return new Set((data ?? []).map((r) => r.lead_id));
 }
 
 /**
- * Finds the lead behind a payer. Email must match exactly (case-insensitive);
- * phone is a strengthening signal, recorded so every grant is auditable.
- * Only leads without a paid payment are eligible.
+ * Finds the lead behind a payer, in strict order of confidence:
+ *
+ *   1. webhook_email_phone — email exact + last 10 phone digits match
+ *   2. webhook_email_only  — email exact, phone differs/absent
+ *   3. webhook_phone_only  — phone matches, email does NOT, and exactly one
+ *      unpaid lead carries that phone. Two or more candidates = no match.
+ *
+ * Only leads without a paid payment are ever eligible.
  */
 export async function findLeadForPayer(payer: Payer): Promise<PayerMatch | null> {
-  if (!payer.email) return null;
   const db = await admin();
 
-  const { data: leads, error } = await db
+  if (payer.email) {
+    const { data: leads, error } = await db
+      .from("strategy_call_leads")
+      .select("id, email, phone, created_at")
+      .ilike("email", payer.email)
+      .order("created_at", { ascending: false })
+      .limit(25);
+    if (error) {
+      console.error("[strategy-call] payer lead lookup failed", error);
+      return null;
+    }
+    const candidates = (leads ?? []).filter(
+      (l) => (l.email ?? "").trim().toLowerCase() === payer.email,
+    );
+    if (candidates.length > 0) {
+      const alreadyPaid = await paidLeadIds(candidates.map((c) => c.id));
+      const open = candidates.filter((c) => !alreadyPaid.has(c.id));
+      if (open.length > 0) {
+        const withPhone = payer.contact
+          ? open.find((c) => phoneTail(c.phone) === payer.contact)
+          : undefined;
+        if (withPhone) return { leadId: withPhone.id, matchMethod: "webhook_email_phone" };
+        return { leadId: open[0]!.id, matchMethod: "webhook_email_only" };
+      }
+    }
+  }
+
+  // Tier 3 — phone only. Autofill often supplies a different email on the
+  // payment page, but the phone number is typed fresh both times.
+  if (!payer.contact) return null;
+
+  const { data: phoneLeads, error: phoneError } = await db
     .from("strategy_call_leads")
     .select("id, email, phone, created_at")
-    .ilike("email", payer.email)
     .order("created_at", { ascending: false })
-    .limit(25);
-  if (error) {
-    console.error("[strategy-call] payer lead lookup failed", error);
+    .limit(500);
+  if (phoneError) {
+    console.error("[strategy-call] payer phone lookup failed", phoneError);
     return null;
   }
-  const candidates = (leads ?? []).filter((l) => (l.email ?? "").trim().toLowerCase() === payer.email);
-  if (candidates.length === 0) return null;
 
-  const { data: paidRows } = await db
-    .from("strategy_call_payments")
-    .select("lead_id")
-    .in(
-      "lead_id",
-      candidates.map((c) => c.id),
-    )
-    .eq("status", "paid");
-  const alreadyPaid = new Set((paidRows ?? []).map((r) => r.lead_id));
+  const phoneCandidates = (phoneLeads ?? []).filter(
+    (l) => phoneTail(l.phone) === payer.contact,
+  );
+  if (phoneCandidates.length === 0) return null;
 
-  const open = candidates.filter((c) => !alreadyPaid.has(c.id));
-  if (open.length === 0) return null;
+  const alreadyPaid = await paidLeadIds(phoneCandidates.map((c) => c.id));
+  const open = phoneCandidates.filter((c) => !alreadyPaid.has(c.id));
 
-  const withPhone = payer.contact
-    ? open.find((c) => phoneTail(c.phone) === payer.contact)
-    : undefined;
-  if (withPhone) return { leadId: withPhone.id, matchMethod: "webhook_email_phone" };
+  // Ambiguity must never auto-grant: leave it for the recovery panel.
+  if (open.length !== 1) {
+    if (open.length > 1) {
+      console.error("[strategy-call] phone-only match ambiguous — left unmatched", {
+        candidates: open.length,
+      });
+    }
+    return null;
+  }
 
-  return { leadId: open[0]!.id, matchMethod: "webhook_email_only" };
+  return { leadId: open[0]!.id, matchMethod: "webhook_phone_only" };
 }
+
 
 /**
  * Marks a lead paid + verified from a matched provider payment. Idempotent:
