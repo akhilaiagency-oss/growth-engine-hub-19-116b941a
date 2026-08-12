@@ -64,6 +64,24 @@ const AGENDA = [
   },
 ];
 
+const DOCUMENTS = [
+  {
+    label: "Document 01",
+    title: "The Landing Page Audit Checklist",
+    body: "23 checks, run against a page before deciding whether to rebuild it or repair it. Covers the single-action test, the qualification gap, mobile CTA position, and the four things that quietly kill a real-estate enquiry form.",
+  },
+  {
+    label: "Document 02",
+    title: "The Follow-Up Speed Scorecard",
+    body: "A one-page instrument for measuring how long your enquiries actually wait for a first reply — split across weekday, evening and weekend. Most owners guess in minutes. The scorecard gives you the real number, and what it costs at your current cost per lead.",
+  },
+  {
+    label: "Document 03",
+    title: "The Lead Qualification Question Bank",
+    body: "40 qualification questions grouped by industry and weighted toward real estate — budget, timeline, decision authority, financing readiness, intent. Drop them into your form, your WhatsApp flow, or your first call.",
+  },
+];
+
 const DETAILS = [
   "30–45 minutes, 1-on-1 with Akhil",
   "Zoom or Google Meet",
