@@ -259,10 +259,11 @@ export async function verifyPaymentLinkReturn(input: {
   const { data: payment } = await db
     .from("strategy_call_payments")
     .select("id, lead_id, status")
-    .eq("razorpay_payment_link_id", input.paymentLinkId)
+    .eq("razorpay_reference_id", input.referenceId)
     .maybeSingle();
 
   if (!payment || payment.lead_id !== lead.id) {
+    console.error("[strategy-call] payment link return did not match this lead");
     return { status: "payment_failed", bookingUnlocked: false };
   }
   if (payment.status === "paid") return { status: "paid", bookingUnlocked: true };
@@ -287,12 +288,40 @@ export async function verifyPaymentLinkReturn(input: {
     return { status: payment.status as PaymentState, bookingUnlocked: false };
   }
 
+  // Signature proves authenticity; Razorpay's API proves the money.
+  const remote = await fetchRazorpayPayment(input.paymentId);
+  const amountOk =
+    remote?.amount === STRATEGY_CALL_AMOUNT_PAISE &&
+    remote.currency === STRATEGY_CALL_CURRENCY &&
+    remote.status === "captured";
+
+  if (!amountOk) {
+    console.error("[strategy-call] payment amount/status mismatch — manual review", {
+      paymentId: input.paymentId,
+      amount: remote?.amount,
+      currency: remote?.currency,
+      status: remote?.status,
+    });
+    await db
+      .from("strategy_call_payments")
+      .update({
+        verification_status: "mismatch",
+        razorpay_payment_id: input.paymentId,
+        failure_reason: "Payment amount, currency or capture status did not match",
+      })
+      .eq("id", payment.id);
+    return { status: payment.status as PaymentState, bookingUnlocked: false };
+  }
+
   await markPaid({
     paymentLinkId: input.paymentLinkId,
+    referenceId: input.referenceId,
     paymentId: input.paymentId,
     signature: input.signature,
+    method: remote.method,
   });
   return { status: "paid", bookingUnlocked: true };
+
 }
 
 /** Authoritative gate for the booking step. */
