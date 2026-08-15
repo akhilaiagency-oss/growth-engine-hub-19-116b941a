@@ -12,20 +12,6 @@ const VALUE_POINTS = [
   "Priority action plan",
 ];
 
-const WHAT_YOU_GET = [
-  "Landing-page review",
-  "Conversion bottleneck identification",
-  "Funnel observations across all seven stages",
-  "Priority improvement opportunities",
-  "Strategic next steps",
-];
-
-const THIS_ISNT = [
-  "A guaranteed-results pitch",
-  "A generic marketing consultation",
-  "A pressure-filled sales presentation",
-  "A full consulting engagement in 30 minutes",
-];
 
 const CHECKPOINTS = [
   {
