@@ -1,34 +1,35 @@
+import { Target, Zap, Droplets, Search, CalendarCheck, TrendingUp } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 
 const OUTCOMES = [
   {
-    icon: "🎯",
+    Icon: Target,
     title: "More qualified opportunities",
     body: "Your team spends its hours on buyers who actually match your criteria.",
   },
   {
-    icon: "⚡",
+    Icon: Zap,
     title: "Faster follow-up",
     body: "Replies run on a Tuesday morning and a Sunday night alike, without anyone remembering.",
   },
   {
-    icon: "🪣",
+    Icon: Droplets,
     title: "Less lead leakage",
     body: "Every enquiry is captured, scored and routed instead of sitting in someone's inbox.",
   },
   {
-    icon: "🔍",
+    Icon: Search,
     title: "Clearer funnel visibility",
     body: "Point at the stage where the money stops working, and change it on evidence.",
   },
   {
-    icon: "📅",
+    Icon: CalendarCheck,
     title: "More booked conversations",
     body: "Booked appointments become the number you diagnose, not just the number you report.",
   },
   {
-    icon: "📈",
+    Icon: TrendingUp,
     title: "Better conversion, measurably",
     body: "When every stage is measured, the next change is a decision rather than an opinion.",
   },
@@ -47,7 +48,7 @@ export function Outcomes() {
         </Reveal>
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 min-[900px]:grid-cols-3">
-          {OUTCOMES.map((o) => (
+          {OUTCOMES.map(({ Icon, title, body }) => (
             <Reveal key={o.title} className="rounded-[12px] border border-border bg-bg p-6">
               <span
                 aria-hidden="true"
