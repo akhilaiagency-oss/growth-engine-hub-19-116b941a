@@ -8,9 +8,10 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
   const isYoutube = !!videoUrl && /youtu\.?be/.test(videoUrl);
 
   return (
-    <div className="mx-auto w-full max-w-[760px]">
+    <div className="mx-auto w-full max-w-full min-[900px]:max-w-[640px]">
       <div
-        className="relative aspect-video w-full overflow-hidden rounded-[12px] bg-surface-2"
+        className="relative w-full overflow-hidden rounded-[12px] bg-surface-2"
+        style-aspect-ratio-placeholder=""
         style={
           videoUrl
             ? { border: "1px solid var(--border-strong)" }
