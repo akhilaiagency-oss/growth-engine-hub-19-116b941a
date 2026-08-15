@@ -70,18 +70,18 @@ function Index() {
       <SiteNav />
       <main>
         <Hero />
-        <ProblemSection />
+        <ProofStrip />
         <LeakMap />
         <EngineSection />
-        <SystemStackSection />
-        <Outcomes />
-        <ProofSection />
+        <ResultsSection />
         <FounderSection />
+        <FitSection />
         <SessionSection />
-        <HowItWorks />
+        <DeliverablesSection />
         <FaqSection />
+        <CapacitySection />
         <TwoRoadsSection />
-        <FinalCta />
+
       </main>
       <SiteFooter />
       <StickyMobileCta />
