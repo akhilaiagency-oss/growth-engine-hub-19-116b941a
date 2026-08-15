@@ -64,10 +64,7 @@ export function SystemStackSection() {
         <ul className="mt-7 flex flex-col gap-3">
           {ROWS.map(({ color, title, body, Icon }) => (
             <li key={title}>
-              <Reveal
-                className="grid items-center overflow-hidden rounded-[12px] border border-border bg-surface pr-5 min-[900px]:grid-cols-[96px_34px_1fr]"
-                style={{ paddingLeft: 0, gridTemplateColumns: undefined }}
-              >
+              <Reveal className="flex items-center gap-0 overflow-hidden rounded-[12px] border border-border bg-surface pr-5 pl-0">
                 <span
                   className="flex h-[70px] w-[70px] items-center justify-center min-[900px]:h-[96px] min-[900px]:w-[96px]"
                   style={{
