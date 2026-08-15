@@ -1,6 +1,7 @@
 import { Timer, Unplug, CalendarX } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
+import { AcquisitionFlow } from "./acquisition-flow";
 
 const CARDS = [
   {
@@ -35,6 +36,10 @@ export function ProblemSection() {
             reply, the booking — decides whether that spend becomes revenue. In most businesses it
             breaks in three places at once.
           </p>
+        </Reveal>
+
+        <Reveal className="mt-8">
+          <AcquisitionFlow />
         </Reveal>
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">

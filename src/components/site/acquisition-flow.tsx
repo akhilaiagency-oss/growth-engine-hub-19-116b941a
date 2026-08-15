@@ -13,10 +13,10 @@ const NODES = [
  */
 export function AcquisitionFlow() {
   return (
-    <figure className="mx-auto mt-8 w-full max-w-[960px]">
+    <figure className="mx-auto w-full max-w-[960px]">
       <ol
         aria-label="The five stages of a connected acquisition system"
-        className="grid grid-cols-1 overflow-hidden rounded-[14px] border border-border-strong bg-surface min-[900px]:grid-cols-5"
+        className="grid grid-cols-2 overflow-hidden rounded-[14px] border border-border-strong bg-surface min-[900px]:grid-cols-5"
       >
         {NODES.map((n, i) => {
           const last = i === NODES.length - 1;
@@ -24,7 +24,11 @@ export function AcquisitionFlow() {
             <li
               key={n.name}
               className={`flex flex-col items-center gap-1.5 px-3 py-4 ${
-                i > 0 ? "border-t border-border min-[900px]:border-t-0 min-[900px]:border-l" : ""
+                i >= 2 ? "border-t border-border" : ""
+              } ${i % 2 === 1 ? "border-l border-border" : ""} ${
+                last ? "col-span-2" : ""
+              } min-[900px]:col-span-1 min-[900px]:border-t-0 ${
+                i > 0 ? "min-[900px]:border-l min-[900px]:border-border" : "min-[900px]:border-l-0"
               }`}
               style={last ? { background: "rgba(131,226,78,0.07)" } : undefined}
             >
@@ -53,7 +57,8 @@ export function AcquisitionFlow() {
         })}
       </ol>
       <figcaption className="mt-3 text-[12.5px] leading-relaxed text-muted-2">
-        Five stages. Most businesses own each one separately — and nobody owns the joins.
+        Five stages. Most businesses own each one separately — and the opportunities are lost in the
+        handoffs between them.
       </figcaption>
     </figure>
   );
