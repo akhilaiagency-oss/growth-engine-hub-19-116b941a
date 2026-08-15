@@ -10,30 +10,26 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-5 pt-[40px] pb-[52px] min-[900px]:pt-[112px]"
+      className="relative overflow-hidden px-5 pt-[112px] pb-[52px]"
       style={{
         backgroundImage:
           "radial-gradient(800px 440px at 20% -10%, rgba(62,134,255,0.18), transparent 62%), radial-gradient(700px 420px at 84% 2%, rgba(131,226,78,0.10), transparent 58%)",
       }}
     >
-      {/*
-       * DOM order stays logical for screen readers and SEO.
-       * Below 900px, CSS `order` moves the VSL + offer + CTAs above the flow strip.
-       */}
-      <div className="mx-auto flex max-w-[840px] flex-col text-center">
-        <p className="order-1 mx-auto max-w-[820px] text-[17px] font-bold leading-[1.35] text-fg min-[900px]:text-[20px]">
+      <div className="mx-auto max-w-[840px] text-center">
+        <p className="mx-auto max-w-[820px] text-[20px] font-bold leading-[1.35] text-fg">
           Stop Losing Qualified Leads To <span className="text-lime">Slow Follow-Up</span> And{" "}
           <span className="text-lime">Broken Funnels</span>
         </p>
 
-        <h1 className="order-2 mt-5 text-[26px] leading-[1.12] font-extrabold tracking-[-0.025em] text-fg min-[900px]:mt-6 min-[900px]:text-[52px] min-[900px]:leading-[1.08]">
+        <h1 className="mt-6 text-[31px] leading-[1.08] font-extrabold tracking-[-0.025em] text-fg md:text-[52px]">
           Turn More Clicks Into Paying Customers With One Connected{" "}
           <span className="text-electric-soft">Acquisition System</span>
         </h1>
 
-        <AcquisitionFlow className="order-6 mt-7 min-[900px]:order-3 min-[900px]:mt-8" />
+        <AcquisitionFlow />
 
-        <div className="order-4 mt-6 flex justify-center min-[900px]:order-4 min-[900px]:mt-8">
+        <div className="mt-8 flex justify-center">
           <span
             className="inline-flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 rounded-[10px] text-[18px] font-bold text-lime"
             style={{
@@ -50,22 +46,22 @@ export function Hero() {
           </span>
         </div>
 
-        <ul className="order-7 mt-6 flex flex-col items-center justify-center gap-3 text-[13.5px] text-muted min-[620px]:flex-row min-[620px]:gap-10 min-[900px]:order-5">
+        <ul className="mt-6 flex flex-col items-center justify-center gap-3 text-[13.5px] text-muted min-[620px]:flex-row min-[620px]:gap-10">
           {FACTS.map((f) => (
             <li key={f}>{f}</li>
           ))}
         </ul>
 
-        <div className="order-5 mt-4 flex flex-col items-stretch justify-center gap-3 min-[520px]:flex-row min-[520px]:items-center min-[900px]:order-6 min-[900px]:mt-8">
+        <div className="mt-8 flex flex-col items-stretch justify-center gap-3 min-[520px]:flex-row min-[520px]:items-center">
           <BookCta />
           <a href="#engine" className="btn-secondary">
             See How It Works
           </a>
         </div>
 
-        <CtaNote className="order-5 mt-4 min-[900px]:order-7" />
+        <CtaNote className="mt-4" />
 
-        <div className="order-3 mt-6 min-[900px]:order-8 min-[900px]:mt-10">
+        <div className="mt-10">
           <VslSlot />
         </div>
       </div>
