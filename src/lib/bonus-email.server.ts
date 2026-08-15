@@ -47,7 +47,7 @@ export function renderBonusEmailText(name: string, docs: BonusDocument[]): strin
     "",
     list,
     "",
-    "If you can, fill in the Follow-Up Speed Scorecard before we speak. Real numbers turn a general conversation into a specific one, and it's the fastest way to find which stage of your funnel is costing you the most.",
+    "If you can, run the Landing Page Audit Checklist before we speak. Real answers turn a general conversation into a specific one, and it's the fastest way to find which stage of your funnel is costing you the most.",
     "",
     "These download links expire in 7 days — save the files somewhere safe.",
     "",
