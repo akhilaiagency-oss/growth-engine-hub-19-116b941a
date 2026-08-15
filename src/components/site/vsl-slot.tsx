@@ -11,11 +11,11 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
     <div className="mx-auto w-full max-w-full min-[900px]:max-w-[640px]">
       <div
         className="relative w-full overflow-hidden rounded-[12px] bg-surface-2"
-        style-aspect-ratio-placeholder=""
         style={
           videoUrl
-            ? { border: "1px solid var(--border-strong)" }
+            ? { aspectRatio: "16 / 9", border: "1px solid var(--border-strong)" }
             : {
+                aspectRatio: "16 / 9",
                 border: "1px dashed var(--border-strong)",
                 backgroundImage:
                   "radial-gradient(520px 260px at 50% 30%, rgba(62,134,255,0.16), transparent 66%)",
