@@ -71,7 +71,13 @@ function Node({
         cy={stage.y}
         r={26}
         fill={active ? "var(--lime)" : "var(--surface-2)"}
-        stroke={active ? "var(--lime)" : "var(--border-strong)"}
+        stroke={
+          active
+            ? "var(--lime)"
+            : isTop
+              ? "var(--border-strong)"
+              : "rgba(131,226,78,0.4)"
+        }
         strokeWidth="1.5"
         className="transition-colors group-hover:stroke-[var(--cyan)] group-focus-visible:stroke-[var(--cyan)]"
       />
@@ -81,11 +87,12 @@ function Node({
         textAnchor="middle"
         fontSize="11"
         fontWeight="700"
-        fill={active ? "var(--lime-ink)" : "var(--cyan)"}
+        fill={active ? "var(--lime-ink)" : isTop ? "var(--cyan)" : "var(--lime)"}
         className="pointer-events-none"
       >
         {stage.number}
       </text>
+
     </g>
   );
 }
