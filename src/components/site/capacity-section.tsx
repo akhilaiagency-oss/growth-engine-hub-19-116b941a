@@ -24,8 +24,12 @@ export function CapacitySection() {
 
           <div className="mt-6 grid gap-3 min-[520px]:grid-cols-2">
             <SessionsLeftBox withDashes />
-            <CountdownBox note="Resets Monday, 00:00 IST." />
+            <CountdownBox />
           </div>
+          <p className="mt-3 text-[13px] leading-relaxed text-muted-2">
+            Sessions run 3:00 PM – 11:00 PM IST, 30 minutes each.
+          </p>
+
 
           <div className="mt-6">
             <BookCta fullWidth />
