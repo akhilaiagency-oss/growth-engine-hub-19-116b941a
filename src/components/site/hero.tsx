@@ -1,9 +1,10 @@
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { VslSlot } from "./vsl-slot";
-import { PriceAnchor } from "./price-anchor";
-import { SlotsLeft } from "./slots-left";
-import { CountdownBlocks } from "./countdown-blocks";
+import { AcquisitionFlow } from "./acquisition-flow";
+import { URGENCY } from "@/lib/urgency";
+
+const FACTS = ["⏱ 30–45 minutes, 1-on-1 with Akhil", "📋 You keep the funnel plan either way"];
 
 export function Hero() {
   return (
@@ -16,52 +17,54 @@ export function Hero() {
       }}
     >
       <div className="mx-auto max-w-[840px] text-center">
-        <span className="eyebrow-pill">AI-Powered Client Acquisition Systems</span>
-
-        <h1 className="mt-6 text-[31px] leading-[1.08] font-extrabold tracking-[-0.025em] text-fg md:text-[52px]">
-          Turn Ad Traffic Into <span className="text-electric-soft">Qualified Opportunities</span> —
-          Not Just Leads.
-        </h1>
-
-        <p className="mx-auto mt-5 max-w-[660px] text-[17px] font-semibold leading-relaxed text-muted">
-          We connect your landing pages, lead qualification, follow-up and booking into one
-          acquisition system — so the traffic you're already paying for turns into booked
-          appointments.
+        <p className="mx-auto max-w-[820px] text-[20px] font-bold leading-[1.35] text-fg">
+          Stop Losing Qualified Leads To <span className="text-lime">Slow Follow-Up</span> And{" "}
+          <span className="text-lime">Broken Funnels</span>
         </p>
 
-        <div className="mx-auto mt-8 flex max-w-[520px] flex-col items-center gap-4 rounded-[16px] border border-border bg-[rgba(14,21,38,0.72)] px-6 py-5 backdrop-blur-sm">
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-3">
-            <PriceAnchor size="lg" suffix="today" />
-            <SlotsLeft />
-          </div>
+        <h1 className="mt-6 text-[31px] leading-[1.08] font-extrabold tracking-[-0.025em] text-fg md:text-[52px]">
+          Turn More Clicks Into Paying Customers With One Connected{" "}
+          <span className="text-electric-soft">Acquisition System</span>
+        </h1>
+
+        <AcquisitionFlow />
+
+        <div className="mt-8 flex justify-center">
+          <span
+            className="inline-flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 rounded-[10px] text-[18px] font-bold text-lime"
+            style={{
+              background: "rgba(131,226,78,0.1)",
+              border: "1px solid rgba(131,226,78,0.35)",
+              padding: "13px 22px",
+            }}
+          >
+            <span aria-hidden="true">🗓</span>
+            <span className="text-[14px] font-semibold text-muted-2 line-through">
+              ₹{URGENCY.originalPrice}
+            </span>
+            <span>₹{URGENCY.offerPrice}</span>
+            <span>· 1-on-1 AI Growth Strategy Session</span>
+          </span>
         </div>
 
-        <div className="mt-10">
-          <VslSlot />
-        </div>
+        <ul className="mt-6 flex flex-col items-center justify-center gap-3 text-[13.5px] text-muted min-[620px]:flex-row min-[620px]:gap-10">
+          {FACTS.map((f) => (
+            <li key={f}>{f}</li>
+          ))}
+        </ul>
 
-        <div className="mt-9 flex flex-col items-stretch justify-center gap-3 min-[520px]:flex-row min-[520px]:items-center">
+        <div className="mt-8 flex flex-col items-stretch justify-center gap-3 min-[520px]:flex-row min-[520px]:items-center">
           <BookCta />
           <a href="#engine" className="btn-secondary">
-            See How The System Works
+            See How It Works
           </a>
-        </div>
-
-        <div className="mx-auto mt-7 flex max-w-[460px] flex-col items-center gap-3 rounded-[16px] border border-border bg-[rgba(14,21,38,0.72)] px-6 py-5 backdrop-blur-sm">
-          <CountdownBlocks />
-          <p className="text-[12.5px] leading-relaxed text-muted-2">
-            When the timer ends, the session returns to ₹99.
-          </p>
         </div>
 
         <CtaNote className="mt-4" />
 
-
-
-        <p className="mt-4 text-[12.5px] text-muted-2">
-          30–45 minutes, 1-on-1 with Akhil · You keep the funnel plan whether or not we work
-          together
-        </p>
+        <div className="mt-10">
+          <VslSlot />
+        </div>
       </div>
     </section>
   );

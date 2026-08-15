@@ -3,8 +3,6 @@ import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
-import { SlotsLeft } from "./slots-left";
-import { CountdownBlocks } from "./countdown-blocks";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
@@ -12,11 +10,12 @@ const VALUE_POINTS = [
   "Priority action plan",
 ];
 
-const THIS_IS = [
-  "A focused strategy conversation",
-  "An acquisition funnel diagnosis",
-  "Identification of conversion bottlenecks",
-  "Practical prioritisation of what to fix first",
+const WHAT_YOU_GET = [
+  "Landing-page review",
+  "Conversion bottleneck identification",
+  "Funnel observations across all seven stages",
+  "Priority improvement opportunities",
+  "Strategic next steps",
 ];
 
 const THIS_ISNT = [
@@ -26,41 +25,29 @@ const THIS_ISNT = [
   "A full consulting engagement in 45 minutes",
 ];
 
-const AGENDA = [
+const CHECKPOINTS = [
   {
     n: "01",
-    title: "Acquisition funnel diagnosis",
-    body: "We walk your funnel end to end and establish what is actually happening at each stage, rather than what the dashboard reports.",
+    stage: "Landing page",
+    body: "What it asks visitors to do, and what competes with it",
   },
-  {
-    n: "02",
-    title: "Conversion bottlenecks",
-    body: "Where the drop-off concentrates, and which single stage is costing you more than the other four combined.",
-  },
-  {
-    n: "03",
-    title: "Lead-quality assessment",
-    body: "Whether the enquiries arriving actually match the buyer you want, and what that is doing to your team's time.",
-  },
+  { n: "02", stage: "Offer", body: "Whether the promise matches what the traffic expected" },
+  { n: "03", stage: "CTA", body: "Whether there is exactly one next step, or several competing" },
   {
     n: "04",
-    title: "Landing-page opportunities",
-    body: "What your page is asking visitors to do, what is competing with it, and what to change first.",
+    stage: "Lead capture",
+    body: "What you ask for, and what it costs you in completions",
   },
   {
     n: "05",
-    title: "Qualification and automation opportunities",
-    body: "Which decisions and follow-ups can be handled the moment they happen instead of the next working day.",
+    stage: "Qualification",
+    body: "Whether anything sorts a serious buyer from a browser",
   },
-  {
-    n: "06",
-    title: "Booking-flow opportunities",
-    body: "How interest turns into a confirmed appointment, and where that path is adding friction.",
-  },
+  { n: "06", stage: "Follow-up", body: "How long an enquiry actually waits for a human reply" },
   {
     n: "07",
-    title: "Recommended priorities",
-    body: "The order to fix things in — what moves first, what can wait, and what to leave alone for now.",
+    stage: "Booking",
+    body: "How interest becomes a confirmed appointment, and where it snags",
   },
 ];
 
@@ -68,7 +55,7 @@ const DOCUMENTS = [
   {
     label: "Document 01",
     title: "The Landing Page Audit Checklist",
-    body: "23 checks, run against a page before deciding whether to rebuild it or repair it. Covers the single-action test, the qualification gap, mobile CTA position, and the four things that quietly kill a enquiry form.",
+    body: "23 checks, run against a page before deciding whether to rebuild it or repair it. Covers the single-action test, the qualification gap, mobile CTA position, and the four things that quietly kill an enquiry form.",
   },
   {
     label: "Document 02",
@@ -78,7 +65,7 @@ const DOCUMENTS = [
   {
     label: "Document 03",
     title: "The Lead Qualification Question Bank",
-    body: "40 qualification questions grouped by industry and weighted toward real estate — budget, timeline, decision authority, financing readiness, intent. Drop them into your form, your WhatsApp flow, or your first call.",
+    body: "42 questions across fit, problem, timing, authority and budget, for any business where the sale involves a call, consultation or appointment.",
   },
 ];
 
@@ -105,6 +92,32 @@ const NOT_FOR = [
   "You only want a vendor to take instructions, not a partner to challenge them",
 ];
 
+function DiagnosticStack() {
+  return (
+    <ol className="flex flex-col">
+      {CHECKPOINTS.map((c, i) => (
+        <li key={c.n}>
+          <div
+            className="grid items-start gap-3 rounded-[10px] border border-border bg-surface-2 min-[620px]:grid-cols-[30px_152px_1fr]"
+            style={{ padding: "13px 16px" }}
+          >
+            <span className="text-[13px] font-bold text-lime">{c.n}</span>
+            <h3 className="text-[13px] font-semibold uppercase tracking-[0.1em] text-fg">
+              {c.stage}
+            </h3>
+            <p className="text-[14px] leading-[1.6] text-muted">{c.body}</p>
+          </div>
+          {i < CHECKPOINTS.length - 1 && (
+            <div aria-hidden="true" className="py-1.5 text-center text-[14px] text-muted-2">
+              ↓
+            </div>
+          )}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function SessionSection() {
   return (
     <section
@@ -118,14 +131,10 @@ export function SessionSection() {
       <div className="container-page">
         <Reveal className="mx-auto max-w-[760px] text-center">
           <span className="eyebrow">The session</span>
-          <h2 className="h2-section mt-4">What's Inside Your ₹9 AI Growth Strategy Session?</h2>
+          <h2 className="h2-section mt-4">What we review on your ₹9 strategy call</h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
-            A working session on your acquisition system — run by Akhil, structured around the Leak
-            Map, and specific to your business. Here's what we cover.
-          </p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted">
-            Reserve a focused 1:1 session to identify the biggest bottleneck in your client
-            acquisition journey.
+            We walk your acquisition funnel stage by stage — the same seven checkpoints the Engine
+            is built on.
           </p>
           <ul className="mt-5 flex flex-col items-center gap-2.5 min-[620px]:flex-row min-[620px]:justify-center min-[620px]:gap-6">
             {VALUE_POINTS.map((v) => (
@@ -138,27 +147,40 @@ export function SessionSection() {
         </Reveal>
 
         <div className="mt-8 grid items-start gap-8 min-[900px]:grid-cols-[1.35fr_1fr]">
-          {/* Agenda + documents */}
           <div className="flex flex-col gap-6">
-            <Reveal className="card-surface p-2">
-              <ul>
-                {AGENDA.map((a, i) => (
-                  <li
-                    key={a.n}
-                    className={`flex gap-4 px-4 py-[18px] ${
-                      i < AGENDA.length - 1 ? "border-b border-border" : ""
-                    }`}
-                  >
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[8px] border border-border bg-surface-2 text-[12px] font-bold text-lime md:text-[11px]">
-                      {a.n}
-                    </span>
-                    <div>
-                      <h3 className="text-[16px] font-semibold text-fg">{a.title}</h3>
-                      <p className="mt-1 text-[14px] leading-[1.6] text-muted">{a.body}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+            <Reveal>
+              <DiagnosticStack />
+            </Reveal>
+
+            <Reveal className="mx-auto grid w-full max-w-[840px] gap-6 sm:grid-cols-2 sm:gap-8">
+              <div>
+                <p className="text-[14px] font-semibold text-lime">What you get</p>
+                <ul className="mt-3 space-y-2.5">
+                  {WHAT_YOU_GET.map((t) => (
+                    <li
+                      key={t}
+                      className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted"
+                    >
+                      <Check size={15} className="mt-[3px] shrink-0 text-lime" aria-hidden="true" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <p className="text-[14px] font-semibold text-muted">What it isn't</p>
+                <ul className="mt-3 space-y-2.5">
+                  {THIS_ISNT.map((t) => (
+                    <li
+                      key={t}
+                      className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted"
+                    >
+                      <X size={15} className="mt-[3px] shrink-0 text-muted-2" aria-hidden="true" />
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </Reveal>
 
             <Reveal>
@@ -198,7 +220,6 @@ export function SessionSection() {
             </Reveal>
           </div>
 
-
           {/* Commitment card */}
           <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
             <div className="h-[2px] w-full bg-lime" />
@@ -209,13 +230,7 @@ export function SessionSection() {
                   1:1 AI Growth Strategy Session
                 </span>
               </div>
-              <p className="mt-1.5 text-[12.5px] text-muted-2">
-                Today's rate. Standard price ₹99.
-              </p>
-              <div className="mt-4 flex flex-col gap-4">
-                <SlotsLeft />
-                <CountdownBlocks align="start" size="sm" />
-              </div>
+              <p className="mt-1.5 text-[12.5px] text-muted-2">Today's rate. Standard price ₹99.</p>
 
               <div className="my-6 h-px w-full bg-border" />
 
@@ -238,9 +253,6 @@ export function SessionSection() {
                 work out whether Growth Multiplier AI is genuinely a fit.
               </p>
 
-
-
-
               <p className="mt-5 text-[14px] font-semibold text-fg">
                 If we're not the right fit, we'll tell you.
               </p>
@@ -261,10 +273,6 @@ export function SessionSection() {
                 <BookCta fullWidth />
               </div>
               <CtaNote className="mt-3" />
-              <p className="mt-4 text-center text-[12.5px] leading-relaxed text-muted-2">
-                Sessions are intentionally limited so each one can focus on your business rather
-                than becoming a generic sales call.
-              </p>
               <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
@@ -302,46 +310,21 @@ export function SessionSection() {
           </p>
         </Reveal>
 
-
-
-        <Reveal className="mt-6 rounded-[12px] border border-border bg-surface-2 p-6">
-          <h3 className="text-[17px] font-semibold text-fg">
-            Here's what this is — and what it isn't
-          </h3>
-          <div className="mt-5 grid gap-6 sm:grid-cols-2 sm:gap-8">
-            <div>
-              <p className="text-[14px] font-semibold text-lime">This is</p>
-              <ul className="mt-3 space-y-2.5">
-                {THIS_IS.map((t) => (
-                  <li key={t} className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted">
-                    <Check size={15} className="mt-[3px] shrink-0 text-lime" aria-hidden="true" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <p className="text-[14px] font-semibold text-muted">This isn't</p>
-              <ul className="mt-3 space-y-2.5">
-                {THIS_ISNT.map((t) => (
-                  <li key={t} className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted">
-                    <X size={15} className="mt-[3px] shrink-0 text-muted-2" aria-hidden="true" />
-                    {t}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <p className="mt-6 text-[14px] leading-relaxed text-muted">
-            No obligation to work with Growth Multiplier AI after the session.
+        {/* Merged fit section */}
+        <Reveal className="mt-10 max-w-[760px]">
+          <span className="eyebrow">Fit</span>
+          <h3 className="h2-section mt-4">Who this call is for</h3>
+          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+            Genuinely useful for some businesses, a waste of time for others. Here's the honest
+            split.
           </p>
         </Reveal>
 
         <div className="mt-6 grid gap-5 md:grid-cols-2">
           <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
-            <h3 className="text-[17px] font-bold tracking-[-0.01em] text-lime">
+            <h4 className="text-[17px] font-bold tracking-[-0.01em] text-lime">
               This call is for you if
-            </h3>
+            </h4>
             <ul className="mt-5 flex flex-col gap-3.5">
               {FOR.map((t) => (
                 <li key={t} className="flex items-start gap-3 text-[14.5px] leading-relaxed text-fg">
@@ -353,9 +336,9 @@ export function SessionSection() {
           </Reveal>
 
           <Reveal className="rounded-[12px] border border-border bg-bg p-6 md:p-7">
-            <h3 className="text-[17px] font-bold tracking-[-0.01em] text-muted">
+            <h4 className="text-[17px] font-bold tracking-[-0.01em] text-muted">
               This call isn't for you if
-            </h3>
+            </h4>
             <ul className="mt-5 flex flex-col gap-3.5">
               {NOT_FOR.map((t) => (
                 <li
