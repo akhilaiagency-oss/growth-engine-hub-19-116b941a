@@ -40,7 +40,16 @@ export function ProblemSection() {
         <div className="mt-8 grid gap-5 md:grid-cols-3">
           {CARDS.map(({ Icon, title, body }) => (
             <Reveal key={title} className="card-surface p-6">
-              <Icon size={20} className="text-muted-2" />
+              <span
+                aria-hidden="true"
+                className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] text-lime"
+                style={{
+                  background: "rgba(131,226,78,0.11)",
+                  border: "1px solid rgba(131,226,78,0.25)",
+                }}
+              >
+                <Icon size={18} />
+              </span>
               <h3 className="mt-4 text-[17px] font-bold tracking-[-0.01em] text-fg">{title}</h3>
               <p className="mt-3 text-[14px] leading-relaxed text-muted">{body}</p>
             </Reveal>

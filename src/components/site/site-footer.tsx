@@ -4,6 +4,7 @@ import { BrandLockup } from "./brand-lockup";
 const PAGE_LINKS = [
   { href: "#leak-map", label: "Acquisition Leak Map" },
   { href: "#engine", label: "Growth Multiplier Engine™" },
+  { href: "#stack", label: "The System" },
   { href: "#how-it-works", label: "How it works" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -58,9 +59,6 @@ export function SiteFooter() {
                 >
                   akhil.ai.agency@gmail.com
                 </a>
-              </li>
-              <li className="flex min-h-[44px] items-center text-[13.5px] text-muted-2 md:min-h-0">
-                WhatsApp community — link added at launch
               </li>
             </ul>
           </div>

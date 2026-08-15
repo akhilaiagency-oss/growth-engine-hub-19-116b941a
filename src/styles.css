@@ -301,3 +301,18 @@
     animation: none;
   }
 }
+
+/* Engine return path — dashed arc marching back toward Attract. */
+@keyframes engine-return-march {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+.engine-return-path {
+  animation: engine-return-march 2.4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .engine-return-path {
+    animation: none;
+  }
+}

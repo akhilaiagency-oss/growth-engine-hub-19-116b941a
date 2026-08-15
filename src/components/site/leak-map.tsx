@@ -20,21 +20,21 @@ const ROWS: Row[] = [
     n: "02",
     stage: "Convert",
     pct: 72,
-    lead: "Lost when",
+    lead: "Common bottleneck —",
     note: "the page doesn't make the next step obvious",
   },
   {
     n: "03",
     stage: "Qualify",
     pct: 52,
-    lead: "Lost when",
+    lead: "Potential leak —",
     note: "nothing separates a serious buyer from a browser",
   },
   {
     n: "04",
     stage: "Nurture",
     pct: 30,
-    lead: "The biggest loss —",
+    lead: "Most common leak —",
     note: "the reply lands after interest has cooled",
   },
   {
@@ -51,7 +51,7 @@ export function LeakMap() {
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">The diagnostic</span>
-          <h2 className="h2-section mt-4">The Acquisition Leak Map</h2>
+          <h2 className="h2-section mt-4">Where could your acquisition system be leaking?</h2>
           <p className="mt-4 text-[16px] leading-relaxed text-muted">
             Before we build anything, we find where you're losing people. The first five stages of
             the Engine are also the five places acquisition quietly narrows — and almost every
@@ -165,7 +165,7 @@ export function LeakMap() {
           <p className="mb-[14px] text-[14.5px] leading-relaxed text-muted">
             Most owners can guess their weakest stage. Almost none can prove it.
           </p>
-          <BookCta label="Map My Funnel — Book My Strategy Call" />
+          <BookCta label="Map My Funnel — Book My ₹9 Strategy Call" />
         </div>
       </div>
     </section>

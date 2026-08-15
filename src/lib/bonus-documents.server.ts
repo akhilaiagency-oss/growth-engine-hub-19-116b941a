@@ -33,7 +33,9 @@ export const BONUS_DOCUMENTS: readonly BonusDocumentDef[] = [
   {
     key: "03-lead-qualification-question-bank.pdf",
     title: "The Lead Qualification Question Bank",
-    description: "42 questions for separating buyers from browsers, in any consultative sale.",
+    description:
+      "42 questions across fit, problem, timing, authority and budget, for any business where the sale involves a call, consultation or appointment.",
+
   },
 ] as const;
 

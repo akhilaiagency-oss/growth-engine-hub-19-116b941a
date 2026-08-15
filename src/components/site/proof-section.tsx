@@ -1,16 +1,7 @@
-import { FileText, LineChart, BookOpen, Info, ChevronRight } from "lucide-react";
+import { FileText, LineChart, BookOpen, Info } from "lucide-react";
 import { Reveal } from "./reveal";
 
-const CHAIN = [
-  "Traffic",
-  "Lead",
-  "Qualified",
-  "Booked",
-  "Showed",
-  "Opportunity",
-  "Revenue",
-];
-
+const CHAIN = ["Traffic", "Lead", "Qualified", "Booked", "Showed", "Opportunity", "Revenue"];
 
 const CARDS = [
   {
@@ -30,6 +21,51 @@ const CARDS = [
   },
 ];
 
+function MeasurementChain() {
+  return (
+    <figure>
+      <p className="text-[11.5px] font-semibold uppercase tracking-[0.14em] text-lime">
+        How we measure — every build is instrumented against this chain
+      </p>
+      <ol
+        aria-label="The seven measured stages, from traffic to revenue"
+        className="mt-4 grid grid-cols-1 gap-2 min-[900px]:grid-cols-7 min-[900px]:gap-0"
+      >
+        {CHAIN.map((stage, i) => {
+          const last = i === CHAIN.length - 1;
+          const first = i === 0;
+          return (
+            <li
+              key={stage}
+              className="border border-border bg-surface-2 px-3 py-3 text-center min-[900px]:border-l-0 min-[900px]:first:border-l"
+              style={{
+                borderRadius: first ? "8px 8px 0 0" : last ? "0 0 8px 8px" : undefined,
+                ...(last
+                  ? { background: "rgba(131,226,78,0.07)", borderColor: "rgba(131,226,78,0.35)" }
+                  : null),
+              }}
+            >
+              <span
+                className={`block text-[11.5px] font-semibold uppercase tracking-[0.09em] ${
+                  last ? "text-lime" : "text-fg"
+                }`}
+              >
+                {stage}
+              </span>
+              <span className="mt-1 block text-[10px] text-muted-2">
+                Stage {String(i + 1).padStart(2, "0")}
+              </span>
+            </li>
+          );
+        })}
+      </ol>
+      <figcaption className="mt-4 text-center text-[13px] leading-relaxed text-muted">
+        Every stage is tracked separately, so a drop can be located rather than guessed at.
+      </figcaption>
+    </figure>
+  );
+}
+
 export function ProofSection() {
   return (
     <section id="proof" className="section-y band-base">
@@ -43,7 +79,11 @@ export function ProofSection() {
           </p>
         </Reveal>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-3">
+        <Reveal className="mt-8 rounded-[12px] border border-border bg-surface p-6">
+          <MeasurementChain />
+        </Reveal>
+
+        <div className="mt-6 grid gap-5 md:grid-cols-3">
           {CARDS.map(({ Icon, title, body }) => (
             <Reveal key={title} className="rounded-[12px] border border-border bg-surface p-6">
               <span className="flex h-10 w-10 items-center justify-center rounded-[8px] border border-dashed border-border-strong text-muted-2">
@@ -54,35 +94,6 @@ export function ProofSection() {
             </Reveal>
           ))}
         </div>
-
-        <Reveal className="mt-6 rounded-[12px] border border-border bg-surface p-6">
-          <h3 className="text-[17px] font-semibold tracking-[-0.01em] text-fg">
-            Built to be measured
-          </h3>
-          <p className="mt-2 text-[14px] leading-relaxed text-muted">
-            Proof of results will live here as engagements complete. In the meantime, here is the
-            chain every Growth Multiplier AI build is instrumented against.
-          </p>
-          <ul className="mt-5 flex flex-wrap items-center gap-x-2 gap-y-2.5">
-            {CHAIN.map((stage, i) => (
-              <li key={stage} className="flex items-center gap-2">
-                <span className="rounded-[10px] border border-border bg-surface-2 px-3 py-1.5 text-[12.5px] text-muted">
-                  {stage}
-                </span>
-                {i < CHAIN.length - 1 && (
-                  <ChevronRight
-                    size={14}
-                    aria-hidden="true"
-                    className="shrink-0 text-cyan opacity-40"
-                  />
-                )}
-              </li>
-            ))}
-          </ul>
-          <p className="mt-4 text-[12.5px] leading-relaxed text-muted-2">
-            Every stage is tracked separately, so a drop can be located rather than guessed at.
-          </p>
-        </Reveal>
 
         <Reveal className="mt-6 flex items-start gap-3 rounded-[12px] border border-border bg-surface p-6">
           <Info size={18} className="mt-0.5 shrink-0 text-lime" />

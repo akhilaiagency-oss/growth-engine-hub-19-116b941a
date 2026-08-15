@@ -6,6 +6,7 @@ import { BrandLockup } from "./brand-lockup";
 const LINKS = [
   { href: "#leak-map", label: "Leak Map" },
   { href: "#engine", label: "The Engine" },
+  { href: "#stack", label: "The System" },
   { href: "#how-it-works", label: "How It Works" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -47,7 +48,7 @@ export function SiteNav() {
         </ul>
 
         <div className="hidden min-[900px]:block">
-          <BookCta label="Book My Strategy Call" className="!text-[13.5px]" />
+          <BookCta label="Book My ₹9 Strategy Call" className="!text-[13.5px]" />
         </div>
 
         <button
