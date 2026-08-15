@@ -1,12 +1,9 @@
-import { useSessionsLeft } from "@/hooks/use-sessions-left";
 import { useWeeklyCountdown } from "@/hooks/use-weekly-countdown";
+import { SESSIONS_LEFT_THIS_WEEK } from "@/data/capacity";
 
 const LABEL = "text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-2";
 
-/**
- * Sessions remaining this week. Renders nothing at all when the live count
- * is unavailable — the page never guesses a number.
- */
+/** Sessions remaining this week — a hand-maintained value from src/data/capacity.ts. */
 export function SessionsLeftBox({
   label = "Sessions left this week",
   withDashes = false,
@@ -16,8 +13,7 @@ export function SessionsLeftBox({
   withDashes?: boolean;
   total?: number;
 }) {
-  const count = useSessionsLeft();
-  if (count === null) return null;
+  const count = SESSIONS_LEFT_THIS_WEEK;
 
   return (
     <div className="rounded-[10px] border border-border bg-bg p-4">
@@ -39,6 +35,7 @@ export function SessionsLeftBox({
     </div>
   );
 }
+
 
 /** Days / hours / minutes to the coming Sunday 23:59 IST, recomputed each tick. */
 export function CountdownBox({
