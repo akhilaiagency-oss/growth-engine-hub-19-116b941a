@@ -1,8 +1,18 @@
+import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
+import { BookCta } from "./book-cta";
+import { CtaNote } from "./cta-note";
+import { PriceAnchor } from "./price-anchor";
+
+const ITEMS = [
+  "30 minutes, 1-on-1",
+  "Secure Razorpay checkout",
+  "You keep the plan either way",
+];
 
 export function TwoRoadsSection() {
   return (
-    <section id="two-roads" className="section-y band-raised">
+    <section id="get-started" className="section-y band-base">
       <div className="container-page">
         <Reveal className="mx-auto max-w-[760px] text-center">
           <span className="eyebrow">Two roads</span>
@@ -14,7 +24,7 @@ export function TwoRoadsSection() {
 
         <div className="mt-8 grid gap-5 min-[900px]:grid-cols-2">
           <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-7">
-            <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-muted-2">
+            <span className="text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase">
               Option 1
             </span>
             <h3 className="mt-3 text-[19px] font-bold tracking-[-0.01em] text-muted">
@@ -36,11 +46,11 @@ export function TwoRoadsSection() {
                 "linear-gradient(180deg, rgba(131,226,78,0.09), rgba(131,226,78,0.03))",
             }}
           >
-            <span className="text-[12px] font-semibold uppercase tracking-[0.14em] text-lime">
+            <span className="text-[12px] font-semibold tracking-[0.14em] text-lime uppercase">
               Option 2
             </span>
             <h3 className="mt-3 text-[19px] font-bold tracking-[-0.01em] text-fg">
-              Spend ₹9 and forty minutes
+              Spend ₹9 and thirty minutes
             </h3>
             <p className="mt-3 text-[14.5px] leading-[1.75] text-muted">
               Your funnel gets mapped stage by stage. You find out exactly where the money stops
@@ -51,7 +61,43 @@ export function TwoRoadsSection() {
         </div>
 
         <Reveal className="mt-7 text-center text-[19px] font-semibold text-fg">
-          The difference between the two is <span className="text-lime">₹9 and forty minutes</span>.
+          The difference between the two is <span className="text-lime">₹9 and thirty minutes</span>
+          .
+        </Reveal>
+
+        <Reveal
+          className="mt-8 rounded-[16px] border border-border bg-surface px-6 py-12 text-center md:px-[72px] md:py-[64px]"
+          style={{
+            backgroundImage:
+              "radial-gradient(520px 220px at 50% 0%, rgba(131,226,78,0.12), transparent 70%)",
+          }}
+        >
+          <h3 className="mx-auto max-w-[680px] text-[26px] leading-[1.15] font-extrabold tracking-[-0.025em] text-fg md:text-[32px]">
+            Find out where your opportunities are disappearing.
+          </h3>
+          <p className="mx-auto mt-4 max-w-[620px] text-[16px] leading-relaxed text-muted">
+            Book the ₹9 strategy call. We'll map your funnel stage by stage, find where the drop-off
+            is costing you the most, and you'll leave with the plan — whether or not we work
+            together.
+          </p>
+
+          <div className="mx-auto mt-7 flex max-w-[480px] items-center justify-center rounded-[14px] border border-border bg-surface-2 px-6 py-5">
+            <PriceAnchor size="lg" suffix="today" />
+          </div>
+
+          <div className="mt-6">
+            <BookCta />
+          </div>
+          <CtaNote className="mt-3" />
+
+          <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3">
+            {ITEMS.map((t) => (
+              <li key={t} className="flex items-center gap-2 text-[12.5px] text-muted">
+                <Check size={15} className="text-lime" aria-hidden="true" />
+                {t}
+              </li>
+            ))}
+          </ul>
         </Reveal>
       </div>
     </section>
