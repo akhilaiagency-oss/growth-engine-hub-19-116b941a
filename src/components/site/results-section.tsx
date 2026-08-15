@@ -174,7 +174,7 @@ export function ResultsSection() {
           {CLIENT_STORIES.map((s, i) => (
             <Reveal
               key={s.id}
-              className={i > 1 && !showAll ? "hidden min-[900px]:block" : undefined}
+              className={i > 1 && !showAll ? "hidden min-[900px]:block" : ""}
             >
               <StoryCard story={s} />
             </Reveal>
@@ -205,7 +205,7 @@ export function ResultsSection() {
           {PORTFOLIO.map((p, i) => (
             <Reveal
               key={p.id}
-              className={i > 1 && !showAll ? "hidden min-[900px]:block" : undefined}
+              className={i > 1 && !showAll ? "hidden min-[900px]:block" : ""}
             >
               <WorkCard item={p} />
             </Reveal>
