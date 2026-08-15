@@ -16,7 +16,7 @@ export function AcquisitionFlow() {
     <figure className="mx-auto mt-8 w-full max-w-[960px]">
       <ol
         aria-label="The five stages of a connected acquisition system"
-        className="grid grid-cols-1 overflow-hidden rounded-[14px] border border-border-strong bg-surface min-[900px]:grid-cols-5"
+        className="grid grid-cols-2 overflow-hidden rounded-[14px] border border-border-strong bg-surface min-[900px]:grid-cols-5"
       >
         {NODES.map((n, i) => {
           const last = i === NODES.length - 1;
@@ -53,7 +53,8 @@ export function AcquisitionFlow() {
         })}
       </ol>
       <figcaption className="mt-3 text-[12.5px] leading-relaxed text-muted-2">
-        Five stages. Most businesses own each one separately — and nobody owns the joins.
+        Five stages. Most businesses own each one separately — and the opportunities are lost in the
+        handoffs between them.
       </figcaption>
     </figure>
   );
