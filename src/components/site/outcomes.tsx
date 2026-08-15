@@ -49,19 +49,20 @@ export function Outcomes() {
 
         <div className="mt-8 grid gap-5 sm:grid-cols-2 min-[900px]:grid-cols-3">
           {OUTCOMES.map(({ Icon, title, body }) => (
-            <Reveal key={o.title} className="rounded-[12px] border border-border bg-bg p-6">
+            <Reveal key={title} className="rounded-[12px] border border-border bg-bg p-6">
               <span
                 aria-hidden="true"
-                className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] text-[18px]"
+                className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] text-lime"
                 style={{
                   background: "rgba(131,226,78,0.11)",
                   border: "1px solid rgba(131,226,78,0.25)",
                 }}
               >
-                {o.icon}
+                <Icon size={18} />
               </span>
-              <h3 className="mt-4 text-[16px] font-bold tracking-[-0.01em] text-fg">{o.title}</h3>
-              <p className="mt-2 text-[14px] leading-relaxed text-muted">{o.body}</p>
+              <h3 className="mt-4 text-[16px] font-bold tracking-[-0.01em] text-fg">{title}</h3>
+              <p className="mt-2 text-[14px] leading-relaxed text-muted">{body}</p>
+
             </Reveal>
           ))}
         </div>
