@@ -15,7 +15,7 @@ interface BookCtaProps {
  * All CTAs send the visitor to the /qualify pre-payment qualification page.
  */
 export function BookCta({
-  label = "Book My Strategy Call",
+  label = "Book My ₹9 Strategy Call",
   variant = "primary",
   className = "",
   fullWidth = false,

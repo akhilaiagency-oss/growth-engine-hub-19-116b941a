@@ -1,20 +1,19 @@
-import { Timer, Unplug, CalendarX } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 
 const CARDS = [
   {
-    Icon: Timer,
+    icon: "⏱",
     title: "The reply arrives after the interest has gone",
     body: "A buyer is never more interested than in the first few minutes. When follow-up depends on someone noticing a notification, that window closes before anybody acts on it.",
   },
   {
-    Icon: Unplug,
+    icon: "🔗",
     title: "Your tools work. The handoffs don't.",
     body: "Ads in one platform, the form in another, a CRM nobody updates, WhatsApp on a personal phone. Every piece works on its own. Opportunities fall through the gaps between them.",
   },
   {
-    Icon: CalendarX,
+    icon: "📊",
     title: "You're counting leads, not opportunities",
     body: "Lead volume looks healthy right until you check the calendar. With no qualification early on, an unqualified enquiry gets paid for twice — once in ad spend, again in your team's time.",
   },
@@ -38,9 +37,18 @@ export function ProblemSection() {
         </Reveal>
 
         <div className="mt-8 grid gap-5 md:grid-cols-3">
-          {CARDS.map(({ Icon, title, body }) => (
+          {CARDS.map(({ icon, title, body }) => (
             <Reveal key={title} className="card-surface p-6">
-              <Icon size={20} className="text-muted-2" />
+              <span
+                aria-hidden="true"
+                className="flex h-[38px] w-[38px] items-center justify-center rounded-[9px] text-[18px]"
+                style={{
+                  background: "rgba(131,226,78,0.11)",
+                  border: "1px solid rgba(131,226,78,0.25)",
+                }}
+              >
+                {icon}
+              </span>
               <h3 className="mt-4 text-[17px] font-bold tracking-[-0.01em] text-fg">{title}</h3>
               <p className="mt-3 text-[14px] leading-relaxed text-muted">{body}</p>
             </Reveal>
