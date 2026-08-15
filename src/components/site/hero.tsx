@@ -4,7 +4,7 @@ import { VslSlot } from "./vsl-slot";
 import { AcquisitionFlow } from "./acquisition-flow";
 import { URGENCY } from "@/lib/urgency";
 
-const FACTS = ["⏱ 30–45 minutes, 1-on-1 with Akhil", "📋 You keep the funnel plan either way"];
+const FACTS = ["30–45 minutes, 1-on-1 with Akhil", "You keep the funnel plan either way"];
 
 export function Hero() {
   return (
@@ -38,7 +38,6 @@ export function Hero() {
               padding: "13px 22px",
             }}
           >
-            <span aria-hidden="true">🗓</span>
             <span className="text-[14px] font-semibold text-muted-2 line-through">
               ₹{URGENCY.originalPrice}
             </span>
