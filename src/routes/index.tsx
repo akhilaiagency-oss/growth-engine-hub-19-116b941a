@@ -9,6 +9,7 @@ import { ResultsSection } from "@/components/site/results-section";
 import { FounderSection } from "@/components/site/founder-section";
 import { FitSection } from "@/components/site/fit-section";
 import { SessionSection } from "@/components/site/session-section";
+import { SystemStackSection } from "@/components/site/system-stack-section";
 import { DeliverablesSection } from "@/components/site/deliverables-section";
 import { FaqSection } from "@/components/site/faq-section";
 import { CapacitySection } from "@/components/site/capacity-section";
@@ -78,6 +79,7 @@ function Index() {
         <FitSection />
         <SessionSection />
         <DeliverablesSection />
+        <SystemStackSection />
         <FaqSection />
         <CapacitySection />
         <TwoRoadsSection />
