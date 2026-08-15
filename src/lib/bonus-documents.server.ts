@@ -23,19 +23,19 @@ export const BONUS_DOCUMENTS: readonly BonusDocumentDef[] = [
     key: "01-landing-page-audit-checklist.pdf",
     title: "The Landing Page Audit Checklist",
     description:
-      "23 checks for finding what your page is losing, before you spend more on traffic.",
+      "25 checks for finding what your page is losing, before you spend more on traffic.",
   },
   {
-    key: "02-follow-up-speed-scorecard.pdf",
-    title: "The Follow-Up Speed Scorecard",
-    description: "Measure how long your enquiries really wait, and what that gap costs you.",
-  },
-  {
-    key: "03-lead-qualification-question-bank.pdf",
-    title: "The Lead Qualification Question Bank",
+    key: "02-what-to-say-on-a-sales-call.pdf",
+    title: 'The "What To Say On A Sales Call" Cheat Sheet',
     description:
-      "42 questions across fit, problem, timing, authority and budget, for any business where the sale involves a call, consultation or appointment.",
-
+      "A running order for the first call — what to ask, and what to say at the four moments most calls go wrong.",
+  },
+  {
+    key: "03-why-leads-dont-convert.pdf",
+    title: 'The "Why Leads Don\'t Convert" Checklist',
+    description:
+      "The 12 places an enquiry quietly dies between the form and the sale, and the one-line fix for each.",
   },
 ] as const;
 

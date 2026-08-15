@@ -82,6 +82,28 @@ export function FounderSection() {
               </cite>
             </blockquote>
 
+            <div className="mt-8 flex flex-col gap-5 border-t border-border pt-6">
+              <div>
+                <h3 className="text-[15.5px] font-bold tracking-[-0.01em] text-fg">
+                  System-first, not service-first
+                </h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-muted">
+                  Most agencies sell a deliverable. We build the connected system those pieces
+                  belong to, because a great landing page attached to slow follow-up still loses.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-[15.5px] font-bold tracking-[-0.01em] text-fg">
+                  You talk to the person doing the work
+                </h3>
+                <p className="mt-2 text-[14.5px] leading-relaxed text-muted">
+                  Akhil runs the strategy call and stays involved in delivery. No handoff to a
+                  junior account manager after you sign.
+                </p>
+              </div>
+            </div>
+
+
             <div className="mt-8 border-t border-border pt-6">
               <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
                 How Akhil works

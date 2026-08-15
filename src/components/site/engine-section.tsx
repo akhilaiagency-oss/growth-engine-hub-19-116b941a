@@ -7,29 +7,6 @@ import { Reveal } from "./reveal";
 const CHEVRON_TOP = [217, 416, 615, 814];
 const CHEVRON_BOTTOM = [789, 524, 259];
 
-const WHY_ROWS = [
-  {
-    title: "System-first, not service-first",
-    body: "Most agencies sell a deliverable: a page, a campaign, an automation. We build the connected system those pieces are supposed to belong to, because a great landing page attached to slow follow-up still loses.",
-  },
-  {
-    title: "AI where it earns its place",
-    body: "Two jobs: scoring an enquiry the moment it arrives, and replying before interest cools. Those are the points where software genuinely beats a person. Everywhere else the work is strategy and engineering.",
-  },
-  {
-    title: "You talk to the person doing the work",
-    body: "Akhil runs the strategy call and stays involved in delivery. No handoff to a junior account manager after you sign.",
-  },
-  {
-    title: "Measurable, or we say so",
-    body: "Every stage is tracked, and where something can't be attributed cleanly we tell you rather than dressing it up in a report.",
-  },
-  {
-    title: "Honest about being early",
-    body: "We're building this in the open. You get direct founder attention now, and a partner with something to prove.",
-  },
-];
-
 function Node({
   stage,
   active,
@@ -361,30 +338,6 @@ export function EngineSection() {
           </p>
         </Reveal>
 
-        <div className="mt-6 rounded-[12px] border border-border bg-bg p-6 md:p-7">
-          <Reveal>
-            <span className="eyebrow">Why this approach</span>
-            <h3 className="mt-3 text-[20px] font-bold tracking-[-0.015em] text-fg">
-              Why work with Growth Multiplier AI specifically
-            </h3>
-          </Reveal>
-          <ul className="mt-6">
-            {WHY_ROWS.map((r, i) => (
-              <li key={r.title}>
-                <Reveal
-                  className={`flex flex-col gap-3 py-5 min-[700px]:flex-row min-[700px]:gap-8 ${
-                    i > 0 ? "border-t border-border" : ""
-                  }`}
-                >
-                  <h4 className="shrink-0 text-[15.5px] font-bold tracking-[-0.01em] text-fg min-[700px]:w-[220px]">
-                    {r.title}
-                  </h4>
-                  <p className="text-[14.5px] leading-relaxed text-muted">{r.body}</p>
-                </Reveal>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
   );

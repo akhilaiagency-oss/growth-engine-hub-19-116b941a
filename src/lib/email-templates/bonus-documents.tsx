@@ -66,7 +66,7 @@ export function BonusDocumentsEmail({
             ))}
             <Hr style={styles.hr} />
             <Text style={styles.p}>
-              If you can, fill in the Follow-Up Speed Scorecard before we speak. Real numbers turn a
+              If you can, run the Landing Page Audit Checklist before we speak. Real answers turn a
               general conversation into a specific one.
             </Text>
             <Text style={styles.p}>
@@ -96,20 +96,20 @@ export const template = {
       {
         title: 'The Landing Page Audit Checklist',
         description:
-          '23 checks for finding what your page is losing, before you spend more on traffic.',
+          '25 checks for finding what your page is losing, before you spend more on traffic.',
         url: 'https://example.com/audit-checklist.pdf',
       },
       {
-        title: 'The Follow-Up Speed Scorecard',
+        title: 'The "What To Say On A Sales Call" Cheat Sheet',
         description:
-          'Measure how long your enquiries really wait, and what that gap costs you.',
-        url: 'https://example.com/speed-scorecard.pdf',
+          'A running order for the first call — what to ask, and what to say at the four moments most calls go wrong.',
+        url: 'https://example.com/sales-call-cheat-sheet.pdf',
       },
       {
-        title: 'The Lead Qualification Question Bank',
+        title: 'The "Why Leads Don\'t Convert" Checklist',
         description:
-          '42 questions for separating buyers from browsers, in any consultative sale.',
-        url: 'https://example.com/question-bank.pdf',
+          'The 12 places an enquiry quietly dies between the form and the sale, and the one-line fix for each.',
+        url: 'https://example.com/why-leads-dont-convert.pdf',
       },
     ],
   },

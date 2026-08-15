@@ -1,0 +1,41 @@
+const ROWS = [
+  { label: "30-minute 1:1 session with Akhil", value: "₹5,000" },
+  { label: "Your personalised funnel blueprint", value: "₹3,000" },
+  { label: "The three working documents", value: "₹2,000" },
+];
+
+/** What the session would cost if bought separately. Anchors the ₹9. */
+export function ValueStack() {
+  return (
+    <div className="mx-auto w-full max-w-[560px]">
+      <p className="text-center text-[11.5px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
+        What these cost separately
+      </p>
+
+      <ul className="mt-4">
+        {ROWS.map((r) => (
+          <li
+            key={r.label}
+            className="flex items-baseline justify-between gap-4 border-b border-border py-[13px]"
+          >
+            <span className="text-[14px] leading-snug text-muted">{r.label}</span>
+            <span className="shrink-0 text-[14px] font-semibold text-fg tabular-nums">
+              {r.value}
+            </span>
+          </li>
+        ))}
+        <li className="flex items-baseline justify-between gap-4 py-[13px]">
+          <span className="text-[15px] font-bold text-fg">Total</span>
+          <span className="shrink-0 text-[15px] font-bold text-muted-2 line-through tabular-nums">
+            ₹10,000
+          </span>
+        </li>
+      </ul>
+
+      <p className="text-center text-[12px] leading-relaxed text-muted-2">
+        Based on Akhil's standard consulting rate of ₹XX,XXX per hour. Ask on the call and you'll
+        get the same figure.
+      </p>
+    </div>
+  );
+}

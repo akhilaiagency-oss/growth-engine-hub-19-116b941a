@@ -1,8 +1,10 @@
-import { Check, ShieldCheck, X } from "lucide-react";
+import { Check, ShieldCheck } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
+import { ValueStack } from "./value-stack";
+import { AfterYouPay } from "./after-you-pay";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
@@ -10,20 +12,6 @@ const VALUE_POINTS = [
   "Priority action plan",
 ];
 
-const WHAT_YOU_GET = [
-  "Landing-page review",
-  "Conversion bottleneck identification",
-  "Funnel observations across all seven stages",
-  "Priority improvement opportunities",
-  "Strategic next steps",
-];
-
-const THIS_ISNT = [
-  "A guaranteed-results pitch",
-  "A generic marketing consultation",
-  "A pressure-filled sales presentation",
-  "A full consulting engagement in 30 minutes",
-];
 
 const CHECKPOINTS = [
   {
@@ -117,41 +105,15 @@ export function SessionSection() {
             <Reveal>
               <DiagnosticStack />
             </Reveal>
-
-            <Reveal className="mx-auto grid w-full max-w-[840px] gap-6 sm:grid-cols-2 sm:gap-8">
-              <div>
-                <p className="text-[14px] font-semibold text-lime">What you get</p>
-                <ul className="mt-3 space-y-2.5">
-                  {WHAT_YOU_GET.map((t) => (
-                    <li
-                      key={t}
-                      className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted"
-                    >
-                      <Check size={15} className="mt-[3px] shrink-0 text-lime" aria-hidden="true" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="text-[14px] font-semibold text-muted">What it isn't</p>
-                <ul className="mt-3 space-y-2.5">
-                  {THIS_ISNT.map((t) => (
-                    <li
-                      key={t}
-                      className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted"
-                    >
-                      <X size={15} className="mt-[3px] shrink-0 text-muted-2" aria-hidden="true" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
           </div>
 
-          {/* Commitment card */}
-          <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
+          {/* Value stack + commitment card */}
+          <div className="flex flex-col gap-6">
+            <Reveal>
+              <ValueStack />
+            </Reveal>
+
+            <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
             <div className="h-[2px] w-full bg-lime" />
             <div className="p-7">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -206,9 +168,21 @@ export function SessionSection() {
               <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
+              <p className="mt-4 text-center text-[13.5px] leading-[1.7] text-muted">
+                If we work together afterwards, engagements typically start from{" "}
+                <strong className="font-semibold text-fg">₹XX,XXX</strong>. Nothing is quoted before
+                the scope is understood — and the ₹9 session is useful whether or not you go
+                further.
+              </p>
             </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
+
+        <Reveal className="mt-8 rounded-[16px] border border-border bg-surface p-6 md:p-9">
+          <AfterYouPay />
+        </Reveal>
+
 
         <Reveal
           className="mt-6 rounded-[16px] p-[26px] md:p-10"

@@ -8,6 +8,7 @@ const LINKS = [
   { href: "#engine", label: "The Engine" },
   { href: "#results", label: "Results" },
   { href: "#session", label: "The Offer" },
+  { href: "#stack", label: "The System" },
   { href: "#faq", label: "FAQ" },
 ];
 
