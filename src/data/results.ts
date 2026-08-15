@@ -69,41 +69,50 @@ export const CLIENT_STORIES: ClientStory[] = [
 
 export interface PortfolioItem {
   id: string;
-  /** 16:10 screenshot (WebP, < 200KB). */
-  screenshotUrl?: string;
-  url: string;
-  tag: string;
+  /** Placeholder label shown in the browser frame's URL field. */
+  label: string;
+  /** Industry tag. */
+  industry: string;
+  /** What was built. */
   title: string;
-  line: string;
+  /** One line of description. */
+  description: string;
+  /** 16:10 screenshot (WebP, < 200KB). Empty string renders the placeholder. */
+  image: string;
 }
 
 export const PORTFOLIO: PortfolioItem[] = [
   {
     id: "work-01",
-    url: "clientdomain-01.com",
-    tag: "Industry placeholder",
+    label: "CLIENT LANDING PAGE 1",
+    industry: "Industry placeholder",
     title: "Project title 01",
-    line: "One line describing what was built and which stages it connected.",
+    description: "One line describing what was built and which stages it connected.",
+    image: "",
   },
   {
     id: "work-02",
-    url: "clientdomain-02.com",
-    tag: "Industry placeholder",
+    label: "CLIENT LANDING PAGE 2",
+    industry: "Industry placeholder",
     title: "Project title 02",
-    line: "One line describing what was built and which stages it connected.",
+    description: "One line describing what was built and which stages it connected.",
+    image: "",
   },
   {
     id: "work-03",
-    url: "clientdomain-03.com",
-    tag: "Industry placeholder",
+    label: "CLIENT LANDING PAGE 3",
+    industry: "Industry placeholder",
     title: "Project title 03",
-    line: "One line describing what was built and which stages it connected.",
+    description: "One line describing what was built and which stages it connected.",
+    image: "",
   },
   {
     id: "work-04",
-    url: "clientdomain-04.com",
-    tag: "Industry placeholder",
+    label: "CLIENT LANDING PAGE 4",
+    industry: "Industry placeholder",
     title: "Project title 04",
-    line: "One line describing what was built and which stages it connected.",
+    description: "One line describing what was built and which stages it connected.",
+    image: "",
   },
 ];
+
