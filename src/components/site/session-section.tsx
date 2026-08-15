@@ -117,41 +117,15 @@ export function SessionSection() {
             <Reveal>
               <DiagnosticStack />
             </Reveal>
-
-            <Reveal className="mx-auto grid w-full max-w-[840px] gap-6 sm:grid-cols-2 sm:gap-8">
-              <div>
-                <p className="text-[14px] font-semibold text-lime">What you get</p>
-                <ul className="mt-3 space-y-2.5">
-                  {WHAT_YOU_GET.map((t) => (
-                    <li
-                      key={t}
-                      className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted"
-                    >
-                      <Check size={15} className="mt-[3px] shrink-0 text-lime" aria-hidden="true" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <p className="text-[14px] font-semibold text-muted">What it isn't</p>
-                <ul className="mt-3 space-y-2.5">
-                  {THIS_ISNT.map((t) => (
-                    <li
-                      key={t}
-                      className="flex items-start gap-2.5 text-[14px] leading-[1.6] text-muted"
-                    >
-                      <X size={15} className="mt-[3px] shrink-0 text-muted-2" aria-hidden="true" />
-                      {t}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </Reveal>
           </div>
 
-          {/* Commitment card */}
-          <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
+          {/* Value stack + commitment card */}
+          <div className="flex flex-col gap-6">
+            <Reveal>
+              <ValueStack />
+            </Reveal>
+
+            <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
             <div className="h-[2px] w-full bg-lime" />
             <div className="p-7">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
