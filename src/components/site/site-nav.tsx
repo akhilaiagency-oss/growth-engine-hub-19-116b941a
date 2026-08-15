@@ -6,8 +6,8 @@ import { BrandLockup } from "./brand-lockup";
 const LINKS = [
   { href: "#leak-map", label: "Leak Map" },
   { href: "#engine", label: "The Engine" },
-  { href: "#stack", label: "The System" },
-  { href: "#how-it-works", label: "How It Works" },
+  { href: "#results", label: "Results" },
+  { href: "#session", label: "The Offer" },
   { href: "#faq", label: "FAQ" },
 ];
 
