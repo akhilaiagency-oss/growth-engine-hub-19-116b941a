@@ -341,6 +341,11 @@ export function EngineSection() {
         </Reveal>
 
         <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
+          <MeasurementChain />
+        </Reveal>
+
+        <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
+
           <p
             className="text-[16px] leading-relaxed"
             style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}
