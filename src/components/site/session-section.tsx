@@ -3,6 +3,8 @@ import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
+import { ValueStack } from "./value-stack";
+import { AfterYouPay } from "./after-you-pay";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
