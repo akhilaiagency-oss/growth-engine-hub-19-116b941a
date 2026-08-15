@@ -180,9 +180,21 @@ export function SessionSection() {
               <p className="mt-3 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
                 Secure checkout through Razorpay
               </p>
+              <p className="mt-4 text-center text-[13.5px] leading-[1.7] text-muted">
+                If we work together afterwards, engagements typically start from{" "}
+                <strong className="font-semibold text-fg">₹XX,XXX</strong>. Nothing is quoted before
+                the scope is understood — and the ₹9 session is useful whether or not you go
+                further.
+              </p>
             </div>
-          </Reveal>
+            </Reveal>
+          </div>
         </div>
+
+        <Reveal className="mt-8 rounded-[16px] border border-border bg-surface p-6 md:p-9">
+          <AfterYouPay />
+        </Reveal>
+
 
         <Reveal
           className="mt-6 rounded-[16px] p-[26px] md:p-10"
