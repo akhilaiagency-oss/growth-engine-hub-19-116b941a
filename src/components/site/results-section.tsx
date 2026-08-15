@@ -114,49 +114,57 @@ function StoryCard({ story }: { story: ClientStory }) {
 
 function WorkCard({ item }: { item: PortfolioItem }) {
   return (
-    <article className="overflow-hidden rounded-[12px] border border-border bg-surface">
-      <div className="overflow-hidden rounded-[10px] border border-border bg-bg" style={{ margin: "16px 16px 0" }}>
-        <div className="flex items-center gap-2 border-b border-border px-3 py-2">
+    <article className="overflow-hidden rounded-[14px] border border-border-strong bg-surface-2">
+      <div className="border-b border-border bg-bg">
+        <div className="flex items-center gap-2 px-3" style={{ paddingTop: 9, paddingBottom: 9 }}>
           <span aria-hidden="true" className="flex gap-1.5">
-            {["#FF6B5E", "#F59E0B", "#83E24E"].map((c) => (
-              <span key={c} className="h-2 w-2 rounded-full" style={{ background: c }} />
+            {[0, 1, 2].map((d) => (
+              <span
+                key={d}
+                className="rounded-full"
+                style={{ height: 9, width: 9, background: "var(--muted-2)", opacity: 0.5 }}
+              />
             ))}
           </span>
-          <span className="flex-1 truncate rounded-[6px] bg-surface-2 px-2 py-1 text-[12px] text-muted-2">
-            {item.url}
-          </span>
+          <span className="flex-1 rounded-full bg-surface-2" style={{ height: 18 }} />
         </div>
-        <div className="relative w-full bg-surface-2" style={{ aspectRatio: "16 / 10" }}>
-          {item.screenshotUrl ? (
+        <div className="relative w-full" style={{ aspectRatio: "16 / 10" }}>
+          {item.image ? (
             <img
-              src={item.screenshotUrl}
+              src={item.image}
               alt={`${item.title} — acquisition system screenshot`}
               width={640}
               height={400}
               loading="lazy"
               decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="absolute inset-0 h-full w-full"
+              style={{ objectFit: "cover" }}
             />
           ) : (
-            <span className="absolute inset-0 flex items-center justify-center text-[12px] tracking-[0.12em] text-muted-2 uppercase">
-              Screenshot placeholder
+            <span className="absolute inset-0 flex flex-col items-center justify-center gap-1 text-center text-[12px] text-muted-2">
+              <span>{item.label}</span>
+              <span>screenshot · 1440×900</span>
             </span>
           )}
         </div>
       </div>
-      <div className="p-6">
+      <div style={{ padding: "20px 24px" }}>
         <span className="text-[12px] font-semibold tracking-[0.14em] text-lime uppercase">
-          {item.tag}
+          {item.industry}
         </span>
         <h3 className="mt-2 text-[17px] font-bold tracking-[-0.01em] text-fg">{item.title}</h3>
-        <p className="mt-2 text-[14px] leading-relaxed text-muted">{item.line}</p>
+        <p className="mt-2 text-[14px] leading-relaxed text-muted">{item.description}</p>
       </div>
     </article>
   );
 }
 
+const REVEAL_BTN =
+  "mt-5 flex min-h-[48px] w-full items-center justify-center rounded-[8px] border border-border-strong bg-transparent text-[14px] font-semibold text-fg transition-colors hover:border-lime hover:text-lime min-[900px]:hidden";
+
 export function ResultsSection() {
-  const [showAll, setShowAll] = useState(false);
+  const [showAllStories, setShowAllStories] = useState(false);
+  const [showAllWork, setShowAllWork] = useState(false);
 
   return (
     <section id="results" className="section-y band-raised">
@@ -172,21 +180,14 @@ export function ResultsSection() {
 
         <div className="grid gap-5 min-[900px]:grid-cols-2">
           {CLIENT_STORIES.map((s, i) => (
-            <Reveal
-              key={s.id}
-              className={i > 1 && !showAll ? "hidden min-[900px]:block" : ""}
-            >
+            <Reveal key={s.id} className={i > 1 && !showAllStories ? "hidden min-[900px]:block" : ""}>
               <StoryCard story={s} />
             </Reveal>
           ))}
         </div>
 
-        {!showAll && (
-          <button
-            type="button"
-            onClick={() => setShowAll(true)}
-            className="mt-5 flex min-h-[48px] w-full items-center justify-center rounded-[10px] border border-border-strong text-[14.5px] font-semibold text-fg transition-colors hover:border-lime hover:text-lime min-[900px]:hidden"
-          >
+        {!showAllStories && (
+          <button type="button" onClick={() => setShowAllStories(true)} className={REVEAL_BTN}>
             Show all 4 client stories
           </button>
         )}
@@ -199,19 +200,27 @@ export function ResultsSection() {
         <Reveal className="head mt-14 max-w-[760px]">
           <span className="eyebrow">Selected work</span>
           <h2 className="h2-section mt-4">Acquisition systems we've built</h2>
+          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+            The landing page is the visible part. Underneath each one sits qualification, follow-up,
+            CRM and booking.
+          </p>
         </Reveal>
 
         <div className="grid gap-5 min-[900px]:grid-cols-2">
           {PORTFOLIO.map((p, i) => (
-            <Reveal
-              key={p.id}
-              className={i > 1 && !showAll ? "hidden min-[900px]:block" : ""}
-            >
+            <Reveal key={p.id} className={i > 1 && !showAllWork ? "hidden min-[900px]:block" : ""}>
               <WorkCard item={p} />
             </Reveal>
           ))}
         </div>
+
+        {!showAllWork && (
+          <button type="button" onClick={() => setShowAllWork(true)} className={REVEAL_BTN}>
+            Show all 4 projects
+          </button>
+        )}
       </div>
     </section>
   );
 }
+
