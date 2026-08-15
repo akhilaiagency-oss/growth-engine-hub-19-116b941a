@@ -51,7 +51,7 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
           </div>
         )}
       </div>
-      <p className="mt-3 text-center text-[12.5px] text-muted">
+      <p className="mt-3 hidden text-center text-[12.5px] text-muted min-[900px]:block">
         A short walkthrough of how the system works — then book your call below.
       </p>
     </div>

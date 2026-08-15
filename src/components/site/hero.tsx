@@ -6,7 +6,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-5 pt-[100px] pb-[40px] min-[900px]:pt-[112px]"
+      className="relative overflow-hidden px-5 pt-[88px] pb-[36px] min-[900px]:pt-[112px]"
       style={{
         backgroundImage:
           "radial-gradient(800px 440px at 20% -10%, rgba(62,134,255,0.18), transparent 62%), radial-gradient(700px 420px at 84% 2%, rgba(131,226,78,0.10), transparent 58%)",
@@ -29,11 +29,11 @@ export function Hero() {
 
         <div className="mt-[22px] flex justify-center">
           <span
-            className="inline-flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 rounded-[10px] text-[18px] font-bold text-lime"
+            className="inline-flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 rounded-[10px] text-[15px] font-bold text-lime min-[900px]:text-[18px]"
             style={{
               background: "rgba(131,226,78,0.1)",
               border: "1px solid rgba(131,226,78,0.35)",
-              padding: "11px 20px",
+              padding: "10px 18px",
             }}
           >
             <span className="text-[14px] font-semibold text-muted-2 line-through">
