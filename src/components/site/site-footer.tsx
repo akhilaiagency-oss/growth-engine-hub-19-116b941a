@@ -4,8 +4,8 @@ import { BrandLockup } from "./brand-lockup";
 const PAGE_LINKS = [
   { href: "#leak-map", label: "Acquisition Leak Map" },
   { href: "#engine", label: "Growth Multiplier Engine™" },
-  { href: "#stack", label: "The System" },
-  { href: "#how-it-works", label: "How it works" },
+  { href: "#results", label: "Results" },
+  { href: "#session", label: "The offer" },
   { href: "#faq", label: "FAQ" },
 ];
 

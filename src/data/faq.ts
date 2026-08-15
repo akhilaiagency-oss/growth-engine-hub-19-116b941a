@@ -6,7 +6,7 @@ export interface FaqItem {
 export const FAQS: FaqItem[] = [
   {
     q: "Is the ₹9 strategy call actually 1:1?",
-    a: "Yes. It's you and Akhil, 30–45 minutes, on Zoom or Google Meet. Not a group session, not a webinar, not a recording.",
+    a: "Yes. It's you and Akhil, 30 minutes, on Zoom or Google Meet. Not a group session, not a webinar, not a recording.",
   },
   {
     q: "What exactly will you review?",

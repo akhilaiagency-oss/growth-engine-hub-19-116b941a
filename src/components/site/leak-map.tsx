@@ -1,5 +1,7 @@
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
+import { AcquisitionFlow } from "./acquisition-flow";
+
 
 interface Row {
   n: string;
@@ -58,6 +60,11 @@ export function LeakMap() {
             business is losing more at one of them than at the other four combined.
           </p>
         </Reveal>
+
+        <Reveal className="mt-7">
+          <AcquisitionFlow />
+        </Reveal>
+
 
         <Reveal className="mt-8 rounded-[16px] border border-border bg-surface p-5 md:p-8">
           <div className="flex flex-wrap items-center gap-6 border-b border-border pb-5">

@@ -2,20 +2,20 @@ import { createFileRoute } from "@tanstack/react-router";
 import { FAQS } from "@/data/faq";
 import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
-import { ProblemSection } from "@/components/site/problem-section";
+import { ProofStrip } from "@/components/site/proof-strip";
 import { LeakMap } from "@/components/site/leak-map";
 import { EngineSection } from "@/components/site/engine-section";
-import { SystemStackSection } from "@/components/site/system-stack-section";
-import { Outcomes } from "@/components/site/outcomes";
-import { TwoRoadsSection } from "@/components/site/two-roads-section";
-import { ProofSection } from "@/components/site/proof-section";
+import { ResultsSection } from "@/components/site/results-section";
 import { FounderSection } from "@/components/site/founder-section";
+import { FitSection } from "@/components/site/fit-section";
 import { SessionSection } from "@/components/site/session-section";
-import { HowItWorks } from "@/components/site/how-it-works";
+import { DeliverablesSection } from "@/components/site/deliverables-section";
 import { FaqSection } from "@/components/site/faq-section";
-import { FinalCta } from "@/components/site/final-cta";
+import { CapacitySection } from "@/components/site/capacity-section";
+import { TwoRoadsSection } from "@/components/site/two-roads-section";
 import { SiteFooter } from "@/components/site/site-footer";
 import { StickyMobileCta } from "@/components/site/sticky-mobile-cta";
+
 
 const TITLE = "Growth Multiplier AI — Turn Ad Traffic Into Qualified Opportunities";
 const DESCRIPTION =
@@ -70,18 +70,18 @@ function Index() {
       <SiteNav />
       <main>
         <Hero />
-        <ProblemSection />
+        <ProofStrip />
         <LeakMap />
         <EngineSection />
-        <SystemStackSection />
-        <Outcomes />
-        <ProofSection />
+        <ResultsSection />
         <FounderSection />
+        <FitSection />
         <SessionSection />
-        <HowItWorks />
+        <DeliverablesSection />
         <FaqSection />
+        <CapacitySection />
         <TwoRoadsSection />
-        <FinalCta />
+
       </main>
       <SiteFooter />
       <StickyMobileCta />
