@@ -127,8 +127,8 @@ export function EngineSection() {
               viewBox="0 0 1040 330"
               width="100%"
               className="h-auto w-full"
-              role="group"
-              aria-label="The Growth Multiplier Engine closed loop"
+              role="img"
+              aria-label="The Growth Multiplier Engine closed loop: Attract, Convert, Qualify, Nurture and Book run along the forward path; Measure and Optimize run along the return path, feeding back into Attract."
             >
               <path
                 d="M122,100 L918,100 A62.5,62.5 0 0 1 918,225 L122,225 A62.5,62.5 0 0 1 122,100"
@@ -136,12 +136,23 @@ export function EngineSection() {
                 stroke="var(--border-strong)"
                 strokeWidth="1.5"
               />
+              {/* Forward arc */}
               <path
-                d="M122,100 L918,100 A62.5,62.5 0 0 1 918,225 L122,225 A62.5,62.5 0 0 1 122,100"
+                d="M122,100 L918,100 A62.5,62.5 0 0 1 918,225"
                 fill="none"
                 stroke="var(--cyan)"
                 strokeOpacity="0.55"
                 strokeWidth="1.5"
+              />
+              {/* Return arc — dashed, marching back toward Attract */}
+              <path
+                className="engine-return-path"
+                d="M918,225 L122,225 A62.5,62.5 0 0 1 122,100"
+                fill="none"
+                stroke="var(--lime)"
+                strokeOpacity="0.75"
+                strokeWidth="1.6"
+                strokeDasharray="6 8"
               />
 
               {CHEVRON_TOP.map((x) => (
@@ -159,8 +170,8 @@ export function EngineSection() {
                   key={`b${x}`}
                   d={`M${x},219 L${x - 9},225 L${x},231`}
                   fill="none"
-                  stroke="var(--cyan)"
-                  strokeOpacity="0.55"
+                  stroke="var(--lime)"
+                  strokeOpacity="0.8"
                   strokeWidth="1.6"
                 />
               ))}
@@ -181,10 +192,12 @@ export function EngineSection() {
                 textAnchor="middle"
                 fontSize="10"
                 letterSpacing="1.6"
-                fill="var(--muted-2)"
+                fill="var(--lime)"
+                fillOpacity="0.8"
               >
                 RETURN PATH — WHAT WE LEARN GOES BACK IN
               </text>
+
 
               <text
                 x="520"
