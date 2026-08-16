@@ -5,7 +5,7 @@ import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
 import { ValueStack } from "./value-stack";
 import { AfterYouPay } from "./after-you-pay";
-import { SessionExpectations } from "./session-expectations";
+import { SessionGetCard, SessionWontCard } from "./session-expectations";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
