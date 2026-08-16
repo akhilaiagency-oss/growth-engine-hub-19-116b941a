@@ -62,6 +62,25 @@ export function FounderSection() {
                 </div>
               </div>
             </div>
+
+            <div className="relative flex flex-1 flex-col justify-center rounded-[14px] border border-border-strong bg-surface-2 p-5 min-[900px]:px-[22px]">
+              <p className="text-[12px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
+                How Akhil works
+              </p>
+              <ul className="mt-3">
+                {WORKS.map((w, i) => (
+                  <li
+                    key={w}
+                    className={`relative py-[9px] pl-[26px] text-[15px] text-muted ${
+                      i < WORKS.length - 1 ? "border-b border-border" : ""
+                    }`}
+                  >
+                    <Check size={16} className="absolute top-[13px] left-0 shrink-0 text-lime" />
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
 
           <Reveal>
