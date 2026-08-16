@@ -1,5 +1,6 @@
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
+import { RefundNote } from "./refund-note";
 import { CountdownBox } from "./urgency-boxes";
 
 export function CapacitySection() {
