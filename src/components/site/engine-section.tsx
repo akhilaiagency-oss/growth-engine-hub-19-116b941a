@@ -207,14 +207,9 @@ export function EngineSection() {
           <div className="min-[820px]:hidden">
             <ol
               aria-label="The seven stages of the Growth Multiplier Engine"
-              className="relative before:absolute before:top-[24px] before:bottom-[34px] before:left-[17px] before:w-[2px] before:content-['']"
-              style={
-                {
-                  ["--rail" as string]:
-                    "linear-gradient(180deg, var(--cyan), rgba(131,226,78,0.5))",
-                } as React.CSSProperties
-              }
+              className="relative"
             >
+
               <span
                 aria-hidden="true"
                 className="pointer-events-none absolute top-[24px] bottom-[34px] left-[17px] w-[2px]"
