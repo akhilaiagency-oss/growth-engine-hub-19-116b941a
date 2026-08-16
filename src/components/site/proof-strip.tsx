@@ -51,7 +51,7 @@ export function ProofStrip() {
           <span className="flex items-center justify-center gap-2 min-[900px]:justify-start">
             <span className="flex gap-0.5" aria-hidden="true">
               {[0, 1, 2, 3, 4].map((i) => (
-                <Star key={i} size={14} fill="#F5B captured" style={{ display: "none" }} />
+                <Star key={i} size={14} fill="#F5B301" color="#F5B301" />
               ))}
             </span>
             <span className="text-[12px] text-muted-2">Google reviews</span>
