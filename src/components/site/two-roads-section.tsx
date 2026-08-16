@@ -1,14 +1,7 @@
-import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
-
-const ITEMS = [
-  "30 minutes, 1-on-1",
-  "Secure Razorpay checkout",
-  "You keep the plan either way",
-];
 
 export function TwoRoadsSection() {
   return (
@@ -23,7 +16,7 @@ export function TwoRoadsSection() {
         </Reveal>
 
         <div className="mt-8 grid gap-5 min-[900px]:grid-cols-2">
-          <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-7">
+          <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-6">
             <span className="text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase">
               Option 1
             </span>
@@ -39,7 +32,7 @@ export function TwoRoadsSection() {
           </Reveal>
 
           <Reveal
-            className="rounded-[12px] p-6 md:p-7"
+            className="rounded-[12px] p-6 md:p-6"
             style={{
               border: "1px solid rgba(131,226,78,0.35)",
               backgroundImage:
@@ -60,7 +53,7 @@ export function TwoRoadsSection() {
           </Reveal>
         </div>
 
-        <Reveal className="mt-7 text-center text-[19px] font-semibold text-fg">
+        <Reveal className="mt-6 text-center text-[19px] font-semibold text-fg">
           The difference between the two is <span className="text-lime">₹9 and thirty minutes</span>
           .
         </Reveal>
@@ -81,7 +74,7 @@ export function TwoRoadsSection() {
             together.
           </p>
 
-          <div className="mx-auto mt-7 flex max-w-[480px] items-center justify-center rounded-[14px] border border-border bg-surface-2 px-6 py-5">
+          <div className="mx-auto mt-6 flex max-w-[480px] items-center justify-center rounded-[14px] border border-border bg-surface-2 px-6 py-5">
             <PriceAnchor size="lg" suffix="today" />
           </div>
 
@@ -90,14 +83,6 @@ export function TwoRoadsSection() {
           </div>
           <CtaNote className="mt-3" />
 
-          <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3">
-            {ITEMS.map((t) => (
-              <li key={t} className="flex items-center gap-2 text-[12.5px] text-muted">
-                <Check size={15} className="text-lime" aria-hidden="true" />
-                {t}
-              </li>
-            ))}
-          </ul>
         </Reveal>
       </div>
     </section>

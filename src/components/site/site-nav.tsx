@@ -29,13 +29,13 @@ export function SiteNav() {
         scrolled ? "border-b border-border bg-[rgba(7,11,20,0.88)] backdrop-blur-md" : ""
       }`}
     >
-      <nav className="container-page flex items-center justify-between gap-6 py-[14px]">
+      <nav className="container-page flex items-center justify-between gap-6 py-[16px]">
         <a href="#top" className="flex min-w-0 items-center">
           <BrandLockup size="nav" withTagline />
         </a>
 
 
-        <ul className="hidden items-center gap-7 min-[900px]:flex">
+        <ul className="hidden items-center gap-6 min-[900px]:flex">
           {LINKS.map((l) => (
             <li key={l.href}>
               <a

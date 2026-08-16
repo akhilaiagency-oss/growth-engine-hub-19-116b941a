@@ -1,5 +1,10 @@
-/** Session slots run 3:00 PM – 11:00 PM IST, 30 minutes each: 16 slots a day. */
-export const SLOT_START_HOUR = 15; // 3:00 PM IST
-export const SLOT_END_HOUR = 23; // 11:00 PM IST — last slot STARTS at 22:30
-export const SLOT_MINUTES = 30;
-export const TOTAL_SLOTS_PER_DAY = 16;
+/** Sessions run 3:30 PM – 11:30 PM IST, 30 minutes each. */
+export const SLOT_START_HOUR = 15;
+export const SLOT_START_MIN = 30;
+export const LAST_SLOT_HOUR = 23; // last slot starts 11:00 PM, ends 11:30
+export const LAST_SLOT_MIN = 0;
+export const SLOT_STEP_MINUTES = 30;
+/** Calendly minimum notice, in minutes. */
+export const BOOKING_NOTICE_MINUTES = 90;
+/** Sessions still open this week. Update by hand each week. */
+export const SESSIONS_LEFT_THIS_WEEK = 3;

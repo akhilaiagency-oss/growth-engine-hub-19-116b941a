@@ -1,12 +1,12 @@
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
-import { SessionsLeftBox, CountdownBox } from "./urgency-boxes";
+import { CountdownBox } from "./urgency-boxes";
 
 export function CapacitySection() {
   return (
     <section id="capacity" className="section-y band-raised">
       <div className="container-page">
-        <Reveal className="mx-auto max-w-[820px] rounded-[16px] border border-border-strong bg-surface p-6 md:p-9">
+        <Reveal className="mx-auto max-w-[820px] rounded-[16px] border border-border-strong bg-surface p-6 md:p-8">
           <span className="eyebrow">Capacity</span>
           <h2 className="mt-4 text-[28px] leading-[1.12] font-extrabold tracking-[-0.025em] text-fg md:text-[38px]">
             But we can't take everyone.
@@ -21,15 +21,13 @@ export function CapacitySection() {
             Which is why the ₹9 sessions are capped too. Every one of them is 30 minutes of the same
             person's time.
           </p>
-
-          <div className="mt-6 grid gap-3 min-[520px]:grid-cols-2">
-            <SessionsLeftBox withDashes />
-            <CountdownBox />
-          </div>
-          <p className="mt-3 text-[13px] leading-relaxed text-muted-2">
-            Sessions run 3:00 PM – 11:00 PM IST, 30 minutes each.
+          <p className="mt-4 text-[13px] leading-relaxed text-muted-2">
+            Sessions run 3:30 PM – 11:30 PM IST, 30 minutes each.
           </p>
 
+          <div className="mx-auto mt-6 max-w-[420px]">
+            <CountdownBox showSlotLine />
+          </div>
 
           <div className="mt-6">
             <BookCta fullWidth />

@@ -61,7 +61,7 @@ export function SystemStackSection() {
           </p>
         </Reveal>
 
-        <ul className="mt-7 flex flex-col gap-3">
+        <ul className="mt-6 flex flex-col gap-3">
           {ROWS.map(({ color, title, body, Icon }) => (
             <li key={title}>
               <Reveal className="flex items-center gap-0 overflow-hidden rounded-[12px] border border-border bg-surface pr-5 pl-0">

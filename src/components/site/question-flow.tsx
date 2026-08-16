@@ -116,7 +116,7 @@ export function QualificationDetailsFlow({
         before you speak.
       </p>
 
-      <div className="mt-6 rounded-[16px] border border-border bg-surface p-5 sm:p-7">
+      <div className="mt-6 rounded-[16px] border border-border bg-surface p-5 sm:p-6">
         <div aria-live="polite">
           <div className="flex items-center justify-between">
             <span className="text-[12px] font-semibold tracking-[0.08em] text-muted-2 uppercase">
@@ -174,7 +174,7 @@ export function QualificationDetailsFlow({
           </p>
         )}
 
-        <div className="mt-7 flex flex-col-reverse items-center gap-3 sm:flex-row-reverse sm:justify-between">
+        <div className="mt-6 flex flex-col-reverse items-center gap-3 sm:flex-row-reverse sm:justify-between">
           <button
             type="button"
             disabled={saving}

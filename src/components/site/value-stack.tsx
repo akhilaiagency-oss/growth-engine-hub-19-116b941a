@@ -16,7 +16,7 @@ export function ValueStack() {
         {ROWS.map((r) => (
           <li
             key={r.label}
-            className="flex items-baseline justify-between gap-4 border-b border-border py-[13px]"
+            className="flex items-baseline justify-between gap-4 border-b border-border py-[12px]"
           >
             <span className="text-[14px] leading-snug text-muted">{r.label}</span>
             <span className="shrink-0 text-[14px] font-semibold text-fg tabular-nums">
@@ -24,7 +24,7 @@ export function ValueStack() {
             </span>
           </li>
         ))}
-        <li className="flex items-baseline justify-between gap-4 py-[13px]">
+        <li className="flex items-baseline justify-between gap-4 py-[12px]">
           <span className="text-[15px] font-bold text-fg">Total</span>
           <span className="shrink-0 text-[15px] font-bold text-muted-2 line-through tabular-nums">
             ₹10,000

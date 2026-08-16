@@ -31,11 +31,11 @@ export function FitSection() {
         </Reveal>
 
         <div className="mt-6 grid gap-5 md:grid-cols-2">
-          <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-7">
+          <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-6">
             <h3 className="text-[17px] font-bold tracking-[-0.01em] text-lime">
               This call is for you if
             </h3>
-            <ul className="mt-5 flex flex-col gap-3.5">
+            <ul className="mt-5 flex flex-col gap-4">
               {FOR.map((t) => (
                 <li key={t} className="flex items-start gap-3 text-[14.5px] leading-relaxed text-fg">
                   <Check size={17} className="mt-0.5 shrink-0 text-lime" aria-hidden="true" />
@@ -45,11 +45,11 @@ export function FitSection() {
             </ul>
           </Reveal>
 
-          <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-7">
+          <Reveal className="rounded-[12px] border border-border bg-surface p-6 md:p-6">
             <h3 className="text-[17px] font-bold tracking-[-0.01em] text-muted">
               This call isn't for you if
             </h3>
-            <ul className="mt-5 flex flex-col gap-3.5">
+            <ul className="mt-5 flex flex-col gap-4">
               {NOT_FOR.map((t) => (
                 <li
                   key={t}
