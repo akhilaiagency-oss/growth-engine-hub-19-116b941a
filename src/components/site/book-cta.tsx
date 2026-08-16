@@ -38,10 +38,10 @@ export function BookCta({
         <>
           <span className={`mx-3 h-4 w-px shrink-0 ${dividerTone}`} aria-hidden="true" />
           <span className="inline-flex items-baseline gap-1.5">
-            <span className={`text-[12.5px] font-semibold line-through ${oldTone}`}>
+            <span className={`text-[12px] font-semibold line-through ${oldTone}`}>
               ₹{URGENCY.originalPrice}
             </span>
-            <span className={`text-[16px] font-extrabold ${nowTone}`}>
+            <span className={`text-[17px] font-extrabold ${nowTone}`}>
               ₹{URGENCY.offerPrice}
             </span>
           </span>

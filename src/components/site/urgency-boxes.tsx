@@ -14,9 +14,9 @@ export function SessionsLeftBox({
   const count = SESSIONS_LEFT_THIS_WEEK;
 
   return (
-    <div className="rounded-[10px] border border-border bg-bg p-4">
+    <div className="flex min-h-[78px] flex-col items-center justify-center rounded-[10px] border border-border bg-bg p-4">
       <p className={LABEL}>{label}</p>
-      <p className="mt-2 text-[30px] leading-none font-extrabold text-lime tabular-nums">{count}</p>
+      <p className="mt-2 text-[34px] leading-none font-extrabold text-lime tabular-nums">{count}</p>
       {withDashes && (
         <ul aria-hidden="true" className="mt-3 flex gap-1.5">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -59,7 +59,7 @@ export function CountdownBox({
       <ul className="mt-2 flex items-baseline gap-3" aria-live="off">
         {units.map((u) => (
           <li key={u.unit} className="flex items-baseline gap-1">
-            <span className="text-[24px] leading-none font-extrabold text-fg tabular-nums">
+            <span className="text-[26px] leading-none font-extrabold text-fg tabular-nums">
               {u.value}
             </span>
             <span className="text-[12px] text-muted-2">{u.unit}</span>
@@ -67,7 +67,7 @@ export function CountdownBox({
         ))}
       </ul>
       {showSlotLine && (
-        <p className="mt-2 text-[12px] leading-relaxed text-muted-2">
+        <p className="mt-2 text-[12px] text-muted-2">
           {slot ? `Available slot: ${slot.slotLabel}` : "\u00a0"}
         </p>
       )}

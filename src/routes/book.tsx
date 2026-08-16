@@ -296,7 +296,7 @@ function BookPage() {
           </Link>
           <Link
             to="/"
-            className="-mr-2 flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13.5px] text-muted transition-colors hover:text-fg"
+            className="-mr-2 flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13px] text-muted transition-colors hover:text-fg"
           >
             <ArrowLeft size={14} aria-hidden="true" /> Back to site
           </Link>
@@ -305,12 +305,12 @@ function BookPage() {
 
       <main className="mx-auto max-w-[900px] px-5 py-12">
         {confirmingPayment ? (
-          <p className="flex items-center gap-2 text-[14px] text-muted">
+          <p className="flex items-center gap-2 text-[15px] text-muted">
             <Loader2 size={16} className="animate-spin" aria-hidden="true" /> Confirming your
             payment…
           </p>
         ) : loading ? (
-          <p className="flex items-center gap-2 text-[14px] text-muted">
+          <p className="flex items-center gap-2 text-[15px] text-muted">
             <Loader2 size={16} className="animate-spin" aria-hidden="true" /> Checking your
             reservation…
           </p>
@@ -330,8 +330,8 @@ function BookPage() {
           />
         ) : showDetails && handle ? (
           <>
-            <p className="text-[14px] font-semibold text-lime">Payment confirmed ✓</p>
-            <p className="mt-1 mb-6 text-[14.5px] text-muted">
+            <p className="text-[15px] font-semibold text-lime">Payment confirmed ✓</p>
+            <p className="mt-1 mb-6 text-[15px] text-muted">
               Your strategy session is now ready to schedule.
             </p>
             <QualificationDetailsFlow
@@ -347,23 +347,23 @@ function BookPage() {
           </>
         ) : (
           <>
-            <h1 className="text-[26px] leading-tight font-semibold text-fg sm:text-[32px]">
+            <h1 className="text-[26px] leading-tight font-semibold text-fg sm:text-[34px]">
               Choose your strategy session time
             </h1>
-            <p className="mt-2 max-w-[620px] text-[14.5px] leading-relaxed text-muted">
+            <p className="mt-2 max-w-[620px] text-[15px] text-muted">
               Your ₹9 reservation is confirmed. Pick the slot that works for you — your session
               is only locked in once the calendar confirms it.
             </p>
 
             {cancelled && (
-              <p className="mt-4 rounded-[10px] border border-border bg-surface-2 p-3 text-[13.5px] text-muted">
+              <p className="mt-4 rounded-[10px] border border-border bg-surface-2 p-3 text-[13px] text-muted">
                 Your previous session was cancelled. Your ₹9 reservation is still valid — pick a
                 new time below.
               </p>
             )}
 
             {awaitingConfirmation && (
-              <p className="sticky top-2 z-20 mt-4 flex items-center gap-2 rounded-[10px] border border-lime/40 backdrop-blur-md sm:static bg-[rgba(131,226,78,0.08)] p-3 text-[13.5px] text-fg">
+              <p className="sticky top-2 z-20 mt-4 flex items-center gap-2 rounded-[10px] border border-lime/40 backdrop-blur-md sm:static bg-[rgba(131,226,78,0.08)] p-3 text-[13px] text-fg">
                 <Loader2 size={15} className="animate-spin text-lime" aria-hidden="true" />
                 Confirming your booking…
               </p>
@@ -371,7 +371,7 @@ function BookPage() {
 
             {unconfirmed && (
               <div className="mt-4 rounded-[10px] border border-border bg-surface-2 p-3">
-                <p className="text-[13.5px] leading-relaxed text-fg">
+                <p className="text-[13px] text-fg">
                   Your slot looks booked — we're just confirming it with Calendly. This page will
                   update, or refresh in a minute.
                 </p>
@@ -387,7 +387,7 @@ function BookPage() {
                       setChecking(false);
                     })();
                   }}
-                  className="mt-1 -ml-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13.5px] text-lime transition-opacity hover:opacity-80 disabled:opacity-50"
+                  className="mt-1 -ml-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13px] text-lime transition-opacity hover:opacity-80 disabled:opacity-50"
                 >
                   <RefreshCw size={13} aria-hidden="true" />
                   {checking ? "Checking…" : "Check again"}
@@ -403,7 +403,7 @@ function BookPage() {
             ) : (
               <div className="mt-6 rounded-[12px] border border-dashed border-border-strong bg-surface p-8 text-center">
                 <Calendar size={22} className="mx-auto text-muted" aria-hidden="true" />
-                <p className="mt-3 text-[14px] text-fg">Scheduling calendar not connected yet.</p>
+                <p className="mt-3 text-[15px] text-fg">Scheduling calendar not connected yet.</p>
                 <p className="mt-1 text-[13px] text-muted">
                   Your ₹9 reservation is confirmed and saved. We'll email you to arrange the time.
                 </p>
@@ -413,7 +413,7 @@ function BookPage() {
             <button
               type="button"
               onClick={() => handle && void load(handle)}
-              className="mt-4 -ml-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13.5px] text-muted transition-colors hover:text-fg"
+              className="mt-4 -ml-2 inline-flex min-h-[44px] items-center gap-1.5 rounded-[8px] px-2 text-[13px] text-muted transition-colors hover:text-fg"
             >
               <RefreshCw size={13} aria-hidden="true" /> Refresh booking status
             </button>
@@ -447,12 +447,12 @@ function LockedCard({
       <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-[12px] border border-border bg-surface-2">
         <Lock size={20} className="text-muted" aria-hidden="true" />
       </span>
-      <h1 className="mt-5 text-center text-[22px] leading-tight font-semibold text-fg">
+      <h1 className="mt-5 text-center text-[20px] leading-tight font-semibold text-fg">
         {paymentFailed || hasHandle
           ? "We're still confirming your payment"
           : "Reserve your strategy session"}
       </h1>
-      <p className="mx-auto mt-3 max-w-[440px] text-center text-[14.5px] leading-relaxed text-muted">
+      <p className="mx-auto mt-3 max-w-[440px] text-center text-[15px] text-muted">
         {paymentFailed || hasHandle
           ? "If money left your account, your payment is safe and recorded. It usually confirms within a minute."
           : "A confirmed ₹9 payment is required before selecting your strategy-session time."}
@@ -461,14 +461,14 @@ function LockedCard({
       {handle ? (
         <>
           <RecoveryPanel handle={handle} onClaimed={onClaimed} />
-          <p className="mt-3 text-center text-[12.5px] text-muted-2">
+          <p className="mt-3 text-center text-[12px] text-muted-2">
             Confirmation can take a moment — this page keeps checking in the background.
           </p>
           <div className="mt-6 border-t border-border pt-5 text-center">
-            <p className="text-[12.5px] text-muted-2">Haven't paid yet?</p>
+            <p className="text-[12px] text-muted-2">Haven't paid yet?</p>
             <Link
               to="/qualify"
-              className="mt-1 inline-flex min-h-[44px] items-center text-[13.5px] text-muted underline underline-offset-4 transition-colors hover:text-fg"
+              className="mt-1 inline-flex min-h-[44px] items-center text-[13px] text-muted underline underline-offset-4 transition-colors hover:text-fg"
             >
               Reserve my session for ₹9 →
             </Link>
@@ -521,7 +521,7 @@ function RecoveryPanel({ handle, onClaimed }: { handle: LeadHandle; onClaimed: (
       <p className="text-[15px] font-semibold text-fg">
         Almost there — we just need to match your payment
       </p>
-      <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+      <p className="mt-2 text-[13px] text-muted">
         If you paid with a different email address than the one you gave us, enter the email you
         used on the payment page and we'll connect it to your session.
       </p>
@@ -543,7 +543,7 @@ function RecoveryPanel({ handle, onClaimed }: { handle: LeadHandle; onClaimed: (
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@company.com"
-          className="min-h-[44px] w-full flex-1 rounded-[8px] border border-border bg-surface-2 px-3 text-[16px] text-fg outline-none focus:border-lime"
+          className="min-h-[44px] w-full flex-1 rounded-[8px] border border-border bg-surface-2 px-3 text-[17px] text-fg outline-none focus:border-lime"
         />
         <button
           type="submit"
@@ -619,7 +619,7 @@ function ConfirmedCard({
           <span className="flex h-11 w-11 items-center justify-center rounded-[12px] border border-lime/50 bg-[rgba(131,226,78,0.12)]">
             <Check size={20} className="text-lime" aria-hidden="true" />
           </span>
-          <h1 className="mt-5 text-[24px] leading-tight font-semibold text-fg">
+          <h1 className="mt-5 text-[26px] leading-tight font-semibold text-fg">
             Your Strategy Session Is Locked In ✓
           </h1>
           {when && (
@@ -629,7 +629,7 @@ function ConfirmedCard({
             </p>
           )}
           {booking.eventName && (
-            <p className="mt-1 text-[13.5px] text-muted">{booking.eventName}</p>
+            <p className="mt-1 text-[13px] text-muted">{booking.eventName}</p>
           )}
         </div>
 
@@ -640,13 +640,13 @@ function ConfirmedCard({
             <MessageCircle size={16} className="text-lime" aria-hidden="true" /> Join The Growth
             Multiplier AI Community
           </p>
-          <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+          <p className="mt-2 text-[13px] text-muted">
             You're officially booked. Join the Growth Multiplier AI community for strategy insights,
             AI growth resources, funnel breakdowns and important updates before your session.
           </p>
 
           {locked || !handle ? (
-            <p className="mt-4 text-[13.5px] text-muted-2">
+            <p className="mt-4 text-[13px] text-muted-2">
               Community access is being set up — we'll send your invite before your session.
             </p>
           ) : (
@@ -660,7 +660,7 @@ function ConfirmedCard({
                 {opening ? "Opening…" : "Join The WhatsApp Community →"}
               </button>
               {joined && (
-                <p className="mt-2 text-[12.5px] text-muted-2">You've already been given access.</p>
+                <p className="mt-2 text-[12px] text-muted-2">You've already been given access.</p>
               )}
             </>
           )}
@@ -710,7 +710,7 @@ function BonusDocuments({ handle }: { handle: LeadHandle | null }) {
       <p className="flex items-center gap-2 text-[15px] font-semibold text-fg">
         <FileText size={16} className="text-lime" aria-hidden="true" /> Your three documents
       </p>
-      <p className="mt-2 text-[13.5px] leading-relaxed text-muted">
+      <p className="mt-2 text-[13px] text-muted">
         Yours to keep, whether or not we work together.
       </p>
 
@@ -721,14 +721,14 @@ function BonusDocuments({ handle }: { handle: LeadHandle | null }) {
             className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-5"
           >
             <div className="min-w-0">
-              <p className="text-[14.5px] font-semibold text-fg">{doc.title}</p>
-              <p className="mt-1 text-[13px] leading-relaxed text-muted">{doc.description}</p>
+              <p className="text-[15px] font-semibold text-fg">{doc.title}</p>
+              <p className="mt-1 text-[13px] text-muted">{doc.description}</p>
             </div>
             <a
               href={doc.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-[8px] border border-lime bg-transparent px-4 text-[13.5px] font-semibold text-lime transition-colors hover:bg-[rgba(131,226,78,0.1)]"
+              className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-1.5 rounded-[8px] border border-lime bg-transparent px-4 text-[13px] font-semibold text-lime transition-colors hover:bg-[rgba(131,226,78,0.1)]"
             >
               <Download size={14} aria-hidden="true" /> Download
             </a>

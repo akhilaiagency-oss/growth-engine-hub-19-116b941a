@@ -12,10 +12,10 @@ export function PriceAnchor({
 }) {
   const scale =
     size === "lg"
-      ? { old: "text-[16px]", now: "text-[30px]", note: "text-[13px]" }
+      ? { old: "text-[17px]", now: "text-[46px]", note: "text-[13px]" }
       : size === "sm"
-        ? { old: "text-[12.5px]", now: "text-[14px]", note: "text-[12px]" }
-        : { old: "text-[14px]", now: "text-[19px]", note: "text-[12.5px]" };
+        ? { old: "text-[12px]", now: "text-[15px]", note: "text-[12px]" }
+        : { old: "text-[15px]", now: "text-[20px]", note: "text-[12px]" };
 
   return (
     <span className={`inline-flex items-baseline gap-2 ${className}`}>

@@ -52,8 +52,8 @@ function StoryCard({ story }: { story: ClientStory }) {
       </div>
 
       <div className="flex flex-1 flex-col p-6">
-        <p className="text-[23px] leading-[1.15] font-extrabold text-lime">{story.stat}</p>
-        <p className="mt-3 text-[13.5px] leading-relaxed text-muted italic">“{story.quote}”</p>
+        <p className="text-[20px] leading-[1.15] font-extrabold text-lime">{story.stat}</p>
+        <p className="mt-3 text-[13px] text-muted italic">“{story.quote}”</p>
 
         <ul className="mt-4 grid grid-cols-2 gap-3">
           {[0, 1].map((i) => {
@@ -101,7 +101,7 @@ function StoryCard({ story }: { story: ClientStory }) {
             )}
           </span>
           <span>
-            <span className="block text-[14px] font-semibold text-fg">{story.name}</span>
+            <span className="block text-[15px] font-semibold text-fg">{story.name}</span>
             <span className="block text-[12px] text-muted-2">
               {story.businessType} · {story.city}
             </span>
@@ -153,14 +153,14 @@ function WorkCard({ item }: { item: PortfolioItem }) {
           {item.industry}
         </span>
         <h3 className="mt-2 text-[17px] font-bold tracking-[-0.01em] text-fg">{item.title}</h3>
-        <p className="mt-2 text-[14px] leading-relaxed text-muted">{item.description}</p>
+        <p className="mt-2 text-[15px] text-muted">{item.description}</p>
       </div>
     </article>
   );
 }
 
 const REVEAL_BTN =
-  "mt-5 flex min-h-[48px] w-full items-center justify-center rounded-[8px] border border-border-strong bg-transparent text-[14px] font-semibold text-fg transition-colors hover:border-lime hover:text-lime min-[900px]:hidden";
+  "mt-5 flex min-h-[48px] w-full items-center justify-center rounded-[8px] border border-border-strong bg-transparent text-[15px] font-semibold text-fg transition-colors hover:border-lime hover:text-lime min-[900px]:hidden";
 
 export function ResultsSection() {
   const [showAllStories, setShowAllStories] = useState(false);
@@ -172,7 +172,7 @@ export function ResultsSection() {
         <Reveal className="head max-w-[760px]">
           <span className="eyebrow">Client results</span>
           <h2 className="h2-section mt-4">What happened after the system went in</h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             Four businesses, in their own words. Each clip is unedited, and each claim is backed by
             the message thread underneath it.
           </p>
@@ -192,7 +192,7 @@ export function ResultsSection() {
           </button>
         )}
 
-        <p className="mt-5 text-center text-[12.5px] leading-relaxed text-muted-2">
+        <p className="mt-5 text-center text-[12px] text-muted-2">
           Figures are as reported by each client and published with their permission. Results vary
           by business, offer and market.
         </p>
@@ -200,7 +200,7 @@ export function ResultsSection() {
         <Reveal className="head mt-14 max-w-[760px]">
           <span className="eyebrow">Selected work</span>
           <h2 className="h2-section mt-4">Acquisition systems we've built</h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             The landing page is the visible part. Underneath each one sits qualification, follow-up,
             CRM and booking.
           </p>

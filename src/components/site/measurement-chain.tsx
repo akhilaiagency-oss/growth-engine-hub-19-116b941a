@@ -4,7 +4,7 @@ const CHAIN = ["Traffic", "Lead", "Qualified", "Booked", "Showed", "Opportunity"
 export function MeasurementChain() {
   return (
     <figure>
-      <p className="text-[11.5px] font-semibold tracking-[0.14em] text-lime uppercase">
+      <p className="text-[12px] font-semibold tracking-[0.14em] text-lime uppercase">
         How we measure — every build is instrumented against this chain
       </p>
       <ol
@@ -26,20 +26,20 @@ export function MeasurementChain() {
               }}
             >
               <span
-                className={`block text-[11.5px] font-semibold tracking-[0.09em] uppercase ${
+                className={`block text-[12px] font-semibold tracking-[0.09em] uppercase ${
                   last ? "text-lime" : "text-fg"
                 }`}
               >
                 {stage}
               </span>
-              <span className="mt-1 block text-[10px] text-muted-2">
+              <span className="mt-1 block text-[12px] text-muted-2">
                 Stage {String(i + 1).padStart(2, "0")}
               </span>
             </li>
           );
         })}
       </ol>
-      <figcaption className="mt-4 text-center text-[13px] leading-relaxed text-muted">
+      <figcaption className="mt-4 text-center text-[13px] text-muted">
         Every stage is tracked separately, so a drop can be located rather than guessed at.
       </figcaption>
     </figure>

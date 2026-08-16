@@ -108,10 +108,10 @@ export function QualificationDetailsFlow({
 
   return (
     <div className="mx-auto max-w-[620px]">
-      <h1 className="text-[26px] leading-tight font-semibold text-fg sm:text-[32px]">
+      <h1 className="text-[26px] leading-tight font-semibold text-fg sm:text-[34px]">
         Two minutes so your session isn't generic
       </h1>
-      <p className="mt-2 text-[14.5px] leading-relaxed text-muted">
+      <p className="mt-2 text-[15px] text-muted">
         You're paid and your slot is waiting. These answers let Akhil prepare for your business
         before you speak.
       </p>
@@ -191,7 +191,7 @@ export function QualificationDetailsFlow({
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
-              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[14px] text-muted transition-colors hover:text-fg"
+              className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[15px] text-muted transition-colors hover:text-fg"
             >
               ← Back
             </button>

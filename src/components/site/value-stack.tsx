@@ -8,7 +8,7 @@ const ROWS = [
 export function ValueStack() {
   return (
     <div className="mx-auto w-full max-w-[560px]">
-      <p className="text-center text-[11.5px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
+      <p className="text-center text-[12px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
         What these cost separately
       </p>
 
@@ -18,8 +18,8 @@ export function ValueStack() {
             key={r.label}
             className="flex items-baseline justify-between gap-4 border-b border-border py-[12px]"
           >
-            <span className="text-[14px] leading-snug text-muted">{r.label}</span>
-            <span className="shrink-0 text-[14px] font-semibold text-fg tabular-nums">
+            <span className="text-[15px] leading-snug text-muted">{r.label}</span>
+            <span className="shrink-0 text-[15px] font-semibold text-fg tabular-nums">
               {r.value}
             </span>
           </li>
@@ -32,7 +32,7 @@ export function ValueStack() {
         </li>
       </ul>
 
-      <p className="text-center text-[12px] leading-relaxed text-muted-2">
+      <p className="text-center text-[12px] text-muted-2">
         Based on Akhil's standard consulting rate of ₹XX,XXX per hour. Ask on the call and you'll
         get the same figure.
       </p>

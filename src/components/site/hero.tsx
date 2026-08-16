@@ -51,16 +51,16 @@ export function Hero() {
     >
       <div className="mx-auto w-full max-w-[1120px]">
         <div className="mx-auto max-w-[900px] text-center">
-          <p className="text-[17px] leading-[1.35] font-bold text-fg min-[900px]:text-[21px]">
+          <p className="text-[17px] leading-[1.35] font-bold text-fg min-[900px]:text-[20px]">
             Stop Losing Qualified Leads To <span className="text-lime">Slow Follow-Up</span> And{" "}
             <span className="text-lime">Broken Funnels</span>
           </p>
-          <p className="mx-auto mt-2 max-w-[640px] text-[13px] leading-relaxed text-muted min-[900px]:text-[14px]">
-            For coaches, consultants and service businesses already running paid traffic — or about
-            to start.
+          <p className="mx-auto mt-2 max-w-[640px] text-[13px] text-muted min-[900px]:text-[15px]">
+            For real estate, coaching, consulting and service businesses that want predictable
+            growth — already running paid traffic, or about to start.
           </p>
 
-          <h1 className="mt-4 text-[27px] leading-[1.1] font-extrabold tracking-[-0.025em] text-fg min-[900px]:text-[40px]">
+          <h1 className="mt-4 text-[26px] leading-[1.1] font-extrabold tracking-[-0.025em] text-fg min-[900px]:text-[40px]">
             Turn More Clicks Into Paying Customers With One Connected{" "}
             <span className="text-electric-soft">Acquisition System</span>
           </h1>
@@ -73,13 +73,13 @@ export function Hero() {
 
             <div className="mt-5 flex flex-col gap-3" style={{ marginTop: "auto" }}>
               <p className="flex flex-wrap items-baseline justify-center gap-x-2.5 gap-y-1 pt-5 text-center">
-                <span className="text-[18px] text-muted-2 line-through">
+                <span className="text-[17px] text-muted-2 line-through">
                   ₹{URGENCY.originalPrice}
                 </span>
-                <span className="text-[34px] leading-none font-extrabold text-lime">
+                <span className="text-[46px] leading-none font-extrabold text-lime">
                   ₹{URGENCY.offerPrice}
                 </span>
-                <span className="text-[14px] text-muted">1-on-1 Strategy Session</span>
+                <span className="text-[15px] text-muted">1-on-1 Strategy Session</span>
               </p>
 
               <BookCta fullWidth showPrice={false} />
@@ -89,7 +89,7 @@ export function Hero() {
                 <CountdownBox />
               </div>
 
-              <p className="text-center text-[12.5px] leading-relaxed text-muted-2">
+              <p className="text-center text-[12px] text-muted-2">
                 30 minutes, 1-on-1 with Akhil · Zoom or Google Meet
                 <br />
                 You keep the funnel plan whether or not we work together
@@ -99,7 +99,7 @@ export function Hero() {
 
           {/* RIGHT — what this is built for */}
           <div className="rounded-[14px] border border-border-strong bg-surface p-6">
-            <h2 className="text-[20px] leading-[1.2] font-bold tracking-[-0.02em] text-fg min-[900px]:text-[22px]">
+            <h2 className="text-[20px] leading-[1.2] font-bold tracking-[-0.02em] text-fg min-[900px]:text-[20px]">
               This system is built for businesses that want to…
             </h2>
             <ul className="mt-4">
@@ -119,8 +119,8 @@ export function Hero() {
                     <Check size={12} />
                   </span>
                   <span>
-                    <span className="block text-[14.5px] font-bold text-fg">{w.title}</span>
-                    <span className="mt-0.5 block text-[13px] leading-relaxed text-muted">
+                    <span className="block text-[15px] font-bold text-fg">{w.title}</span>
+                    <span className="mt-0.5 block text-[13px] text-muted">
                       {w.body}
                     </span>
                   </span>
@@ -142,7 +142,7 @@ export function Hero() {
               }`}
             >
               <span className="block text-[13px] font-bold text-fg">{t.title}</span>
-              <span className="mt-1 block text-[12px] leading-relaxed text-muted-2">{t.body}</span>
+              <span className="mt-1 block text-[12px] text-muted-2">{t.body}</span>
             </li>
           ))}
         </ul>

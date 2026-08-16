@@ -20,7 +20,7 @@ export function LegalPage({
         <BrandLockup stacked />
         <Link
           to="/"
-          className="mt-2 inline-flex min-h-[44px] items-center justify-center px-3 text-[13.5px] text-muted transition-colors hover:text-fg"
+          className="mt-2 inline-flex min-h-[44px] items-center justify-center px-3 text-[13px] text-muted transition-colors hover:text-fg"
         >
           ← Back to site
         </Link>
@@ -30,10 +30,10 @@ export function LegalPage({
         <p className="text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase">
           Last updated: {updated}
         </p>
-        <h1 className="mt-3 text-[28px] leading-[1.12] font-extrabold tracking-[-0.025em] text-fg md:text-[38px]">
+        <h1 className="mt-3 text-[26px] leading-[1.12] font-extrabold tracking-[-0.025em] text-fg md:text-[40px]">
           {title}
         </h1>
-        {intro && <p className="mt-4 text-[15.5px] leading-relaxed text-muted">{intro}</p>}
+        {intro && <p className="mt-4 text-[15px] text-muted">{intro}</p>}
         <div className="mt-10 flex flex-col gap-9">{children}</div>
       </main>
     </div>
@@ -43,10 +43,10 @@ export function LegalPage({
 export function LegalSection({ heading, children }: { heading: string; children: ReactNode }) {
   return (
     <section>
-      <h2 className="text-[19px] font-bold tracking-[-0.015em] text-fg md:text-[21px]">
+      <h2 className="text-[20px] font-bold tracking-[-0.015em] text-fg md:text-[20px]">
         {heading}
       </h2>
-      <div className="mt-3 flex flex-col gap-3 text-[14.5px] leading-relaxed text-muted">
+      <div className="mt-3 flex flex-col gap-3 text-[15px] text-muted">
         {children}
       </div>
     </section>

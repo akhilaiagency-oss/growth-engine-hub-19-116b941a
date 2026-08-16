@@ -44,14 +44,14 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
             <span className="flex h-[66px] w-[66px] items-center justify-center rounded-full bg-lime text-lime-ink">
               <Play size={26} fill="currentColor" />
             </span>
-            <span className="text-[14.5px] font-semibold text-fg">
+            <span className="text-[15px] font-semibold text-fg">
               Watch: how the acquisition system works
             </span>
-            <span className="text-[12.5px] text-muted-2">VSL slot — your video goes here.</span>
+            <span className="text-[12px] text-muted-2">VSL slot — your video goes here.</span>
           </div>
         )}
       </div>
-      <p className="mt-3 hidden text-center text-[12.5px] text-muted min-[900px]:block">
+      <p className="mt-3 hidden text-center text-[12px] text-muted min-[900px]:block">
         A short walkthrough of how the system works — then book your call below.
       </p>
     </div>

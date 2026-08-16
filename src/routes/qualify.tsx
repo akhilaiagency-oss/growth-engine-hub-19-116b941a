@@ -143,7 +143,7 @@ function QualifyPage() {
         <BrandLockup stacked />
         <Link
           to="/"
-          className="mt-2 inline-flex min-h-[44px] items-center justify-center px-3 text-[13.5px] text-muted transition-colors hover:text-fg"
+          className="mt-2 inline-flex min-h-[44px] items-center justify-center px-3 text-[13px] text-muted transition-colors hover:text-fg"
         >
           ← Back to site
         </Link>
@@ -151,13 +151,13 @@ function QualifyPage() {
 
       <main className="mx-auto mt-10 max-w-[560px]">
         <div className="text-center">
-          <h1 className="text-[26px] leading-[1.15] font-extrabold tracking-[-0.025em] text-fg md:text-[32px]">
+          <h1 className="text-[26px] leading-[1.15] font-extrabold tracking-[-0.025em] text-fg md:text-[34px]">
             Let's See If Growth Multiplier AI Is A Fit.
           </h1>
-          <p className="mx-auto mt-3 max-w-[480px] text-[15.5px] leading-relaxed text-muted">
+          <p className="mx-auto mt-3 max-w-[480px] text-[15px] text-muted">
             Answer a few questions so we can make your strategy session specific to your business.
           </p>
-          <p className="mt-2 text-[12.5px] text-muted-2">
+          <p className="mt-2 text-[12px] text-muted-2">
             Takes about 30 seconds. No payment yet.
           </p>
         </div>
@@ -228,7 +228,7 @@ function QualifyPage() {
                 <button
                   type="button"
                   onClick={() => setStep((s) => s - 1)}
-                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[14px] text-muted transition-colors hover:text-fg"
+                  className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[15px] text-muted transition-colors hover:text-fg"
                 >
                   ← Back
                 </button>
@@ -241,7 +241,7 @@ function QualifyPage() {
               <button
                 type="button"
                 onClick={() => setStep(TOTAL - 1)}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[14px] text-muted transition-colors hover:text-fg"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center rounded-[8px] px-3 text-[15px] text-muted transition-colors hover:text-fg"
               >
                 ← Back
               </button>
@@ -301,21 +301,21 @@ function PaymentStep({
       <h2
         ref={headingRef}
         tabIndex={-1}
-        className="text-[19px] leading-snug font-semibold text-fg outline-none"
+        className="text-[20px] leading-snug font-semibold text-fg outline-none"
       >
         Secure your session for ₹9
       </h2>
 
       <div className="mt-4 flex items-center justify-between gap-4 rounded-[10px] border border-border bg-surface-2 p-[14px]">
-        <span className="text-[14.5px] text-muted">1:1 AI Growth Strategy Session</span>
+        <span className="text-[15px] text-muted">1:1 AI Growth Strategy Session</span>
         <span className="text-[20px] font-bold text-lime">₹9</span>
       </div>
 
-      <p className="mt-3 text-[14px] leading-relaxed text-muted">
+      <p className="mt-3 text-[15px] text-muted">
         ₹9 isn't the price of the strategy. It's a small commitment to reserve your session.
       </p>
 
-      <p className="mt-4 rounded-[10px] border border-lime/40 bg-[rgba(131,226,78,0.07)] p-[14px] text-[13.5px] leading-relaxed text-fg">
+      <p className="mt-4 rounded-[10px] border border-lime/40 bg-[rgba(131,226,78,0.07)] p-[14px] text-[13px] text-fg">
         Use the same email and phone number on the payment page — that's how we match your payment
         to your session.
       </p>
@@ -328,11 +328,11 @@ function PaymentStep({
       >
         {busy ? "Redirecting to secure payment…" : "Pay ₹9 and choose my slot →"}
       </button>
-      <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-muted-2 md:text-[11.5px]">
+      <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12px] text-muted-2 md:text-[12px]">
         <Lock size={12} aria-hidden="true" /> You'll pay on Razorpay's secure page, then return
         here.
       </p>
-      <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12.5px] text-muted">
+      <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[12px] text-muted">
         <ShieldCheck size={13} className="shrink-0 text-lime" aria-hidden="true" />
         Fully refundable on request — email us any time before your session.
       </p>

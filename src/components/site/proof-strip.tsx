@@ -33,7 +33,7 @@ export function ProofStrip() {
           ))}
         </ul>
 
-        <p className="text-[15px] leading-relaxed text-muted">
+        <p className="text-[15px] text-muted">
           <strong className="font-semibold text-fg">Four businesses have had this built.</strong>{" "}
           Watch them describe what changed — in their own words.
         </p>

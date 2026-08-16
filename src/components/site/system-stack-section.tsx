@@ -55,7 +55,7 @@ export function SystemStackSection() {
         <Reveal className="max-w-[820px]">
           <span className="eyebrow">Deliverables</span>
           <h2 className="h2-section mt-4">Everything in one connected funnel system</h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             The same seven stages of the Engine, named as the things we actually build. Any agency
             can sell you one row — the value is in the wiring between them.
           </p>
@@ -90,7 +90,7 @@ export function SystemStackSection() {
                   >
                     {title}
                   </h3>
-                  <p className="mt-1.5 text-[13.5px] leading-[1.7] text-muted">{body}</p>
+                  <p className="mt-1.5 text-[13px] text-muted">{body}</p>
                 </div>
               </Reveal>
             </li>
