@@ -15,7 +15,11 @@ export interface ClientStory {
   thumbnailUrl?: string;
   /** Video the play button loads on click. Nothing loads until clicked. */
   videoUrl?: string;
-  /** Headline result, as reported by the client. */
+  /**
+   * Headline result, as reported by the client. Always write it as
+   * before → after with real figures (e.g. "₹2L → ₹7L in 5 months"),
+   * never as a percentage.
+   */
   stat: string;
   quote: string;
   /** Two 3:4 chat-thread screenshots backing the claim. */
@@ -31,7 +35,7 @@ export interface ClientStory {
 export const CLIENT_STORIES: ClientStory[] = [
   {
     id: "story-01",
-    stat: "PLACEHOLDER — result 01",
+    stat: "₹0.0L → ₹0.0L in 00 months",
     quote: "Placeholder quote 01 — replace with the client's own words, published with permission.",
     initials: "C1",
     name: "Client name 01",
@@ -40,7 +44,7 @@ export const CLIENT_STORIES: ClientStory[] = [
   },
   {
     id: "story-02",
-    stat: "PLACEHOLDER — result 02",
+    stat: "₹0.0L → ₹0.0L in 00 months",
     quote: "Placeholder quote 02 — replace with the client's own words, published with permission.",
     initials: "C2",
     name: "Client name 02",
@@ -49,7 +53,7 @@ export const CLIENT_STORIES: ClientStory[] = [
   },
   {
     id: "story-03",
-    stat: "PLACEHOLDER — result 03",
+    stat: "₹0.0L → ₹0.0L in 00 months",
     quote: "Placeholder quote 03 — replace with the client's own words, published with permission.",
     initials: "C3",
     name: "Client name 03",
@@ -58,7 +62,7 @@ export const CLIENT_STORIES: ClientStory[] = [
   },
   {
     id: "story-04",
-    stat: "PLACEHOLDER — result 04",
+    stat: "₹0.0L → ₹0.0L in 00 months",
     quote: "Placeholder quote 04 — replace with the client's own words, published with permission.",
     initials: "C4",
     name: "Client name 04",
@@ -116,3 +120,9 @@ export const PORTFOLIO: PortfolioItem[] = [
   },
 ];
 
+
+/** Google Business rating shown in the proof strip. Edit both values here only. */
+export const GOOGLE_RATING = {
+  score: "5.0",
+  reviewCount: 4,
+};

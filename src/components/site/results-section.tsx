@@ -193,8 +193,9 @@ export function ResultsSection() {
         )}
 
         <p className="mt-5 text-center text-[12px] text-muted-2">
-          Figures are as reported by each client and published with their permission. Results vary
-          by business, offer and market.
+          Write every result as before → after with real figures (e.g. ₹2L → ₹7L in 5 months),
+          never as a percentage — a reader can verify the first and cannot verify the second. Ask
+          each client this exact question before filming.
         </p>
 
         <Reveal className="head mt-14 max-w-[760px]">

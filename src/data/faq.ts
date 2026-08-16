@@ -29,7 +29,15 @@ export const FAQS: FaqItem[] = [
     a: "No. There is a paid engagement and you'll hear about it near the end if it looks like a fit — but the plan you leave with is complete on its own.",
   },
   {
+    q: "What if something comes up and I can't make my slot?",
+    a: "Reschedule it yourself from the confirmation email — no need to ask, and no limit on how many times. If the date stops working entirely, email akhil.ai.agency@gmail.com and your ₹9 is returned. Your day changes; that shouldn't cost you anything.",
+  },
+  {
     q: "Do you work with businesses outside India?",
     a: "Yes. The call runs over Zoom or Google Meet, in English or Hindi.",
+  },
+  {
+    q: "Something went wrong with my payment or booking — who do I contact?",
+    a: "WhatsApp +91 93112 13876 and you'll get a reply from a human, usually within a couple of hours. Or email akhil.ai.agency@gmail.com. If a slot was lost because of something on our side, it gets fixed or refunded — you won't have to argue for it.",
   },
 ];

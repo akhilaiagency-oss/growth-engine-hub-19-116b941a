@@ -60,6 +60,16 @@ export function SiteFooter() {
                   akhil.ai.agency@gmail.com
                 </a>
               </li>
+              <li>
+                <a
+                  href="https://wa.me/919311213876"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex min-h-[44px] items-center text-[13px] text-muted transition-colors hover:text-fg md:min-h-0"
+                >
+                  WhatsApp +91 93112 13876
+                </a>
+              </li>
             </ul>
           </div>
 

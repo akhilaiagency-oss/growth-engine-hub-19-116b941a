@@ -2,19 +2,19 @@ import { Check, X } from "lucide-react";
 import { Reveal } from "./reveal";
 
 const FOR = [
-  "You're already running paid traffic, or you're ready to start",
-  "You sell something that involves a call, consultation or appointment",
-  "You're getting leads but too few turn into real conversations",
-  "Your follow-up depends on someone manually remembering to do it",
-  "You want one connected system instead of five disconnected tools",
+  'Your agency\'s answer to "why aren\'t these closing?" is to raise the budget',
+  "Your cost per lead keeps climbing and nobody can tell you why",
+  "Enquiries sit in WhatsApp until someone remembers to reply",
+  "Your team spends its best hours on people who were never going to buy",
+  "You have five tools that each work, and none of them talk to each other",
 ];
 
 const NOT_FOR = [
-  "You're looking for a one-off landing page with nothing behind it",
-  "You want overnight results without changing how follow-up works",
-  "You have no budget for traffic and aren't planning to have one",
+  "You want a landing page built and nothing behind it",
+  "You want results without changing how follow-up works",
+  "You aren't running paid traffic yet and have no budget to start",
   "You'd rather buy a guarantee than build a system",
-  "You only want a vendor to take instructions, not a partner to challenge them",
+  "You want someone to take instructions, not challenge them",
 ];
 
 export function FitSection() {
@@ -23,7 +23,7 @@ export function FitSection() {
       <div className="container-page">
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Fit</span>
-          <h2 className="h2-section mt-4">Who this call is for</h2>
+          <h2 className="h2-section mt-4">Which of these is a yes for you?</h2>
           <p className="mt-4 text-[17px] text-muted">
             Genuinely useful for some businesses, a waste of time for others. Here's the honest
             split.
