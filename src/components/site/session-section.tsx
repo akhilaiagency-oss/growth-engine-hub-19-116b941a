@@ -5,7 +5,7 @@ import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
 import { ValueStack } from "./value-stack";
 import { AfterYouPay } from "./after-you-pay";
-import { SessionExpectations } from "./session-expectations";
+import { SessionGetCard, SessionWontCard } from "./session-expectations";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
@@ -104,24 +104,28 @@ export function SessionSection() {
           </ul>
         </Reveal>
 
-        <Reveal className="mt-8">
-          <SessionExpectations />
-        </Reveal>
-
-        <div className="mt-8 grid items-start gap-8 min-[900px]:grid-cols-[1.35fr_1fr]">
-          <div className="flex flex-col gap-6">
+        <div className="mt-8 grid items-start gap-6 min-[980px]:mt-8 min-[980px]:grid-cols-[1.15fr_0.85fr] min-[980px]:gap-8">
+          <div className="flex flex-col gap-5">
             <Reveal>
               <DiagnosticStack />
+            </Reveal>
+            <Reveal>
+              <SessionGetCard />
+            </Reveal>
+            <Reveal>
+              <SessionWontCard />
             </Reveal>
           </div>
 
           {/* Value stack + commitment card */}
-          <div className="flex flex-col gap-6">
+          <div className="min-[980px]:self-stretch">
+            <div className="flex flex-col gap-6 min-[980px]:sticky min-[980px]:top-[96px]">
             <Reveal>
               <ValueStack />
             </Reveal>
 
             <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
+
             <div className="h-[2px] w-full bg-lime" />
             <div className="p-6">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
@@ -184,8 +188,10 @@ export function SessionSection() {
               </p>
             </div>
             </Reveal>
+            </div>
           </div>
         </div>
+
 
         <Reveal className="mt-8 rounded-[16px] border border-border bg-surface p-6 md:p-9">
           <AfterYouPay />
