@@ -49,27 +49,30 @@ const DETAILS = [
 
 function DiagnosticStack() {
   return (
-    <ol className="relative flex flex-col gap-2 pl-[16px]">
+    <ol className="relative flex flex-col gap-2 pl-[12px]">
       <span
         aria-hidden="true"
         className="absolute top-[14px] bottom-[14px] left-0 w-[2px] rounded-[2px]"
         style={{ backgroundImage: "linear-gradient(180deg, var(--lime), rgba(131,226,78,0.15))" }}
       />
       {CHECKPOINTS.map((c) => (
-        <li key={c.n}>
+        <li key={c.n} className="min-w-0">
           <div
-            className="grid items-start gap-3 rounded-[10px] border border-border bg-surface-2 min-[620px]:grid-cols-[30px_152px_1fr]"
+            className="grid grid-cols-[28px_1fr] items-start gap-[10px] rounded-[10px] border border-border bg-surface-2 min-[620px]:grid-cols-[30px_152px_1fr] min-[620px]:gap-3"
             style={{ padding: "12px 16px" }}
           >
             <span className="text-[13px] font-bold text-lime">{c.n}</span>
-            <h3 className="text-[13px] font-semibold tracking-[0.1em] text-fg uppercase">
+            <h3 className="min-w-0 text-[13px] font-semibold tracking-[0.1em] text-fg uppercase">
               {c.stage}
             </h3>
-            <p className="text-[15px] text-muted">{c.body}</p>
+            <p className="col-span-2 min-w-0 text-[15px] text-muted min-[620px]:col-span-1">
+              {c.body}
+            </p>
           </div>
         </li>
       ))}
     </ol>
+
   );
 }
 
