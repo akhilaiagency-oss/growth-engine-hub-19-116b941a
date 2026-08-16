@@ -36,7 +36,7 @@ function Node({
         x={stage.x}
         y={isTop ? 58 : 278}
         textAnchor="middle"
-        fontSize="11.5"
+        fontSize="12"
         fontWeight="600"
         letterSpacing="1.4"
         fill={active ? "var(--fg)" : "var(--muted)"}
@@ -63,7 +63,7 @@ function Node({
         x={stage.x}
         y={stage.y + 5}
         textAnchor="middle"
-        fontSize="11"
+        fontSize="12"
         fontWeight="700"
         fill={active ? "var(--lime-ink)" : isTop ? "var(--cyan)" : "var(--lime)"}
         className="pointer-events-none"
@@ -158,7 +158,7 @@ export function EngineSection() {
                 x="520"
                 y="22"
                 textAnchor="middle"
-                fontSize="10"
+                fontSize="12"
                 letterSpacing="1.6"
                 fill="var(--muted-2)"
               >
@@ -168,7 +168,7 @@ export function EngineSection() {
                 x="520"
                 y="318"
                 textAnchor="middle"
-                fontSize="10"
+                fontSize="12"
                 letterSpacing="1.6"
                 fill="var(--lime)"
                 fillOpacity="0.8"
@@ -181,14 +181,14 @@ export function EngineSection() {
                 x="520"
                 y="157"
                 textAnchor="middle"
-                fontSize="14"
+                fontSize="15"
                 fontWeight="700"
                 letterSpacing="2.4"
                 fill="var(--fg)"
               >
                 GROWTH MULTIPLIER ENGINE™
               </text>
-              <text x="520" y="179" textAnchor="middle" fontSize="11.5" fill="var(--muted-2)">
+              <text x="520" y="179" textAnchor="middle" fontSize="12" fill="var(--muted-2)">
                 One connected acquisition loop
               </text>
 
