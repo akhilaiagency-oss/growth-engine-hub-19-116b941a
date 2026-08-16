@@ -12,7 +12,7 @@ export function PriceAnchor({
 }) {
   const scale =
     size === "lg"
-      ? { old: "text-[17px]", now: "text-[34px]", note: "text-[13px]" }
+      ? { old: "text-[17px]", now: "text-[46px]", note: "text-[13px]" }
       : size === "sm"
         ? { old: "text-[12px]", now: "text-[15px]", note: "text-[12px]" }
         : { old: "text-[15px]", now: "text-[20px]", note: "text-[12px]" };
