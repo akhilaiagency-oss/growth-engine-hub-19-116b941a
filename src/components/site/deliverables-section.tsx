@@ -27,7 +27,7 @@ export function DeliverablesSection() {
           <h2 className="h2-section mt-4">
             Three working documents you keep, whether or not we work together.
           </h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             Not lead magnets written to be downloaded and forgotten. These are the internal
             checklists we run before building any acquisition system. All three are sent the moment
             your session is confirmed.
@@ -44,13 +44,13 @@ export function DeliverablesSection() {
               <span className="text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase">
                 {d.label}
               </span>
-              <h3 className="mt-2 text-[16.5px] font-semibold text-fg">{d.title}</h3>
-              <p className="mt-2 text-[14px] leading-[1.7] text-muted">{d.body}</p>
+              <h3 className="mt-2 text-[17px] font-semibold text-fg">{d.title}</h3>
+              <p className="mt-2 text-[15px] text-muted">{d.body}</p>
             </Reveal>
           ))}
         </div>
 
-        <p className="mt-5 flex items-start gap-2.5 text-[13.5px] leading-relaxed text-muted">
+        <p className="mt-5 flex items-start gap-2.5 text-[13px] text-muted">
           <span aria-hidden="true" className="mt-[7px] h-[6px] w-[6px] shrink-0 rounded-full bg-lime" />
           Sent on confirmation. Nothing further is required from you to receive them.
         </p>

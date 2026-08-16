@@ -23,14 +23,14 @@ export function SiteFooter() {
           <div>
             <BrandLockup size="footer" />
 
-            <p className="mt-4 max-w-[380px] text-[13.5px] leading-relaxed text-muted">
+            <p className="mt-4 max-w-[380px] text-[13px] text-muted">
               AI-powered client acquisition systems that turn ad traffic into qualified
               opportunities, booked appointments and measurable revenue.
             </p>
           </div>
 
           <div>
-            <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
+            <p className="text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 uppercase">
               On this page
             </p>
             <ul className="mt-4 flex flex-col gap-1 md:gap-3">
@@ -38,7 +38,7 @@ export function SiteFooter() {
                 <li key={l.href}>
                   <a
                     href={l.href}
-                    className="flex min-h-[44px] items-center text-[13.5px] text-muted transition-colors hover:text-fg md:min-h-0"
+                    className="flex min-h-[44px] items-center text-[13px] text-muted transition-colors hover:text-fg md:min-h-0"
                   >
                     {l.label}
                   </a>
@@ -48,14 +48,14 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
+            <p className="text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 uppercase">
               Contact
             </p>
             <ul className="mt-4 flex flex-col gap-1 md:gap-3">
               <li>
                 <a
                   href="mailto:akhil.ai.agency@gmail.com"
-                  className="flex min-h-[44px] items-center text-[13.5px] text-muted transition-colors hover:text-fg md:min-h-0"
+                  className="flex min-h-[44px] items-center text-[13px] text-muted transition-colors hover:text-fg md:min-h-0"
                 >
                   akhil.ai.agency@gmail.com
                 </a>
@@ -64,7 +64,7 @@ export function SiteFooter() {
           </div>
 
           <div>
-            <p className="text-[12px] font-semibold md:text-[11px] tracking-[0.16em] text-muted-2 uppercase">
+            <p className="text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 uppercase">
               Legal
             </p>
             <ul className="mt-4 flex flex-col gap-1 md:gap-3">
@@ -72,7 +72,7 @@ export function SiteFooter() {
                 <li key={l.to}>
                   <Link
                     to={l.to}
-                    className="flex min-h-[44px] items-center text-[13.5px] text-muted transition-colors hover:text-fg md:min-h-0"
+                    className="flex min-h-[44px] items-center text-[13px] text-muted transition-colors hover:text-fg md:min-h-0"
                   >
                     {l.label}
                   </Link>
@@ -82,7 +82,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-[12.5px] text-muted-2 md:text-[12px] min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
+        <div className="mt-12 flex flex-col gap-2 border-t border-border pt-6 text-[12px] text-muted-2 md:text-[12px] min-[700px]:flex-row min-[700px]:items-center min-[700px]:justify-between">
           <p>© 2026 Growth Multiplier AI. All rights reserved.</p>
           <p>Growth Multiplier Engine™ is a trademark of Growth Multiplier AI.</p>
         </div>

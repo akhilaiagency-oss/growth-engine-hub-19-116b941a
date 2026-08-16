@@ -26,7 +26,7 @@ export function FaqSection() {
                     onClick={() => setOpen(isOpen ? null : i)}
                     className="flex w-full items-start justify-between gap-6 py-5 text-left"
                   >
-                    <span className="text-[15.5px] font-semibold text-fg">{f.q}</span>
+                    <span className="text-[15px] font-semibold text-fg">{f.q}</span>
                     <Plus
                       size={18}
                       aria-hidden="true"
@@ -37,7 +37,7 @@ export function FaqSection() {
                   </button>
                 </h3>
                 {isOpen && (
-                  <p className="max-w-[720px] pb-6 text-[14.5px] leading-relaxed text-muted">
+                  <p className="max-w-[720px] pb-6 text-[15px] text-muted">
                     {f.a}
                   </p>
                 )}

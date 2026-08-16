@@ -56,11 +56,11 @@ export function QuestionStep({
         }}
       >
         <fieldset aria-describedby={describedBy || undefined}>
-          <legend className="text-[19px] leading-snug font-semibold text-fg">
+          <legend className="text-[20px] leading-snug font-semibold text-fg">
             {question.label}
           </legend>
           {question.helper && (
-            <p id={helperId} className="mt-2 text-[13.5px] text-muted">
+            <p id={helperId} className="mt-2 text-[13px] text-muted">
               {question.helper}
             </p>
           )}
@@ -70,7 +70,7 @@ export function QuestionStep({
               return (
                 <label
                   key={opt}
-                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-3 rounded-[10px] border p-[16px] text-[14.5px] transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-lime ${
+                  className={`flex min-h-[48px] cursor-pointer items-center justify-between gap-3 rounded-[10px] border p-[16px] text-[15px] transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-lime ${
                     selected
                       ? "border-lime bg-[rgba(131,226,78,0.08)] text-fg"
                       : "border-border bg-surface-2 text-fg hover:border-border-strong"
@@ -113,11 +113,11 @@ export function QuestionStep({
   if (question.kind === "textarea") {
     return (
       <div>
-        <label htmlFor={id} className="block text-[19px] leading-snug font-semibold text-fg">
+        <label htmlFor={id} className="block text-[20px] leading-snug font-semibold text-fg">
           {question.label}
         </label>
         {question.helper && (
-          <p id={helperId} className="mt-2 text-[13.5px] text-muted">
+          <p id={helperId} className="mt-2 text-[13px] text-muted">
             {question.helper}
           </p>
         )}
@@ -136,7 +136,7 @@ export function QuestionStep({
             onTouch();
             onBlur();
           }}
-          className={`mt-4 w-full resize-y rounded-[10px] border bg-surface-2 p-[16px] text-[16px] text-fg placeholder:text-muted-2 ${
+          className={`mt-4 w-full resize-y rounded-[10px] border bg-surface-2 p-[16px] text-[17px] text-fg placeholder:text-muted-2 ${
             error ? "border-urgent" : "border-border"
           }`}
         />
@@ -155,11 +155,11 @@ export function QuestionStep({
         onSubmit();
       }}
     >
-      <label htmlFor={id} className="block text-[19px] leading-snug font-semibold text-fg">
+      <label htmlFor={id} className="block text-[20px] leading-snug font-semibold text-fg">
         {question.label}
       </label>
       {question.helper && (
-        <p id={helperId} className="mt-2 text-[13.5px] text-muted">
+        <p id={helperId} className="mt-2 text-[13px] text-muted">
           {question.helper}
         </p>
       )}
@@ -179,7 +179,7 @@ export function QuestionStep({
           onTouch();
           onBlur();
         }}
-        className={`mt-4 min-h-[48px] w-full rounded-[10px] border bg-surface-2 px-[16px] py-3 text-[16px] text-fg placeholder:text-muted-2 ${
+        className={`mt-4 min-h-[48px] w-full rounded-[10px] border bg-surface-2 px-[16px] py-3 text-[17px] text-fg placeholder:text-muted-2 ${
           error ? "border-urgent" : "border-border"
         }`}
       />

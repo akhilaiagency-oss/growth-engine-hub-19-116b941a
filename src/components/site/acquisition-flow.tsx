@@ -45,18 +45,18 @@ export function AcquisitionFlow() {
                 }
               />
               <span
-                className={`text-[10.5px] font-semibold uppercase tracking-[0.09em] ${
+                className={`text-[12px] font-semibold uppercase tracking-[0.09em] ${
                   last ? "text-lime" : "text-fg"
                 }`}
               >
                 {n.name}
               </span>
-              <span className="text-[10.5px] text-muted-2">{n.sub}</span>
+              <span className="text-[12px] text-muted-2">{n.sub}</span>
             </li>
           );
         })}
       </ol>
-      <figcaption className="mt-3 text-[12.5px] leading-relaxed text-muted-2">
+      <figcaption className="mt-3 text-[12px] text-muted-2">
         Five stages. Most businesses own each one separately — and the opportunities are lost in the
         handoffs between them.
       </figcaption>

@@ -40,7 +40,7 @@ export function SiteNav() {
             <li key={l.href}>
               <a
                 href={l.href}
-                className="text-[13.5px] text-muted transition-colors hover:text-fg"
+                className="text-[13px] text-muted transition-colors hover:text-fg"
               >
                 {l.label}
               </a>
@@ -49,7 +49,7 @@ export function SiteNav() {
         </ul>
 
         <div className="hidden min-[900px]:block">
-          <BookCta label="Book My ₹9 Strategy Call" className="!text-[13.5px]" />
+          <BookCta label="Book My ₹9 Strategy Call" className="!text-[13px]" />
         </div>
 
         <button

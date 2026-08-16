@@ -24,7 +24,7 @@ export function FitSection() {
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Fit</span>
           <h2 className="h2-section mt-4">Who this call is for</h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             Genuinely useful for some businesses, a waste of time for others. Here's the honest
             split.
           </p>
@@ -37,7 +37,7 @@ export function FitSection() {
             </h3>
             <ul className="mt-5 flex flex-col gap-4">
               {FOR.map((t) => (
-                <li key={t} className="flex items-start gap-3 text-[14.5px] leading-relaxed text-fg">
+                <li key={t} className="flex items-start gap-3 text-[15px] text-fg">
                   <Check size={17} className="mt-0.5 shrink-0 text-lime" aria-hidden="true" />
                   {t}
                 </li>
@@ -53,7 +53,7 @@ export function FitSection() {
               {NOT_FOR.map((t) => (
                 <li
                   key={t}
-                  className="flex items-start gap-3 text-[14.5px] leading-relaxed text-muted"
+                  className="flex items-start gap-3 text-[15px] text-muted"
                 >
                   <X size={17} className="mt-0.5 shrink-0 text-muted-2" aria-hidden="true" />
                   {t}

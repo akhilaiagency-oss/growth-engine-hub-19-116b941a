@@ -23,7 +23,7 @@ const STEPS = [
 export function AfterYouPay() {
   return (
     <div>
-      <p className="text-center text-[11.5px] font-semibold tracking-[0.16em] text-lime uppercase">
+      <p className="text-center text-[12px] font-semibold tracking-[0.16em] text-lime uppercase">
         After you pay — exactly what happens
       </p>
 
@@ -49,13 +49,13 @@ export function AfterYouPay() {
               >
                 {s.n}
               </span>
-              <p className="mt-4 text-[11.5px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
+              <p className="mt-4 text-[12px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
                 {s.kicker}
               </p>
               <h3 className="mt-1.5 text-[17px] font-bold tracking-[-0.015em] text-fg">
                 {s.title}
               </h3>
-              <p className="mx-auto mt-2 max-w-[300px] text-[13.5px] leading-[1.7] text-muted">
+              <p className="mx-auto mt-2 max-w-[300px] text-[13px] text-muted">
                 {s.body}
               </p>
             </li>

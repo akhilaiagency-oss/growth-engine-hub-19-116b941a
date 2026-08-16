@@ -10,7 +10,7 @@ export function TwoRoadsSection() {
         <Reveal className="mx-auto max-w-[760px] text-center">
           <span className="eyebrow">Two roads</span>
           <h2 className="h2-section mt-4">You have two ways to leave this page.</h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             Both are reasonable. They just lead somewhere different.
           </p>
         </Reveal>
@@ -20,10 +20,10 @@ export function TwoRoadsSection() {
             <span className="text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase">
               Option 1
             </span>
-            <h3 className="mt-3 text-[19px] font-bold tracking-[-0.01em] text-muted">
+            <h3 className="mt-3 text-[20px] font-bold tracking-[-0.01em] text-muted">
               Close the tab
             </h3>
-            <p className="mt-3 text-[14.5px] leading-[1.75] text-muted">
+            <p className="mt-3 text-[15px] text-muted">
               Nothing bad happens today. Tomorrow the ads keep running, the enquiries keep arriving,
               and the same stage keeps leaking — you just still won't know which one it is. Three
               months from now you'll have spent another few lakh on traffic and you'll be reading a
@@ -42,10 +42,10 @@ export function TwoRoadsSection() {
             <span className="text-[12px] font-semibold tracking-[0.14em] text-lime uppercase">
               Option 2
             </span>
-            <h3 className="mt-3 text-[19px] font-bold tracking-[-0.01em] text-fg">
+            <h3 className="mt-3 text-[20px] font-bold tracking-[-0.01em] text-fg">
               Spend ₹9 and thirty minutes
             </h3>
-            <p className="mt-3 text-[14.5px] leading-[1.75] text-muted">
+            <p className="mt-3 text-[15px] text-muted">
               Your funnel gets mapped stage by stage. You find out exactly where the money stops
               working, and you leave with the order to fix it in — plus the three documents. If it
               isn't worth it, you're refunded. The plan is yours either way.
@@ -53,7 +53,7 @@ export function TwoRoadsSection() {
           </Reveal>
         </div>
 
-        <Reveal className="mt-6 text-center text-[19px] font-semibold text-fg">
+        <Reveal className="mt-6 text-center text-[20px] font-semibold text-fg">
           The difference between the two is <span className="text-lime">₹9 and thirty minutes</span>
           .
         </Reveal>
@@ -65,10 +65,10 @@ export function TwoRoadsSection() {
               "radial-gradient(520px 220px at 50% 0%, rgba(131,226,78,0.12), transparent 70%)",
           }}
         >
-          <h3 className="mx-auto max-w-[680px] text-[26px] leading-[1.15] font-extrabold tracking-[-0.025em] text-fg md:text-[32px]">
+          <h3 className="mx-auto max-w-[680px] text-[26px] leading-[1.15] font-extrabold tracking-[-0.025em] text-fg md:text-[34px]">
             Find out where your opportunities are disappearing.
           </h3>
-          <p className="mx-auto mt-4 max-w-[620px] text-[16px] leading-relaxed text-muted">
+          <p className="mx-auto mt-4 max-w-[620px] text-[17px] text-muted">
             Book the ₹9 strategy call. We'll map your funnel stage by stage, find where the drop-off
             is costing you the most, and you'll leave with the plan — whether or not we work
             together.

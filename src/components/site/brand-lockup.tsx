@@ -22,8 +22,8 @@ export function BrandLockup({
     : `h-[38px] w-[38px] shrink-0 rounded-full object-contain md:h-11 md:w-11 ${RING}`;
 
   const nameClass = isFooter
-    ? "text-[16px] font-bold tracking-[-0.01em] leading-[1.15] text-fg"
-    : "text-[15.5px] font-bold tracking-[-0.01em] leading-[1.15] text-fg md:text-[17px]";
+    ? "text-[17px] font-bold tracking-[-0.01em] leading-[1.15] text-fg"
+    : "text-[15px] font-bold tracking-[-0.01em] leading-[1.15] text-fg md:text-[17px]";
 
   return (
     <span

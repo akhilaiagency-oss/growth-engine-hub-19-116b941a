@@ -92,7 +92,7 @@ export function EngineSection() {
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Our proprietary system</span>
           <h2 className="h2-section mt-4">The Growth Multiplier Engine™</h2>
-          <p className="mt-4 text-[16px] leading-relaxed text-muted">
+          <p className="mt-4 text-[17px] text-muted">
             Seven stages built as one closed loop. Five carry a stranger from first impression to a
             confirmed appointment; two feed everything learned back into the start.
           </p>
@@ -222,7 +222,7 @@ export function EngineSection() {
                       className="relative z-10 flex items-center gap-4 text-left"
                     >
                       <span
-                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[12px] font-bold md:text-[11px]"
+                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[12px] font-bold md:text-[12px]"
                         style={{
                           background: isActive ? "var(--lime)" : "var(--surface-2)",
                           borderColor: isActive ? "var(--lime)" : "var(--border-strong)",
@@ -232,7 +232,7 @@ export function EngineSection() {
                         {s.number}
                       </span>
                       <span
-                        className="text-[12.5px] font-semibold tracking-[1.2px]"
+                        className="text-[12px] font-semibold tracking-[1.2px]"
                         style={{ color: isActive ? "var(--fg)" : "var(--muted)" }}
                       >
                         {s.name}
@@ -244,7 +244,7 @@ export function EngineSection() {
             </ul>
             <div className="mt-6 flex items-center gap-3 rounded-[8px] border border-dashed border-border-strong p-3">
               <RefreshCw size={16} className="shrink-0 text-cyan" />
-              <p className="text-[12.5px] leading-relaxed text-muted">
+              <p className="text-[12px] text-muted">
                 What we measure and optimise feeds straight back into Attract.
               </p>
             </div>
@@ -267,14 +267,14 @@ export function EngineSection() {
                     }}
                   >
                     <span className="flex items-center gap-2">
-                      <span className="text-[12px] font-bold text-lime md:text-[11px]">
+                      <span className="text-[12px] font-bold text-lime md:text-[12px]">
                         {s.number}
                       </span>
-                      <span className="text-[12.5px] font-semibold tracking-[1px] text-fg">
+                      <span className="text-[12px] font-semibold tracking-[1px] text-fg">
                         {s.name}
                       </span>
                     </span>
-                    <span className="mt-1 line-clamp-2 text-[12.5px] leading-snug text-muted">
+                    <span className="mt-1 line-clamp-2 text-[12px] leading-snug text-muted">
                       {s.title}
                     </span>
                   </button>
@@ -289,27 +289,27 @@ export function EngineSection() {
             className="mt-8 rounded-[12px] border border-border bg-surface-2 p-5 md:p-6"
           >
             <div className="flex flex-wrap items-center gap-3">
-              <span className="flex h-6 w-6 items-center justify-center rounded-[6px] bg-lime text-[12px] font-bold text-lime-ink md:text-[11px]">
+              <span className="flex h-6 w-6 items-center justify-center rounded-[6px] bg-lime text-[12px] font-bold text-lime-ink md:text-[12px]">
                 {active.number}
               </span>
               <span className="text-[12px] font-semibold tracking-[2px] text-fg">
                 {active.name}
               </span>
-              <span className="text-[12px] tracking-[1.6px] md:text-[11px] text-muted-2 uppercase">
+              <span className="text-[12px] tracking-[1.6px] md:text-[12px] text-muted-2 uppercase">
                 {active.phase}
               </span>
             </div>
-            <h3 className="mt-4 text-[19px] font-bold tracking-[-0.015em] text-fg">
+            <h3 className="mt-4 text-[20px] font-bold tracking-[-0.015em] text-fg">
               {active.title}
             </h3>
-            <p className="mt-3 max-w-[760px] text-[14.5px] leading-relaxed text-muted">
+            <p className="mt-3 max-w-[760px] text-[15px] text-muted">
               {active.body}
             </p>
             <ul className="mt-5 flex flex-wrap gap-2">
               {active.chips.map((c) => (
                 <li
                   key={c}
-                  className="rounded-full border border-border bg-surface px-3 py-1.5 text-[12.5px] text-muted md:text-[11.5px]"
+                  className="rounded-full border border-border bg-surface px-3 py-1.5 text-[12px] text-muted md:text-[12px]"
                 >
                   {c}
                 </li>
@@ -325,10 +325,10 @@ export function EngineSection() {
         <Reveal className="mt-6 rounded-[12px] border border-border bg-bg p-6">
 
           <p
-            className="text-[16px] leading-relaxed"
+            className="text-[17px]"
             style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}
           >
-            <span className="text-[19px] font-semibold text-fg">
+            <span className="text-[20px] font-semibold text-fg">
               We don't just run marketing channels.
             </span>{" "}
             <span className="font-normal text-muted">

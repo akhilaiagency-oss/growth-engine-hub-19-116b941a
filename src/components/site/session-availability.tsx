@@ -9,7 +9,7 @@ export function SessionAvailability({ className = "" }: { className?: string }) 
 
   return (
     <div className={className}>
-      <p className="text-[13px] leading-relaxed text-muted">
+      <p className="text-[13px] text-muted">
         {count === null ? (
           "Limited strategy sessions available."
         ) : (
@@ -19,7 +19,7 @@ export function SessionAvailability({ className = "" }: { className?: string }) 
           </>
         )}
       </p>
-      <p className="mt-1.5 text-[12.5px] leading-relaxed text-muted-2">
+      <p className="mt-1.5 text-[12px] text-muted-2">
         Sessions are intentionally limited so each one can focus on your business, your acquisition
         funnel and your growth bottlenecks rather than becoming a generic sales call.
       </p>
