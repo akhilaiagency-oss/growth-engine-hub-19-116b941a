@@ -333,3 +333,38 @@
     animation: none;
   }
 }
+
+/* ---- Mobile CRO pass (≤900px) ---- */
+@media (max-width: 899px) {
+  body {
+    padding-bottom: 96px;
+  }
+  .engine-return-path {
+    animation: none;
+  }
+  .section-y {
+    padding-block: 48px;
+  }
+  .h2-section {
+    font-size: 26px;
+  }
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    min-height: 48px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 413px) {
+  .container-narrow {
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
