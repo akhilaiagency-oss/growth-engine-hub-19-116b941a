@@ -47,7 +47,7 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
             <span className="text-[15px] font-semibold text-fg">
               Watch: how the acquisition system works
             </span>
-            <span className="text-[12px] text-muted-2">VSL slot — your video goes here.</span>
+            <span className="text-[13px] text-muted-2">VSL slot — your video goes here.</span>
           </div>
         )}
       </div>
