@@ -15,8 +15,8 @@ export function FounderSection() {
   return (
     <section id="founder" className="section-y band-raised">
       <div className="container-page">
-        <div className="grid items-start gap-10 min-[900px]:grid-cols-[0.85fr_1.15fr] min-[900px]:gap-[56px]">
-          <Reveal className="relative">
+        <div className="grid items-stretch gap-10 min-[900px]:grid-cols-[0.85fr_1.15fr] min-[900px]:gap-[56px]">
+          <Reveal className="relative flex flex-col gap-4 min-[900px]:gap-5">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -inset-3 blur-2xl sm:-inset-8"
