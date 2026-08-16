@@ -76,7 +76,7 @@ export function Hero() {
                 <span className="text-[17px] text-muted-2 line-through">
                   ₹{URGENCY.originalPrice}
                 </span>
-                <span className="text-[34px] leading-none font-extrabold text-lime">
+                <span className="text-[46px] leading-none font-extrabold text-lime">
                   ₹{URGENCY.offerPrice}
                 </span>
                 <span className="text-[15px] text-muted">1-on-1 Strategy Session</span>
