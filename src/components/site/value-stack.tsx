@@ -16,21 +16,24 @@ export function ValueStack() {
         {ROWS.map((r) => (
           <li
             key={r.label}
-            className="flex items-baseline justify-between gap-4 border-b border-border py-[12px]"
+            className="flex items-baseline justify-between gap-[12px] border-b border-border py-[12px]"
           >
-            <span className="text-[15px] leading-snug text-muted">{r.label}</span>
-            <span className="shrink-0 text-[15px] font-semibold text-fg tabular-nums">
+            <span className="text-[13px] leading-snug text-muted min-[414px]:text-[15px]">
+              {r.label}
+            </span>
+            <span className="shrink-0 whitespace-nowrap text-[13px] font-semibold text-fg tabular-nums min-[414px]:text-[15px]">
               {r.value}
             </span>
           </li>
         ))}
-        <li className="flex items-baseline justify-between gap-4 py-[12px]">
-          <span className="text-[15px] font-bold text-fg">Total</span>
-          <span className="shrink-0 text-[15px] font-bold text-muted-2 line-through tabular-nums">
+        <li className="flex items-baseline justify-between gap-[12px] py-[12px]">
+          <span className="text-[13px] font-bold text-fg min-[414px]:text-[15px]">Total</span>
+          <span className="shrink-0 whitespace-nowrap text-[13px] font-bold text-muted-2 line-through tabular-nums min-[414px]:text-[15px]">
             ₹10,000
           </span>
         </li>
       </ul>
+
 
       <p className="text-center text-[12px] text-muted-2">
         Based on Akhil's standard consulting rate of ₹XX,XXX per hour. Ask on the call and you'll
