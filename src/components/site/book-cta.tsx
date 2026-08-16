@@ -30,10 +30,11 @@ export function BookCta({
   return (
     <Link
       to="/qualify"
-      className={`${base} ${fullWidth ? "w-full" : ""} !gap-0 ${className}`}
+      className={`${base} ${fullWidth ? "w-full" : ""} !gap-0 max-w-full flex-wrap text-center min-[620px]:flex-nowrap ${className}`}
       aria-label={`${label} — ₹${URGENCY.offerPrice} today, down from ₹${URGENCY.originalPrice}`}
     >
-      <span className="whitespace-nowrap">{label}</span>
+      <span className="min-w-0 min-[620px]:whitespace-nowrap">{label}</span>
+
       {showPrice ? (
         <>
           <span className={`mx-3 h-4 w-px shrink-0 ${dividerTone}`} aria-hidden="true" />
