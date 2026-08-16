@@ -57,7 +57,7 @@ export function SiteFooter() {
                   href="mailto:akhil.ai.agency@gmail.com"
                   className="flex min-h-[44px] items-center text-[13px] text-muted transition-colors hover:text-fg md:min-h-0"
                 >
-                  akhil.ai.agency@gmail.com
+                  Mail : akhil.ai.agency@gmail.com
                 </a>
               </li>
               <li>
@@ -67,7 +67,7 @@ export function SiteFooter() {
                   rel="noreferrer"
                   className="flex min-h-[44px] items-center text-[13px] text-muted transition-colors hover:text-fg md:min-h-0"
                 >
-                  WhatsApp +91 93112 13876
+                  WhatsApp : +91 9311213876
                 </a>
               </li>
             </ul>
