@@ -180,12 +180,6 @@ export function SessionSection() {
               <p className="mt-3 text-center text-[12px] text-muted-2 md:text-[12px]">
                 Secure checkout through Razorpay
               </p>
-              <p className="mt-4 text-center text-[13px] text-muted">
-                If we work together afterwards, engagements typically start from{" "}
-                <strong className="font-semibold text-fg">₹15,000/month</strong>. Nothing is quoted before
-                the scope is understood — and the ₹9 session is useful whether or not you go
-                further.
-              </p>
             </div>
             </Reveal>
             </div>

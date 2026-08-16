@@ -36,7 +36,7 @@ export function ValueStack() {
 
 
       <p className="text-center text-[12px] text-muted-2">
-        Based on Akhil's standard consulting rate of ₹XX,XXX per hour. Ask on the call and you'll
+        Based on Akhil's standard consulting rate of ₹10,000 per hour. Ask on the call and you'll
         get the same figure.
       </p>
     </div>
