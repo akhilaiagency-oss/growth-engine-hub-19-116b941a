@@ -109,8 +109,17 @@ export function LeakMap() {
                 </div>
 
                 {/* Mobile: slim visual bar + readable copy beneath */}
-                <div className="w-full min-[700px]:hidden">
-                  <div className="relative h-[10px] w-full overflow-hidden rounded-[5px] bg-surface-2">
+                <div className="flex w-full flex-col gap-2 min-[700px]:hidden">
+                  <p className="text-[13px] text-muted">
+                    <span className="font-bold text-fg">{r.pct}%</span>{" "}
+                    {r.lead && (
+                      <span className="italic" style={{ color: "var(--urgent)" }}>
+                        {r.lead}{" "}
+                      </span>
+                    )}
+                    <span>{r.note}</span>
+                  </p>
+                  <div className="relative order-2 h-[12px] w-full overflow-hidden rounded-[6px] bg-surface-2">
                     <div
                       className="absolute inset-y-0 left-0"
                       style={{
@@ -122,16 +131,8 @@ export function LeakMap() {
                       aria-hidden="true"
                     />
                   </div>
-                  <p className="mt-2 text-[13px] text-muted">
-                    <span className="font-bold text-fg">{r.pct}%</span>{" "}
-                    {r.lead && (
-                      <span className="italic" style={{ color: "var(--urgent)" }}>
-                        {r.lead}{" "}
-                      </span>
-                    )}
-                    <span>{r.note}</span>
-                  </p>
                 </div>
+
 
                 {/* 700px and up: original inline-in-bar treatment */}
                 <div className="relative hidden h-[34px] w-full overflow-hidden rounded-[6px] bg-surface-2 min-[700px]:block">
