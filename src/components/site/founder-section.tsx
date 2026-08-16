@@ -15,8 +15,8 @@ export function FounderSection() {
   return (
     <section id="founder" className="section-y band-raised">
       <div className="container-page">
-        <div className="grid items-stretch gap-10 min-[900px]:grid-cols-[0.85fr_1.15fr] min-[900px]:gap-[56px]">
-          <Reveal className="relative flex flex-col gap-4 min-[900px]:gap-5">
+        <div className="grid items-start gap-10 min-[900px]:grid-cols-[0.85fr_1.15fr] min-[900px]:gap-[56px]">
+          <Reveal className="relative">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -inset-3 blur-2xl sm:-inset-8"
@@ -62,25 +62,6 @@ export function FounderSection() {
                 </div>
               </div>
             </div>
-
-            <div className="relative flex flex-1 flex-col justify-center rounded-[14px] border border-border-strong bg-surface-2 p-5 min-[900px]:px-[22px]">
-              <p className="text-[12px] font-semibold tracking-[0.16em] text-muted-2 uppercase">
-                How Akhil works
-              </p>
-              <ul className="mt-3">
-                {WORKS.map((w, i) => (
-                  <li
-                    key={w}
-                    className={`relative py-[9px] pl-[26px] text-[15px] text-muted ${
-                      i < WORKS.length - 1 ? "border-b border-border" : ""
-                    }`}
-                  >
-                    <Check size={16} className="absolute top-[13px] left-0 shrink-0 text-lime" />
-                    {w}
-                  </li>
-                ))}
-              </ul>
-            </div>
           </Reveal>
 
           <Reveal>
@@ -122,6 +103,20 @@ export function FounderSection() {
               </div>
             </div>
 
+
+            <div className="mt-8 border-t border-border pt-6">
+              <p className="text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 uppercase">
+                How Akhil works
+              </p>
+              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
+                {WORKS.map((w) => (
+                  <li key={w} className="flex items-start gap-2.5 text-[15px] text-muted">
+                    <Check size={16} className="mt-0.5 shrink-0 text-lime" />
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            </div>
 
             <p className="mt-6 text-[15px] text-muted">
               Which is why an engagement starts with your funnel rather than our service list — and
