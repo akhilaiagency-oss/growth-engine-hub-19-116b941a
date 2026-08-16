@@ -1,6 +1,6 @@
 import { MeasurementChain } from "./measurement-chain";
 import { useState } from "react";
-import { RefreshCw } from "lucide-react";
+
 import { ENGINE_STAGES, type EngineStage } from "@/data/engine";
 import { Reveal } from "./reveal";
 
