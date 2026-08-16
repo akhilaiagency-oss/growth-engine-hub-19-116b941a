@@ -188,8 +188,10 @@ export function SessionSection() {
               </p>
             </div>
             </Reveal>
+            </div>
           </div>
         </div>
+
 
         <Reveal className="mt-8 rounded-[16px] border border-border bg-surface p-6 md:p-9">
           <AfterYouPay />
