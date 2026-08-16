@@ -203,52 +203,84 @@ export function EngineSection() {
             </svg>
           </div>
 
-          {/* Mobile timeline */}
+          {/* Mobile vertical flow — the full loop, legible without the SVG */}
           <div className="min-[820px]:hidden">
-            <ul className="relative flex flex-col gap-4 pl-1">
+            <ol
+              aria-label="The seven stages of the Growth Multiplier Engine"
+              className="relative before:absolute before:top-[24px] before:bottom-[34px] before:left-[17px] before:w-[2px] before:content-['']"
+              style={
+                {
+                  ["--rail" as string]:
+                    "linear-gradient(180deg, var(--cyan), rgba(131,226,78,0.5))",
+                } as React.CSSProperties
+              }
+            >
+              <span
+                aria-hidden="true"
+                className="pointer-events-none absolute top-[24px] bottom-[34px] left-[17px] w-[2px]"
+                style={{ background: "linear-gradient(180deg, var(--cyan), rgba(131,226,78,0.5))" }}
+              />
               {ENGINE_STAGES.map((s) => {
-                const isActive = s.id === activeId;
+                const isFirst = s.number === "01";
+                const isReturn = s.phase === "RETURN PATH";
                 return (
-                  <li key={s.id} className="relative flex items-center gap-4">
+                  <li
+                    key={s.id}
+                    className="relative grid grid-cols-[36px_1fr] items-start gap-[14px] py-[12px]"
+                  >
                     <span
-                      className="absolute top-8 bottom-[-16px] left-4 w-[1.5px]"
-                      style={{ background: "var(--border-strong)" }}
-                      aria-hidden="true"
-                    />
-                    <button
-                      type="button"
-                      aria-pressed={isActive}
-                      onClick={() => setActiveId(s.id)}
-                      className="relative z-10 flex items-center gap-4 text-left"
+                      className="z-[2] flex h-9 w-9 items-center justify-center rounded-full border-2 text-[13px] font-bold"
+                      style={{
+                        background: isFirst ? "var(--lime)" : "var(--surface-2)",
+                        borderColor: isFirst
+                          ? "var(--lime)"
+                          : isReturn
+                            ? "rgba(131,226,78,0.5)"
+                            : "rgba(255,255,255,0.18)",
+                        color: isFirst
+                          ? "var(--lime-ink)"
+                          : isReturn
+                            ? "var(--lime)"
+                            : "var(--cyan)",
+                      }}
                     >
-                      <span
-                        className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-[12px] font-bold md:text-[12px]"
-                        style={{
-                          background: isActive ? "var(--lime)" : "var(--surface-2)",
-                          borderColor: isActive ? "var(--lime)" : "var(--border-strong)",
-                          color: isActive ? "var(--lime-ink)" : "var(--cyan)",
-                        }}
-                      >
-                        {s.number}
-                      </span>
-                      <span
-                        className="text-[12px] font-semibold tracking-[1.2px]"
-                        style={{ color: isActive ? "var(--fg)" : "var(--muted)" }}
-                      >
+                      {s.number}
+                    </span>
+                    <div className="min-w-0">
+                      <span className="block text-[13px] font-bold tracking-[0.09em] text-fg uppercase">
                         {s.name}
                       </span>
-                    </button>
+                      <span className="mt-1 block text-[13px] leading-[1.5] text-muted">
+                        {s.title}
+                      </span>
+                    </div>
                   </li>
                 );
               })}
-            </ul>
-            <div className="mt-6 flex items-center gap-3 rounded-[8px] border border-dashed border-border-strong p-3">
-              <RefreshCw size={16} className="shrink-0 text-cyan" />
-              <p className="text-[12px] text-muted">
-                What we measure and optimise feeds straight back into Attract.
-              </p>
-            </div>
+              <li className="relative grid grid-cols-[36px_1fr] items-start gap-[14px] py-[12px]">
+                <span
+                  aria-hidden="true"
+                  className="z-[2] flex h-9 w-9 items-center justify-center rounded-full border-2 border-dashed text-[15px]"
+                  style={{
+                    background: "var(--surface-2)",
+                    borderColor: "rgba(131,226,78,0.5)",
+                    color: "var(--lime)",
+                  }}
+                >
+                  ↺
+                </span>
+                <div className="min-w-0">
+                  <span className="block text-[13px] font-bold tracking-[0.09em] text-fg uppercase">
+                    Back to Attract
+                  </span>
+                  <span className="mt-1 block text-[13px] leading-[1.5] text-muted">
+                    What we measure and optimise feeds straight back into the top.
+                  </span>
+                </div>
+              </li>
+            </ol>
           </div>
+
 
           {/* Scannable stage list — all seven readable without interaction */}
           <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
