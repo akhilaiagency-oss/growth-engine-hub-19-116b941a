@@ -29,9 +29,8 @@ export function CapacitySection() {
           <div className="mt-6">
             <BookCta fullWidth />
           </div>
-          <p className="mt-3 text-center text-[12px] text-muted-2">
-            Refundable on request. You keep the plan either way.
-          </p>
+          <RefundNote className="!mt-3" />
+
         </Reveal>
       </div>
     </section>
