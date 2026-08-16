@@ -83,17 +83,56 @@ export function FounderSection() {
               Built By Someone Who Thinks In Systems.
             </h2>
 
-            <blockquote
-              className="mt-6 text-[17px] font-medium text-fg"
-              style={{ borderLeft: "2px solid var(--lime)", paddingLeft: "18px" }}
+            <div
+              className="founder-story mt-5"
+              style={{ borderLeft: "2px solid var(--lime)" }}
             >
-              Growth Multiplier AI was built around a simple idea: businesses don't need another
-              disconnected marketing service. They need a client acquisition system where every
-              stage works together.
-              <cite className="mt-4 block text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 not-italic uppercase">
+              <p className="text-[17px] font-medium text-fg">
+                For a few years, everything I sold, I sold by hand.
+              </p>
+              <p className="mt-[14px] text-[15px] text-muted">
+                Facebook groups, WhatsApp communities, cold outreach — one conversation at a time.
+                It worked. A single online sale of{" "}
+                <b className="font-semibold text-fg">₹70,000</b>. Around{" "}
+                <b className="font-semibold text-fg">₹2–2.5 lakh</b> through referral programmes for
+                Upstox, Angel One and 5Paisa, running a team of 10–15 people I built during COVID.
+                Close to <b className="font-semibold text-fg">₹1 lakh</b> more from affiliate work.
+                All of it organic. I never spent a rupee on ads.
+              </p>
+              <p className="mt-[14px] text-[15px] text-muted">
+                It was also exhausting, and completely unpredictable.
+              </p>
+              <p className="mt-[14px] text-[15px] text-muted">
+                What bothered me most wasn't the hours. It was watching interested people quietly
+                disappear. Someone would reply, I'd get pulled into something else, and by the time
+                I came back they had gone cold. Some I forgot entirely. Some were ready to buy and I
+                never found out.
+              </p>
+              <p
+                className="founder-pull text-[17px] font-semibold text-fg"
+                style={{
+                  borderTop: "1px solid var(--border)",
+                  borderBottom: "1px solid var(--border)",
+                  padding: "14px 0",
+                  marginTop: "20px",
+                  marginBottom: "16px",
+                }}
+              >
+                I wasn't losing them because I couldn't generate interest. I was losing them because
+                nothing caught that interest after it arrived.
+              </p>
+              <p className="text-[15px] text-muted">
+                That is the entire idea behind Growth Multiplier AI. Generating attention was never
+                the hard part — what happens in the minutes and days afterwards is where the money
+                actually goes. Once I saw that, I stopped trying to work harder and started building
+                the thing that should have been doing the work: responding, qualifying, following up
+                and booking, every time, without depending on me remembering.
+              </p>
+              <p className="mt-4 text-[12px] font-semibold tracking-[0.1em] text-muted-2 uppercase">
                 Akhil Srivastava — Founder
-              </cite>
-            </blockquote>
+              </p>
+            </div>
+
 
             <div className="mt-8 flex flex-col gap-5 border-t border-border pt-6">
               <div>
