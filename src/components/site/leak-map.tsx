@@ -1,5 +1,6 @@
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
+import { RefundNote } from "./refund-note";
 import { AcquisitionFlow } from "./acquisition-flow";
 
 
@@ -55,9 +56,8 @@ export function LeakMap() {
           <span className="eyebrow">The diagnostic</span>
           <h2 className="h2-section mt-4">Where could your acquisition system be leaking?</h2>
           <p className="mt-4 text-[17px] text-muted">
-            Before we build anything, we find where you're losing people. The first five stages of
-            the Engine are also the five places acquisition quietly narrows — and almost every
-            business is losing more at one of them than at the other four combined.
+            You don't need a new funnel. You need to see which part of the one you have is quietly
+            holding everything else back — and it is almost always one of these five.
           </p>
         </Reveal>
 
@@ -174,6 +174,7 @@ export function LeakMap() {
             Most owners can guess their weakest stage. Almost none can prove it.
           </p>
           <BookCta label="Map My Funnel — Book My ₹9 Strategy Call" />
+          <RefundNote />
         </div>
       </div>
     </section>

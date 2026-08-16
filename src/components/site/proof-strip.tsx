@@ -1,4 +1,6 @@
-import { CLIENT_STORIES } from "@/data/results";
+import { Star } from "lucide-react";
+import { CLIENT_STORIES, GOOGLE_RATING } from "@/data/results";
+
 
 /** Thin full-width band directly beneath the hero. Not a section. */
 export function ProofStrip() {
@@ -44,7 +46,23 @@ export function ProofStrip() {
         >
           See the results ↓
         </a>
+
+        <div className="w-full border-t border-border pt-4 text-center min-[900px]:w-auto min-[900px]:border-t-0 min-[900px]:border-l min-[900px]:pt-0 min-[900px]:pl-5 min-[900px]:text-left">
+          <span className="flex items-center justify-center gap-2 min-[900px]:justify-start">
+            <span className="flex gap-0.5" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <Star key={i} size={14} fill="#F5B301" color="#F5B301" />
+              ))}
+            </span>
+            <span className="text-[12px] text-muted-2">Google reviews</span>
+          </span>
+          <span className="mt-1 flex items-baseline justify-center gap-1.5 min-[900px]:justify-start">
+            <span className="text-[15px] font-bold text-fg">{GOOGLE_RATING.score}</span>
+            <span className="text-[12px] text-muted-2">· {GOOGLE_RATING.reviewCount} reviews</span>
+          </span>
+        </div>
       </div>
     </div>
   );
 }
+
