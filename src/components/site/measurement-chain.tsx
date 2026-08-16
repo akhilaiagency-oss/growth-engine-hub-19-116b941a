@@ -9,7 +9,7 @@ export function MeasurementChain() {
       </p>
       <ol
         aria-label="The seven measured stages, from traffic to revenue"
-        className="mt-4 grid grid-cols-1 gap-2 min-[900px]:grid-cols-7 min-[900px]:gap-0"
+        className="mt-4 grid grid-cols-1 gap-2 min-[414px]:grid-cols-2 min-[900px]:grid-cols-7 min-[900px]:gap-0"
       >
         {CHAIN.map((stage, i) => {
           const last = i === CHAIN.length - 1;
@@ -17,14 +17,15 @@ export function MeasurementChain() {
           return (
             <li
               key={stage}
-              className="border border-border bg-surface-2 px-3 py-3 text-center min-[900px]:border-l-0 min-[900px]:first:border-l"
+              className="min-w-0 rounded-[10px] border border-border bg-surface-2 px-2 py-[14px] text-center min-[900px]:rounded-none min-[900px]:border-l-0 min-[900px]:px-3 min-[900px]:py-3 min-[900px]:first:border-l"
               style={{
-                borderRadius: first ? "8px 8px 0 0" : last ? "0 0 8px 8px" : undefined,
                 ...(last
                   ? { background: "rgba(131,226,78,0.07)", borderColor: "rgba(131,226,78,0.35)" }
                   : null),
               }}
+              data-first={first ? "" : undefined}
             >
+
               <span
                 className={`block text-[12px] font-semibold tracking-[0.09em] uppercase ${
                   last ? "text-lime" : "text-fg"
