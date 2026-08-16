@@ -48,7 +48,7 @@ const DETAILS = [
 
 function DiagnosticStack() {
   return (
-    <ol className="relative flex flex-col gap-2 pl-[14px]">
+    <ol className="relative flex flex-col gap-2 pl-[16px]">
       <span
         aria-hidden="true"
         className="absolute top-[14px] bottom-[14px] left-0 w-[2px] rounded-[2px]"
@@ -115,7 +115,7 @@ export function SessionSection() {
 
             <Reveal className="overflow-hidden rounded-[16px] border border-border-strong bg-surface">
             <div className="h-[2px] w-full bg-lime" />
-            <div className="p-7">
+            <div className="p-6">
               <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                 <PriceAnchor size="lg" suffix="" />
                 <span className="text-[13px] text-muted md:text-[12.5px]">
@@ -149,7 +149,7 @@ export function SessionSection() {
                 If we're not the right fit, we'll tell you.
               </p>
 
-              <p className="mt-7 text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase md:text-[11px]">
+              <p className="mt-6 text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase md:text-[11px]">
                 Session details
               </p>
               <ul className="mt-3 space-y-2.5">
@@ -161,7 +161,7 @@ export function SessionSection() {
                 ))}
               </ul>
 
-              <div className="mt-7">
+              <div className="mt-6">
                 <BookCta fullWidth />
               </div>
               <CtaNote className="mt-3" />
@@ -185,7 +185,7 @@ export function SessionSection() {
 
 
         <Reveal
-          className="mt-6 rounded-[16px] p-[26px] md:p-10"
+          className="mt-6 rounded-[16px] p-[24px] md:p-10"
           style={{
             border: "1px solid rgba(131,226,78,0.3)",
             backgroundColor: "rgba(131,226,78,0.045)",

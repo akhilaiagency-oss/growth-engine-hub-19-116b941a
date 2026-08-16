@@ -27,7 +27,7 @@ export function AfterYouPay() {
         After you pay — exactly what happens
       </p>
 
-      <div className="relative mt-7">
+      <div className="relative mt-6">
         <span
           aria-hidden="true"
           className="absolute top-[26px] hidden h-px min-[900px]:block"

@@ -34,7 +34,7 @@ export function DeliverablesSection() {
           </p>
         </Reveal>
 
-        <div className="mt-7 grid gap-5 min-[900px]:grid-cols-3">
+        <div className="mt-6 grid gap-5 min-[900px]:grid-cols-3">
           {DOCUMENTS.map((d) => (
             <Reveal
               key={d.label}

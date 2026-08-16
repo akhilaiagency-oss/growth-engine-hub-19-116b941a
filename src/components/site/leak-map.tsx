@@ -61,7 +61,7 @@ export function LeakMap() {
           </p>
         </Reveal>
 
-        <Reveal className="mt-7">
+        <Reveal className="mt-6">
           <AcquisitionFlow />
         </Reveal>
 
@@ -160,7 +160,7 @@ export function LeakMap() {
           </ul>
 
 
-          <div className="mt-7 rounded-[8px] border border-border bg-surface-2 p-4 text-[13px] leading-relaxed text-muted md:text-[12.5px]">
+          <div className="mt-6 rounded-[8px] border border-border bg-surface-2 p-4 text-[13px] leading-relaxed text-muted md:text-[12.5px]">
             This is a <strong className="font-semibold text-fg">shape, not a statistic</strong> — an
             illustration of how acquisition typically narrows, not measured results from any
             business. On your call we put your real numbers against each stage and find which one is
@@ -169,7 +169,7 @@ export function LeakMap() {
         </Reveal>
 
         <div className="mt-8 text-center">
-          <p className="mb-[14px] text-[14.5px] leading-relaxed text-muted">
+          <p className="mb-[16px] text-[14.5px] leading-relaxed text-muted">
             Most owners can guess their weakest stage. Almost none can prove it.
           </p>
           <BookCta label="Map My Funnel — Book My ₹9 Strategy Call" />
