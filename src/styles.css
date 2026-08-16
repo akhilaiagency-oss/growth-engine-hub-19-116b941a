@@ -368,3 +368,16 @@
     transition: none !important;
   }
 }
+
+.founder-story {
+  padding-left: 22px;
+}
+
+@media (max-width: 899px) {
+  .founder-story {
+    padding-left: 16px;
+  }
+  .founder-pull {
+    font-size: 16px;
+  }
+}
