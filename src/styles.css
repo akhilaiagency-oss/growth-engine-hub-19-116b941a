@@ -144,7 +144,11 @@
   max-width: 1120px;
   margin-inline: auto;
   padding-inline: 20px;
+  @media (max-width: 413px) {
+    padding-inline: 16px;
+  }
 }
+
 
 @utility container-narrow {
   width: 100%;
