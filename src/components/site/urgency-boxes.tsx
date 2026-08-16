@@ -14,7 +14,7 @@ export function SessionsLeftBox({
   const count = SESSIONS_LEFT_THIS_WEEK;
 
   return (
-    <div className="rounded-[10px] border border-border bg-bg p-4">
+    <div className="flex min-h-[78px] flex-col items-center justify-center rounded-[10px] border border-border bg-bg p-4">
       <p className={LABEL}>{label}</p>
       <p className="mt-2 text-[34px] leading-none font-extrabold text-lime tabular-nums">{count}</p>
       {withDashes && (
