@@ -8,9 +8,9 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
   const isYoutube = !!videoUrl && /youtu\.?be/.test(videoUrl);
 
   return (
-    <div className="mx-auto w-full max-w-full min-[900px]:max-w-[640px]">
+    <div className="w-full max-w-none">
       <div
-        className="relative w-full overflow-hidden rounded-[12px] bg-surface-2"
+        className="relative w-full overflow-hidden rounded-[8px] bg-surface-2 min-[900px]:rounded-[12px]"
         style={
           videoUrl
             ? { aspectRatio: "16 / 9", border: "1px solid var(--border-strong)" }
@@ -47,7 +47,7 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
             <span className="text-[15px] font-semibold text-fg">
               Watch: how the acquisition system works
             </span>
-            <span className="text-[12px] text-muted-2">VSL slot — your video goes here.</span>
+            <span className="text-[13px] text-muted-2">VSL slot — your video goes here.</span>
           </div>
         )}
       </div>
