@@ -5,6 +5,7 @@ import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
 import { ValueStack } from "./value-stack";
 import { AfterYouPay } from "./after-you-pay";
+import { SessionExpectations } from "./session-expectations";
 
 const VALUE_POINTS = [
   "Acquisition funnel diagnosis",
@@ -100,6 +101,10 @@ export function SessionSection() {
           </ul>
         </Reveal>
 
+        <Reveal className="mt-8">
+          <SessionExpectations />
+        </Reveal>
+
         <div className="mt-8 grid items-start gap-8 min-[900px]:grid-cols-[1.35fr_1fr]">
           <div className="flex flex-col gap-6">
             <Reveal>
@@ -170,7 +175,7 @@ export function SessionSection() {
               </p>
               <p className="mt-4 text-center text-[13px] text-muted">
                 If we work together afterwards, engagements typically start from{" "}
-                <strong className="font-semibold text-fg">₹XX,XXX</strong>. Nothing is quoted before
+                <strong className="font-semibold text-fg">₹15,000/month</strong>. Nothing is quoted before
                 the scope is understood — and the ₹9 session is useful whether or not you go
                 further.
               </p>
