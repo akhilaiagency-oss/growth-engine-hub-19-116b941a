@@ -21,10 +21,6 @@ export const FAQS: FaqItem[] = [
     a: "No. You get the funnel breakdown regardless. If your acquisition system doesn't need rebuilding, you'll be told that directly.",
   },
   {
-    q: "What happens after payment?",
-    a: "You're taken straight to the scheduler to pick a slot, then you get a confirmation with the meeting link, then an invitation to the WhatsApp community.",
-  },
-  {
     q: "Can I still attend if my website isn't live yet?",
     a: "Yes. If you're about to launch, the call is about designing the system before you spend rather than diagnosing it afterwards.",
   },

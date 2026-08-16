@@ -48,12 +48,17 @@ const DETAILS = [
 
 function DiagnosticStack() {
   return (
-    <ol className="flex flex-col">
-      {CHECKPOINTS.map((c, i) => (
+    <ol className="relative flex flex-col gap-2 pl-[14px]">
+      <span
+        aria-hidden="true"
+        className="absolute top-[14px] bottom-[14px] left-0 w-[2px] rounded-[2px]"
+        style={{ backgroundImage: "linear-gradient(180deg, var(--lime), rgba(131,226,78,0.15))" }}
+      />
+      {CHECKPOINTS.map((c) => (
         <li key={c.n}>
           <div
             className="grid items-start gap-3 rounded-[10px] border border-border bg-surface-2 min-[620px]:grid-cols-[30px_152px_1fr]"
-            style={{ padding: "13px 16px" }}
+            style={{ padding: "12px 16px" }}
           >
             <span className="text-[13px] font-bold text-lime">{c.n}</span>
             <h3 className="text-[13px] font-semibold tracking-[0.1em] text-fg uppercase">
@@ -61,11 +66,6 @@ function DiagnosticStack() {
             </h3>
             <p className="text-[14px] leading-[1.6] text-muted">{c.body}</p>
           </div>
-          {i < CHECKPOINTS.length - 1 && (
-            <div aria-hidden="true" className="py-1.5 text-center text-[14px] text-muted-2">
-              ↓
-            </div>
-          )}
         </li>
       ))}
     </ol>
