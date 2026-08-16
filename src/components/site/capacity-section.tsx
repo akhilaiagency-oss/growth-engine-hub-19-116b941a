@@ -21,9 +21,6 @@ export function CapacitySection() {
             Which is why the ₹9 sessions are capped too. Every one of them is 30 minutes of the same
             person's time.
           </p>
-          <p className="mt-4 text-[13px] text-muted-2">
-            Sessions run 3:30 PM – 11:30 PM IST, 30 minutes each.
-          </p>
 
           <div className="mx-auto mt-6 max-w-[420px]">
             <CountdownBox showSlotLine />
