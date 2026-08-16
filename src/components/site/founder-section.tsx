@@ -75,6 +75,16 @@ export function FounderSection() {
                 ))}
               </ul>
             </div>
+            <div className="mt-5 rounded-[16px] border border-border bg-surface-2 p-5">
+              <h3 className="text-[15px] font-bold tracking-[-0.01em] text-fg">
+                System-first, not service-first
+              </h3>
+              <p className="mt-2 text-[15px] text-muted">
+                Most agencies sell a deliverable. We build the connected system those pieces
+                belong to, because a great landing page attached to slow follow-up still loses.
+              </p>
+            </div>
+
           </Reveal>
 
           <Reveal>
