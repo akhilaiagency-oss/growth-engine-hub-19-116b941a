@@ -24,9 +24,10 @@ export function FitSection() {
         <Reveal className="max-w-[760px]">
           <span className="eyebrow">Fit</span>
           <h2 className="h2-section mt-4">Which of these is a yes for you?</h2>
-          <p className="mt-4 text-[17px] text-muted">
-            Genuinely useful for some businesses, a waste of time for others. Here's the honest
-            split.
+          <p className="mt-4 max-w-[700px] text-[17px] text-muted">
+            You're already spending money on ads or portals — and sending that traffic to a WhatsApp
+            number, a dead Instagram bio link, or a page that captures nothing and converts no one.
+            This call is about the part that comes after the click.
           </p>
         </Reveal>
 

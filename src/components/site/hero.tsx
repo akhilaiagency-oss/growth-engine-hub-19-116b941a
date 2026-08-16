@@ -57,9 +57,9 @@ export function Hero() {
             <span className="text-lime">Broken Funnels</span>
           </p>
           <p className="mx-auto mt-2 max-w-[640px] text-[13px] text-muted min-[900px]:text-[15px]">
-            For real estate, coaching and consulting businesses doing{" "}
-            <strong className="font-semibold text-fg">₹6L+ a year</strong> — already running paid
-            traffic, or about to start.
+            For business owners doing{" "}
+            <strong className="font-semibold text-fg">₹10L+ a year</strong> — real estate, coaching,
+            consulting, e-commerce, info products, or offline moving online.
           </p>
 
           <h1 className="mt-4 text-[26px] leading-[1.16] font-extrabold tracking-[-0.025em] text-fg max-[420px]:text-[24px] min-[900px]:text-[40px] min-[900px]:leading-[1.1]">
