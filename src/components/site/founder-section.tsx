@@ -62,6 +62,19 @@ export function FounderSection() {
                 </div>
               </div>
             </div>
+            <div className="mt-6 rounded-[16px] border border-border bg-surface-2 p-5">
+              <p className="text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 uppercase">
+                How Akhil works
+              </p>
+              <ul className="mt-4 grid gap-3">
+                {WORKS.map((w) => (
+                  <li key={w} className="flex items-start gap-2.5 text-[15px] text-muted">
+                    <Check size={16} className="mt-0.5 shrink-0 text-lime" />
+                    {w}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </Reveal>
 
           <Reveal>
@@ -103,20 +116,6 @@ export function FounderSection() {
               </div>
             </div>
 
-
-            <div className="mt-8 border-t border-border pt-6">
-              <p className="text-[12px] font-semibold md:text-[12px] tracking-[0.16em] text-muted-2 uppercase">
-                How Akhil works
-              </p>
-              <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-                {WORKS.map((w) => (
-                  <li key={w} className="flex items-start gap-2.5 text-[15px] text-muted">
-                    <Check size={16} className="mt-0.5 shrink-0 text-lime" />
-                    {w}
-                  </li>
-                ))}
-              </ul>
-            </div>
 
             <p className="mt-6 text-[15px] text-muted">
               Which is why an engagement starts with your funnel rather than our service list — and
