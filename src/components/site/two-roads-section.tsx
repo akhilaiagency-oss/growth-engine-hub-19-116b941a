@@ -1,14 +1,7 @@
-import { Check } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
 import { PriceAnchor } from "./price-anchor";
-
-const ITEMS = [
-  "30 minutes, 1-on-1",
-  "Secure Razorpay checkout",
-  "You keep the plan either way",
-];
 
 export function TwoRoadsSection() {
   return (
@@ -90,14 +83,6 @@ export function TwoRoadsSection() {
           </div>
           <CtaNote className="mt-3" />
 
-          <ul className="mt-6 flex flex-wrap justify-center gap-x-6 gap-y-3">
-            {ITEMS.map((t) => (
-              <li key={t} className="flex items-center gap-2 text-[12.5px] text-muted">
-                <Check size={15} className="text-lime" aria-hidden="true" />
-                {t}
-              </li>
-            ))}
-          </ul>
         </Reveal>
       </div>
     </section>
