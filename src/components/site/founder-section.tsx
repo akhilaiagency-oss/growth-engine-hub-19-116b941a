@@ -137,15 +137,6 @@ export function FounderSection() {
             <div className="mt-8 flex flex-col gap-5 border-t border-border pt-6">
               <div>
                 <h3 className="text-[15px] font-bold tracking-[-0.01em] text-fg">
-                  System-first, not service-first
-                </h3>
-                <p className="mt-2 text-[15px] text-muted">
-                  Most agencies sell a deliverable. We build the connected system those pieces
-                  belong to, because a great landing page attached to slow follow-up still loses.
-                </p>
-              </div>
-              <div>
-                <h3 className="text-[15px] font-bold tracking-[-0.01em] text-fg">
                   You talk to the person doing the work
                 </h3>
                 <p className="mt-2 text-[15px] text-muted">
@@ -154,6 +145,7 @@ export function FounderSection() {
                 </p>
               </div>
             </div>
+
 
 
             <p className="mt-6 text-[15px] text-muted">
