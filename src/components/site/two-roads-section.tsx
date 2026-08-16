@@ -1,6 +1,7 @@
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
+import { RefundNote } from "./refund-note";
 import { PriceAnchor } from "./price-anchor";
 
 export function TwoRoadsSection() {
@@ -82,6 +83,7 @@ export function TwoRoadsSection() {
             <BookCta />
           </div>
           <CtaNote className="mt-3" />
+          <RefundNote />
 
         </Reveal>
       </div>

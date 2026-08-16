@@ -2,6 +2,7 @@ import { Check, ShieldCheck } from "lucide-react";
 import { Reveal } from "./reveal";
 import { BookCta } from "./book-cta";
 import { CtaNote } from "./cta-note";
+import { RefundNote } from "./refund-note";
 import { PriceAnchor } from "./price-anchor";
 import { ValueStack } from "./value-stack";
 import { AfterYouPay } from "./after-you-pay";
@@ -139,7 +140,9 @@ export function SessionSection() {
               <div className="my-6 h-px w-full bg-border" />
 
               <p className="border-l-2 border-lime pl-4 text-[17px] font-semibold text-fg">
-                ₹9 isn't the price of the strategy. It's a small commitment to reserve your session.
+                ₹9 is less than what one unqualified lead costs you. It isn't the price of the
+                strategy — it's a commitment mechanism, so the calendar goes to people genuinely
+                working on this problem.
               </p>
 
               <p className="mt-5 text-[15px] text-muted">
@@ -177,6 +180,7 @@ export function SessionSection() {
                 <BookCta fullWidth />
               </div>
               <CtaNote className="mt-3" />
+              <RefundNote />
               <p className="mt-3 text-center text-[12px] text-muted-2 md:text-[12px]">
                 Secure checkout through Razorpay
               </p>

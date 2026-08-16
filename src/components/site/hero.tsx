@@ -3,6 +3,7 @@ import { BookCta } from "./book-cta";
 import { VslSlot } from "./vsl-slot";
 import { URGENCY } from "@/lib/urgency";
 import { SessionsLeftBox, CountdownBox } from "./urgency-boxes";
+import { RefundNote } from "./refund-note";
 
 const WANTS = [
   {
@@ -34,7 +35,7 @@ const WANTS = [
 const TRUST = [
   { title: "Founder-led", body: "Akhil runs every call" },
   { title: "Secure ₹9 checkout", body: "Processed by Razorpay" },
-  { title: "Refundable", body: "On request, no reason needed" },
+  { title: "English or Hindi", body: "Whichever you're comfortable in" },
   { title: "No obligation", body: "A working session, not a pitch" },
   { title: "You keep the plan", body: "Whether we work together or not" },
 ];
@@ -56,8 +57,9 @@ export function Hero() {
             <span className="text-lime">Broken Funnels</span>
           </p>
           <p className="mx-auto mt-2 max-w-[640px] text-[13px] text-muted min-[900px]:text-[15px]">
-            For real estate, coaching, consulting and service businesses that want predictable
-            growth — already running paid traffic, or about to start.
+            For real estate, coaching and consulting businesses doing{" "}
+            <strong className="font-semibold text-fg">₹6L+ a year</strong> — already running paid
+            traffic, or about to start.
           </p>
 
           <h1 className="mt-4 text-[26px] leading-[1.16] font-extrabold tracking-[-0.025em] text-fg max-[420px]:text-[24px] min-[900px]:text-[40px] min-[900px]:leading-[1.1]">
@@ -87,6 +89,7 @@ export function Hero() {
                 showPrice={false}
                 className="min-h-[52px] text-[17px] min-[900px]:min-h-0 min-[900px]:text-[15px]"
               />
+              <RefundNote className="!mt-0" />
 
               <div className="grid gap-3 min-[900px]:grid-cols-2">
                 <SessionsLeftBox />
@@ -94,7 +97,8 @@ export function Hero() {
               </div>
 
               <p className="text-center text-[12px] text-muted-2">
-                30 minutes, 1-on-1 with Akhil · Zoom or Google Meet
+                30 minutes with Akhil — less than one site visit.{" "}
+                <strong className="font-bold text-fg">No pitch.</strong>
                 <br />
                 You keep the funnel plan whether or not we work together
               </p>
@@ -104,7 +108,7 @@ export function Hero() {
           {/* RIGHT — what this is built for */}
           <div className="flex flex-col rounded-[14px] border border-border-strong bg-surface p-5 min-[900px]:p-[22px]">
             <h2 className="mb-4 text-[17px] leading-[1.25] font-bold tracking-[-0.02em] text-fg min-[900px]:text-[20px]">
-              This system is built for businesses that want to…
+              What 30 minutes with Akhil actually gets you
             </h2>
             <ul>
               {WANTS.map((w, i) => (

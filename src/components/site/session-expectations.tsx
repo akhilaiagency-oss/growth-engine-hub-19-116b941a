@@ -7,6 +7,7 @@ const GET = [
   "Where follow-up is leaking, and what it costs",
   "A priority order for what to fix first",
   "The three working documents, sent on confirmation",
+  "What's already working, and shouldn't be touched",
 ];
 
 const WONT = [

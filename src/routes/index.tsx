@@ -3,6 +3,7 @@ import { FAQS } from "@/data/faq";
 import { SiteNav } from "@/components/site/site-nav";
 import { Hero } from "@/components/site/hero";
 import { ProofStrip } from "@/components/site/proof-strip";
+import { SoundFamiliar } from "@/components/site/sound-familiar";
 import { LeakMap } from "@/components/site/leak-map";
 import { EngineSection } from "@/components/site/engine-section";
 import { ResultsSection } from "@/components/site/results-section";
@@ -72,6 +73,7 @@ function Index() {
       <main>
         <Hero />
         <ProofStrip />
+        <SoundFamiliar />
         <LeakMap />
         <EngineSection />
         <ResultsSection />
