@@ -56,10 +56,13 @@ export function CountdownBox({
       }
     >
       <p className={LABEL}>{label}</p>
-      <ul className="mt-2 flex items-baseline gap-3" aria-live="off">
+      <ul
+        className="mt-2 flex items-baseline gap-4 min-[421px]:gap-5 min-[900px]:gap-3"
+        aria-live="off"
+      >
         {units.map((u) => (
           <li key={u.unit} className="flex items-baseline gap-1">
-            <span className="text-[26px] leading-none font-extrabold text-fg tabular-nums">
+            <span className="text-[20px] leading-none font-extrabold text-fg tabular-nums min-[900px]:text-[26px]">
               {u.value}
             </span>
             <span className="text-[12px] text-muted-2">{u.unit}</span>
