@@ -138,6 +138,10 @@ export function FounderSection() {
                 the thing that should have been doing the work: responding, qualifying, following up
                 and booking, every time, without depending on me remembering.
               </p>
+              <p className="mt-5 text-[17px] font-medium text-fg">
+                I'm not going to tell you I've cracked this. I'm going to tell you exactly where
+                your money is going, and you decide what to do about it.
+              </p>
               <p className="mt-4 text-[12px] font-semibold tracking-[0.1em] text-muted-2 uppercase">
                 Akhil Srivastava — Founder
               </p>

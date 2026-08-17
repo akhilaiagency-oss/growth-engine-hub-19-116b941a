@@ -39,7 +39,14 @@ export function SoundFamiliar() {
           ))}
         </ul>
 
-        <Reveal className="mt-[28px] text-center text-[15px] text-muted">
+        <Reveal className="mt-[28px] text-center">
+          <p className="text-[17px] font-medium text-fg">
+            If even one of these is true, you're not doing anything wrong. Almost every business
+            that spends on ads ends up here.
+          </p>
+        </Reveal>
+
+        <Reveal className="mt-[12px] text-center text-[15px] text-muted">
           <p>
             <strong className="font-semibold text-fg">
               You don't have a lead problem. You have a follow-up problem

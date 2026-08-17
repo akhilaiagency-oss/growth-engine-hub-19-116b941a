@@ -11,12 +11,12 @@ const GET = [
 ];
 
 const WONT = [
-  "A pitch deck or a predetermined package",
-  "Guaranteed numbers nobody can guarantee",
-  "A generic audit you could have downloaded",
-  "Pressure to decide anything on the call",
-  "A junior account manager instead of Akhil",
-  "A full build delivered in 30 minutes",
+  "Budget comes up in the first five minutes",
+  "You get a proposal, not a diagnosis",
+  "Someone junior takes the notes",
+  "\u201CWe'll send you a deck\u201D — and that's the last of it",
+  "Everything you already built gets called broken",
+  "You leave with a quote you can't evaluate",
 ];
 
 /** What the session is. */
