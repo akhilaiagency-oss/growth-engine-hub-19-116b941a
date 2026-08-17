@@ -40,4 +40,17 @@ export const FAQS: FaqItem[] = [
     q: "Something went wrong with my payment or booking — who do I contact?",
     a: "WhatsApp +91 93112 13876 and you'll get a reply from a human, usually within a couple of hours. Or email akhil.ai.agency@gmail.com. If a slot was lost because of something on our side, it gets fixed or refunded — you won't have to argue for it.",
   },
+  {
+    q: "Most of my leads come from 99acres or MagicBricks, not ads. Does this still apply?",
+    a: "Yes — and usually more so. A portal lead travels the same road as a paid one: it arrives, someone has to reply, someone has to follow up, someone has to get it into a calendar. The portal only covers the first stage. The four that leak are the same four, and you're paying the portal every month regardless of what happens after.",
+  },
+  {
+    q: "I run a coaching or consulting business. How is this different from what a funnel agency would build?",
+    a: "An agency builds the piece you asked for — usually a page, sometimes a campaign. This starts by finding which stage is actually losing you people, then fixes that one first. Sometimes the answer is that your page is fine and your follow-up is three days slow. An agency selling pages will rarely tell you that.",
+  },
+  {
+    q: "My business is still mostly offline. Is it too early for this?",
+    a: "If you're already getting enquiries — walk-ins, calls, referrals, WhatsApp — it isn't too early, because those leak in exactly the same places. If you have no enquiries at all yet, the session will be about designing the system before you spend, which is cheaper than diagnosing it afterwards.",
+  },
 ];
+
