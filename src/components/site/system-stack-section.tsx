@@ -13,37 +13,37 @@ const ROWS: StackRow[] = [
   {
     color: "#3E86FF",
     title: "Landing page",
-    body: "High-converting, mobile-responsive landing pages designed to capture more leads.",
+    body: "Most pages ask a visitor to do three things at once, so they do none. We build around one decision — and you never touch it again.",
     Icon: LayoutTemplate,
   },
   {
     color: "#2DD4BF",
     title: "AI lead qualification",
-    body: "AI-powered lead scoring and qualification, so your team talks to the buyers who match.",
+    body: "Your team's best hours go to people who were never going to buy. Scoring happens the second an enquiry lands, not on the call.",
     Icon: BrainCircuit,
   },
   {
     color: "#83E24E",
     title: "CRM integration",
-    body: "CRM setup and integration to organise, track and manage every lead and customer.",
+    body: "Right now your leads live in WhatsApp, in calls, in portals, and in someone's memory. One place, one view, nothing lost.",
     Icon: Database,
   },
   {
     color: "#25D366",
     title: "WhatsApp automation",
-    body: "Automated WhatsApp follow-ups and notifications that engage leads instantly.",
+    body: "A reply at 11pm is worth more than a perfect one tomorrow. This is the stage where most deals quietly die.",
     Icon: MessageCircle,
   },
   {
     color: "#A78BFA",
     title: "Analytics dashboard",
-    body: "Reporting that shows performance stage by stage, so you can see where spend works.",
+    body: "Your agency's report looks healthy while your calendar looks the same. This shows which stage actually broke.",
     Icon: BarChart3,
   },
   {
     color: "#818CF8",
     title: "Funnel optimization",
-    body: "Continuous testing and improvement to lift conversion and bring cost per booking down.",
+    body: "Most changes are guesses. When every stage is measured, the next fix is a decision.",
     Icon: TrendingUp,
   },
 ];

@@ -3,6 +3,9 @@ import { Plus } from "lucide-react";
 import { FAQS } from "@/data/faq";
 import { Reveal } from "./reveal";
 
+const WA_NUMBER = "+91 93112 13876";
+
+
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
@@ -38,9 +41,25 @@ export function FaqSection() {
                 </h3>
                 {isOpen && (
                   <p className="max-w-[720px] pb-6 text-[15px] text-muted">
-                    {f.a}
+                    {f.a.split(WA_NUMBER).flatMap((part, idx) =>
+                      idx === 0
+                        ? [part]
+                        : [
+                            <a
+                              key={`wa-${idx}`}
+                              href="https://wa.me/919311213876"
+                              target="_blank"
+                              rel="noreferrer"
+                              className="font-semibold text-lime underline underline-offset-2"
+                            >
+                              {WA_NUMBER}
+                            </a>,
+                            part,
+                          ],
+                    )}
                   </p>
                 )}
+
               </Reveal>
             );
           })}
