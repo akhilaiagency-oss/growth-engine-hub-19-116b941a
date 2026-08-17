@@ -161,6 +161,23 @@ export function LeakMap() {
           </ul>
 
 
+          <div className="mathbox">
+            <p className="mathhead">Same enquiries. Same ad spend.</p>
+            <p className="mathrow mathnow">
+              <span>100 enquiries →</span>
+              <b>16 booked</b>
+              <span>· where most funnels sit</span>
+            </p>
+            <p className="mathrow mathfix">
+              <span>100 enquiries →</span>
+              <b>30 booked</b>
+              <span>· one stage fixed</span>
+            </p>
+            <p className="mathnote italic">
+              The difference isn't more traffic. It's the stage that's leaking.
+            </p>
+          </div>
+
           <div className="mt-6 rounded-[8px] border border-border bg-surface-2 p-4 text-[13px] text-muted md:text-[12px]">
             This is a <strong className="font-semibold text-fg">shape, not a statistic</strong> — an
             illustration of how acquisition typically narrows, not measured results from any

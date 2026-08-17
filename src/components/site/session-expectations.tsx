@@ -11,19 +11,19 @@ const GET = [
 ];
 
 const WONT = [
-  "A pitch deck or a predetermined package",
-  "Guaranteed numbers nobody can guarantee",
-  "A generic audit you could have downloaded",
-  "Pressure to decide anything on the call",
-  "A junior account manager instead of Akhil",
-  "A full build delivered in 30 minutes",
+  "Budget comes up in the first five minutes",
+  "You get a proposal, not a diagnosis",
+  "Someone junior takes the notes",
+  "\u201CWe'll send you a deck\u201D — and that's the last of it",
+  "Everything you already built gets called broken",
+  "You leave with a quote you can't evaluate",
 ];
 
 /** What the session is. */
 export function SessionGetCard() {
   return (
     <div className="rounded-[12px] border border-border bg-surface p-6">
-      <h3 className="text-[20px] font-bold text-lime">What you get in the session</h3>
+      <h3 className="text-[20px] font-bold text-lime">This call</h3>
       <ul className="mt-4 space-y-3">
         {GET.map((g) => (
           <li key={g} className="flex items-start gap-3 text-[15px] text-muted">
@@ -40,7 +40,7 @@ export function SessionGetCard() {
 export function SessionWontCard() {
   return (
     <div className="rounded-[12px] border border-border bg-surface p-6">
-      <h3 className="text-[20px] font-bold text-muted">What you won't get</h3>
+      <h3 className="text-[20px] font-bold text-muted">A typical agency call</h3>
       <ul className="mt-4 space-y-3">
         {WONT.map((w) => (
           <li key={w} className="flex items-start gap-3 text-[15px] text-muted-2">
