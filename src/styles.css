@@ -437,3 +437,12 @@
     gap: 4px;
   }
 }
+
+.mathbox { margin-top:24px; border:1px solid rgba(131,226,78,.3); background:rgba(131,226,78,.045); border-radius:12px; padding:24px; text-align:center }
+.mathhead { font-size:15px; font-weight:600; color:var(--fg); margin-bottom:16px }
+.mathrow { display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; font-size:17px; color:var(--muted); padding:8px 0 }
+.mathrow b { font-size:26px; font-weight:800; line-height:1 }
+.mathnow b { color:var(--urgent) }
+.mathfix b { color:var(--lime) }
+.mathnote { font-size:13px; color:var(--muted-2); margin-top:14px }
+@media(max-width:900px){ .mathbox{padding:20px} .mathrow{font-size:15px;gap:10px} .mathrow b{font-size:22px} }
