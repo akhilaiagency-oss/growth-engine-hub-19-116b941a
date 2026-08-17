@@ -3,6 +3,9 @@ import { Plus } from "lucide-react";
 import { FAQS } from "@/data/faq";
 import { Reveal } from "./reveal";
 
+const WA_NUMBER = "+91 93112 13876";
+
+
 export function FaqSection() {
   const [open, setOpen] = useState<number | null>(0);
 
