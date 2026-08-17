@@ -23,7 +23,7 @@ const WONT = [
 export function SessionGetCard() {
   return (
     <div className="rounded-[12px] border border-border bg-surface p-6">
-      <h3 className="text-[20px] font-bold text-lime">What you get in the session</h3>
+      <h3 className="text-[20px] font-bold text-lime">This call</h3>
       <ul className="mt-4 space-y-3">
         {GET.map((g) => (
           <li key={g} className="flex items-start gap-3 text-[15px] text-muted">
@@ -40,7 +40,7 @@ export function SessionGetCard() {
 export function SessionWontCard() {
   return (
     <div className="rounded-[12px] border border-border bg-surface p-6">
-      <h3 className="text-[20px] font-bold text-muted">What you won't get</h3>
+      <h3 className="text-[20px] font-bold text-muted">A typical agency call</h3>
       <ul className="mt-4 space-y-3">
         {WONT.map((w) => (
           <li key={w} className="flex items-start gap-3 text-[15px] text-muted-2">
