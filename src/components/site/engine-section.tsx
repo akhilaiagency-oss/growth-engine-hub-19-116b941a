@@ -365,6 +365,40 @@ export function EngineSection() {
           </p>
         </Reveal>
 
+        <Reveal className="noneed">
+          <h3>You don't need to run any of this.</h3>
+          <p className="nsub">
+            Seven stages looks like a lot. None of it becomes your job.
+          </p>
+          <ul className="noneedgrid">
+            <li>
+              <span className="nx" aria-hidden="true">✕</span>
+              <span>You don't need to <b>learn AI or write prompts</b></span>
+            </li>
+            <li>
+              <span className="nx" aria-hidden="true">✕</span>
+              <span>You don't need to <b>replace the CRM you already use</b></span>
+            </li>
+            <li>
+              <span className="nx" aria-hidden="true">✕</span>
+              <span>You don't need to <b>hire a marketing person</b></span>
+            </li>
+            <li>
+              <span className="nx" aria-hidden="true">✕</span>
+              <span>You don't need to be technical — <b>Akhil builds it, you use it</b></span>
+            </li>
+            <li>
+              <span className="nx" aria-hidden="true">✕</span>
+              <span>You don't need to <b>stop what's already working</b></span>
+            </li>
+            <li>
+              <span className="nx" aria-hidden="true">✕</span>
+              <span>You don't need to <b>answer WhatsApp at 11pm</b> anymore</span>
+            </li>
+          </ul>
+        </Reveal>
+
+
       </div>
     </section>
   );
