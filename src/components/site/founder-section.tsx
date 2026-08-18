@@ -19,7 +19,7 @@ export function FounderSection() {
           <Reveal className="relative">
             <div
               aria-hidden="true"
-              className="pointer-events-none absolute -inset-3 blur-2xl sm:-inset-8"
+              className="pointer-events-none absolute inset-0 blur-2xl min-[1000px]:-inset-8"
               style={{
                 backgroundImage:
                   "radial-gradient(320px 260px at 12% 8%, rgba(62,134,255,0.20), transparent 65%), radial-gradient(320px 260px at 88% 92%, rgba(131,226,78,0.16), transparent 65%)",
