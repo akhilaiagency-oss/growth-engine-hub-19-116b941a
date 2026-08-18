@@ -30,7 +30,7 @@ export function SiteNav() {
       }`}
     >
       <nav className="container-page flex items-center justify-between gap-6 py-[16px]">
-        <a href="#top" className="flex min-w-0 items-center">
+        <a href="#top" aria-label="Back to top" className="flex min-h-[44px] min-w-0 items-center">
           <BrandLockup size="nav" withTagline />
         </a>
 
@@ -57,7 +57,7 @@ export function SiteNav() {
           aria-label={openMenu ? "Close menu" : "Open menu"}
           aria-expanded={openMenu}
           onClick={() => setOpenMenu((v) => !v)}
-          className="rounded-[8px] border border-border-strong p-2 text-fg min-[900px]:hidden"
+          className="flex h-[44px] w-[44px] items-center justify-center rounded-[8px] border border-border-strong text-fg min-[900px]:hidden"
         >
           {openMenu ? <X size={18} /> : <Menu size={18} />}
         </button>

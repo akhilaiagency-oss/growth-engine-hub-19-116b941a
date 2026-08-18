@@ -44,7 +44,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative overflow-hidden px-6 pt-5 pb-[44px] min-[900px]:px-5 min-[900px]:pt-[112px]"
+      className="relative overflow-hidden px-6 pt-[74px] pb-[44px] min-[900px]:px-5 min-[900px]:pt-[112px]"
       style={{
         backgroundImage:
           "radial-gradient(800px 440px at 20% -10%, rgba(62,134,255,0.18), transparent 62%), radial-gradient(700px 420px at 84% 2%, rgba(131,226,78,0.10), transparent 58%)",
@@ -62,7 +62,7 @@ export function Hero() {
             consulting, e-commerce, info products, or offline moving online.
           </p>
 
-          <h1 className="mt-4 text-[26px] leading-[1.16] font-extrabold tracking-[-0.025em] text-fg max-[420px]:text-[24px] min-[900px]:text-[40px] min-[900px]:leading-[1.1]">
+          <h1 className="mt-3 text-[26px] leading-[1.16] font-extrabold tracking-[-0.025em] text-fg max-[420px]:text-[24px] min-[900px]:text-[40px] min-[900px]:leading-[1.1]">
             Turn More Clicks Into Paying Customers With One Connected{" "}
             <span className="text-electric-soft">Acquisition System</span>
           </h1>
