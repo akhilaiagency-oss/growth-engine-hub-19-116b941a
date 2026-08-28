@@ -4,8 +4,28 @@ interface VslSlotProps {
   videoUrl?: string;
 }
 
+function toYoutubeEmbed(url: string): string | null {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return null;
+  }
+  const host = parsed.hostname.replace(/^www\./, "");
+  let id = "";
+  if (host === "youtu.be") {
+    id = parsed.pathname.slice(1);
+  } else if (host === "youtube.com" || host === "m.youtube.com" || host === "youtube-nocookie.com") {
+    if (parsed.pathname.startsWith("/embed/")) return url;
+    if (parsed.pathname === "/watch") id = parsed.searchParams.get("v") ?? "";
+    else if (parsed.pathname.startsWith("/shorts/")) id = parsed.pathname.split("/")[2] ?? "";
+  }
+  if (!/^[\w-]{6,}$/.test(id)) return null;
+  return `https://www.youtube.com/embed/${id}?rel=0&modestbranding=1&playsinline=1`;
+}
+
 export function VslSlot({ videoUrl }: VslSlotProps) {
-  const isYoutube = !!videoUrl && /youtu\.?be/.test(videoUrl);
+  const embedUrl = videoUrl ? toYoutubeEmbed(videoUrl) : null;
 
   return (
     <div className="w-full max-w-none">
