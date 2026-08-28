@@ -72,7 +72,7 @@ export function Hero() {
         <div className="mt-5 grid items-stretch gap-5 min-[900px]:mt-8 min-[900px]:gap-8 min-[900px]:grid-cols-[1.25fr_0.75fr] min-[1061px]:grid-cols-[1.4fr_0.6fr]">
           {/* LEFT — video + action block */}
           <div className="-mx-6 flex flex-col border-y border-border-strong bg-surface px-2 pt-2 min-[900px]:mx-0 min-[900px]:rounded-[14px] min-[900px]:border min-[900px]:p-[14px]">
-            <VslSlot />
+            <VslSlot videoUrl={VSL_URL} />
 
             <div className="mt-auto flex flex-col gap-3 px-4 pt-5 pb-4 min-[900px]:px-0 min-[900px]:pt-[18px] min-[900px]:pb-0">
               <p className="flex flex-wrap items-baseline justify-center gap-x-3 gap-y-1 text-center">
