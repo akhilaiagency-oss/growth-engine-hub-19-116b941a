@@ -43,9 +43,9 @@ export function VslSlot({ videoUrl }: VslSlotProps) {
         }
       >
         {videoUrl ? (
-          isYoutube ? (
+          embedUrl ? (
             <iframe
-              src={videoUrl}
+              src={embedUrl}
               title="Growth Multiplier AI walkthrough"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture"
               allowFullScreen
