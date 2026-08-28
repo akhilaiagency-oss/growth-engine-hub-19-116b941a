@@ -1,6 +1,7 @@
 import { Check } from "lucide-react";
 import { BookCta } from "./book-cta";
 import { VslSlot } from "./vsl-slot";
+import { VSL_URL } from "@/data/vsl";
 import { URGENCY } from "@/lib/urgency";
 import { SessionsLeftBox, CountdownBox } from "./urgency-boxes";
 import { RefundNote } from "./refund-note";
