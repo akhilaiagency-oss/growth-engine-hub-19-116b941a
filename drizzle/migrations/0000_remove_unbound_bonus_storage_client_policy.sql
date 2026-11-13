@@ -1,0 +1,1 @@
+DROP POLICY IF EXISTS "strategy_call_bonuses_no_client_access" ON storage.objects;
