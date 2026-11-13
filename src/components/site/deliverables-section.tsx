@@ -1,4 +1,6 @@
 import { Reveal } from "./reveal";
+import { FileText } from "lucide-react";
+import brandLogo from "@/assets/growth-multiplier-ai-logo.png";
 
 const DOCUMENTS = [
   {
@@ -38,9 +40,23 @@ export function DeliverablesSection() {
           {DOCUMENTS.map((d) => (
             <Reveal
               key={d.label}
-              className="border-l-2 border-lime bg-surface p-6"
+              className="overflow-hidden border-l-2 border-lime bg-surface p-6"
               style={{ borderRadius: "0 12px 12px 0" }}
             >
+              <div
+                className="flex min-h-[156px] flex-col items-center justify-center gap-3 rounded-[8px] border border-dashed border-border-strong bg-surface-2 px-4 py-5 text-center"
+                aria-label={`${d.title}: actual document preview unavailable`}
+              >
+                <img
+                  src={brandLogo}
+                  alt="Growth Multiplier AI"
+                  className="h-8 w-auto object-contain"
+                />
+                <FileText size={23} className="text-muted" aria-hidden="true" />
+                <span className="text-[12px] font-semibold text-muted">
+                  Actual document preview unavailable
+                </span>
+              </div>
               <span className="text-[12px] font-semibold tracking-[0.14em] text-muted-2 uppercase">
                 {d.label}
               </span>

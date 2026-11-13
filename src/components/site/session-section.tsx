@@ -95,14 +95,22 @@ export function SessionSection() {
             We walk your acquisition funnel stage by stage — the same seven checkpoints the Engine
             is built on.
           </p>
-          <ul className="mt-5 flex flex-col items-center gap-2.5 min-[620px]:flex-row min-[620px]:justify-center min-[620px]:gap-6">
-            {VALUE_POINTS.map((v) => (
-              <li key={v} className="flex items-center gap-2 text-[13px] text-muted">
-                <Check size={15} className="shrink-0 text-lime" aria-hidden="true" />
-                {v}
+          <ol
+            aria-label="Strategy call review sequence"
+            className="mt-6 grid gap-3 text-left min-[620px]:grid-cols-3"
+          >
+            {VALUE_POINTS.map((v, index) => (
+              <li
+                key={v}
+                className="flex min-h-[88px] items-center gap-3 rounded-[10px] border border-border bg-surface px-4 py-3"
+              >
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-lime/40 text-[13px] font-bold text-lime">
+                  0{index + 1}
+                </span>
+                <span className="text-[14px] font-medium text-fg">{v}</span>
               </li>
             ))}
-          </ul>
+          </ol>
         </Reveal>
 
         <div className="mt-8 grid items-start gap-6 min-[980px]:mt-8 min-[980px]:grid-cols-[1.15fr_0.85fr] min-[980px]:gap-8">
